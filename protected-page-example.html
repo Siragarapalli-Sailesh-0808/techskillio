@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protected Page Example - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .protected-page {
+            min-height: 100vh;
+            padding: 100px 20px 50px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .protected-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .protected-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .protected-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-info {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .user-info h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .info-value {
+            color: #2c3e50;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(134, 197, 64, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #86c540;
+            border: 2px solid #86c540;
+        }
+
+        .btn-secondary:hover {
+            background: #86c540;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .api-demo {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .api-demo h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .api-response {
+            background: #1e293b;
+            color: #86c540;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        @media (max-width: 768px) {
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="protected-page">
+        <div class="protected-container">
+            <div class="protected-header">
+                <h1><span class="gradient-text">Protected Page</span> Example</h1>
+                <p style="color: #64748b;">This page demonstrates JWT authentication</p>
+            </div>
+
+            <!-- User Info -->
+            <div class="user-info">
+                <h3>🔐 Authentication Status</h3>
+                <div class="info-item">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value" id="authStatus">Checking...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">User ID:</span>
+                    <span class="info-value" id="userId">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">User Type:</span>
+                    <span class="info-value" id="userType">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Access Token:</span>
+                    <span class="info-value" id="accessToken" style="font-size: 0.8rem; word-break: break-all;">-</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="testApiRequest()">
+                    Test API Request
+                </button>
+                <button class="btn btn-secondary" onclick="refreshToken()">
+                    Refresh Token
+                </button>
+                <button class="btn btn-secondary" onclick="changePassword()">
+                    Change Password
+                </button>
+                <button class="btn btn-danger" onclick="logout()">
+                    Logout
+                </button>
+            </div>
+
+            <!-- API Demo -->
+            <div class="api-demo">
+                <h3>📡 API Response</h3>
+                <div class="api-response" id="apiResponse">
+                    Click "Test API Request" to see authenticated API call in action...
+                </div>
+            </div>
+
+            <!-- Instructions -->
+            <div style="margin-top: 2rem; padding: 1.5rem; background: #fef3c7; border-radius: 12px;">
+                <h3 style="color: #92400e; margin-bottom: 1rem;">💡 How This Works</h3>
+                <ol style="color: #92400e; line-height: 1.8;">
+                    <li>This page checks if you're authenticated on load</li>
+                    <li>If not authenticated, you're redirected to login</li>
+                    <li>The AuthManager automatically attaches JWT tokens to API requests</li>
+                    <li>Tokens are automatically refreshed when they expire</li>
+                    <li>Click "Test API Request" to see it in action</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Auth Manager -->
+    <script src="js/api-config.js"></script>
+    <script src="js/auth-manager.js"></script>
+
+    <script>
+        // ============================================
+        // PROTECT THIS PAGE - CHECK AUTHENTICATION
+        // ============================================
+        if (!authManager.isAuthenticated()) {
+            alert('You must be logged in to access this page!');
+            window.location.href = 'login.html';
+        }
+
+        // ============================================
+        // DISPLAY USER INFO
+        // ============================================
+        function displayUserInfo() {
+            const userId = localStorage.getItem('userId') || 'Not set';
+            const userType = localStorage.getItem('userType') || 'Not set';
+            const accessToken = authManager.getAccessToken();
+
+            document.getElementById('authStatus').textContent = '✅ Authenticated';
+            document.getElementById('authStatus').style.color = '#86c540';
+            document.getElementById('userId').textContent = userId;
+            document.getElementById('userType').textContent = userType;
+
+            if (accessToken) {
+                // Show first 50 chars of token
+                document.getElementById('accessToken').textContent =
+                    accessToken.substring(0, 50) + '...';
+            }
+        }
+
+        // ============================================
+        // TEST API REQUEST
+        // ============================================
+        async function testApiRequest() {
+            const responseDiv = document.getElementById('apiResponse');
+            responseDiv.textContent = 'Making authenticated API request...\n';
+
+            try {
+                // Example: Change password endpoint (you can change this to any endpoint)
+                const response = await authManager.apiRequest('/api/v1/auth/change-password/', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        old_password: 'Test@1234',
+                        new_password: 'Test@1234'  // Same password for demo
+                    })
+                });
+
+                const data = await response.json();
+
+                responseDiv.textContent =
+                    `Status: ${response.status} ${response.statusText}\n\n` +
+                    `Response:\n${JSON.stringify(data, null, 2)}`;
+
+            } catch (error) {
+                responseDiv.textContent = `Error: ${error.message}`;
+                responseDiv.style.color = '#ef4444';
+            }
+        }
+
+        // ============================================
+        // REFRESH TOKEN MANUALLY
+        // ============================================
+        async function refreshToken() {
+            const responseDiv = document.getElementById('apiResponse');
+            responseDiv.textContent = 'Refreshing access token...\n';
+
+            try {
+                const newToken = await authManager.refreshAccessToken();
+
+                responseDiv.textContent =
+                    `✅ Token refreshed successfully!\n\n` +
+                    `New Access Token:\n${newToken.substring(0, 100)}...`;
+
+                // Update display
+                displayUserInfo();
+            } catch (error) {
+                responseDiv.textContent = `❌ Error: ${error.message}`;
+                responseDiv.style.color = '#ef4444';
+            }
+        }
+
+        // ============================================
+        // CHANGE PASSWORD
+        // ============================================
+        async function changePassword() {
+            const oldPassword = prompt('Enter old password:');
+            if (!oldPassword) return;
+
+            const newPassword = prompt('Enter new password:');
+            if (!newPassword) return;
+
+            const responseDiv = document.getElementById('apiResponse');
+            responseDiv.textContent = 'Changing password...\n';
+
+            try {
+                const result = await authManager.changePassword(oldPassword, newPassword);
+
+                if (result.success) {
+                    responseDiv.textContent = `✅ ${result.message}`;
+                    alert('Password changed successfully!');
+                } else {
+                    responseDiv.textContent = `❌ Error: ${result.error}`;
+                    responseDiv.style.color = '#ef4444';
+                    alert(result.error);
+                }
+            } catch (error) {
+                responseDiv.textContent = `❌ Error: ${error.message}`;
+                responseDiv.style.color = '#ef4444';
+            }
+        }
+
+        // ============================================
+        // LOGOUT
+        // ============================================
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                authManager.logout();
+            }
+        }
+
+        // ============================================
+        // INITIALIZE PAGE
+        // ============================================
+        displayUserInfo();
+    </script>
+</body>
+
+</html>

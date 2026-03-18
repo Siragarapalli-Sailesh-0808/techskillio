@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Posted Jobs - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .dashboard-section { padding: 40px 0 60px; background: #f5f7fa; min-height: calc(100vh - 80px); }
+        .dashboard-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 300px; gap: 30px; }
+        @media (max-width: 992px) { .dashboard-container { grid-template-columns: 1fr; } .sidebar { margin-top: 30px; } }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+        .page-header h1 { font-size: 24px; color: #2c3e50; margin: 0; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; color: #86c540; text-decoration: none; font-weight: 600; border: 2px solid #86c540; border-radius: 8px; }
+        .back-link:hover { background: #86c540; color: white; }
+        .sidebar-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); margin-bottom: 30px; }
+        .sidebar-card h3 { font-size: 18px; margin-bottom: 20px; color: #2c3e50; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .sidebar-tile { display: block; background: white; border-radius: 12px; padding: 20px 22px; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); border: 2px solid #e5e7eb; text-decoration: none; color: #1f2937; transition: all 0.25s ease; }
+        .sidebar-tile:hover { border-color: #86c540; background: #f0fdf4; box-shadow: 0 6px 20px rgba(134, 197, 64, 0.15); }
+        .sidebar-tile-icon { width: 44px; height: 44px; border-radius: 10px; background: #dcfce7; color: #166534; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 12px; }
+        .sidebar-tile:hover .sidebar-tile-icon { background: #86c540; color: white; }
+        .sidebar-tile-title { font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 4px; }
+        .sidebar-tile-desc { font-size: 13px; color: #6b7280; line-height: 1.4; }
+        .job-card-simple { display: flex; align-items: center; gap: 20px; background: white; border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06); border-left: 4px solid #86c540; }
+        .job-card-icon { width: 48px; height: 48px; min-width: 48px; border-radius: 10px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; color: #6b7280; font-size: 20px; }
+        .job-card-body { flex: 1; min-width: 0; }
+        .job-card-body h3 { font-size: 15px; font-weight: 600; color: #1f2937; margin: 0 0 6px 0; }
+        .job-card-meta { font-size: 13px; color: #6b7280; margin-bottom: 6px; }
+        .job-card-meta i { margin-right: 4px; width: 14px; color: #9ca3af; }
+        .job-card-tag { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 999px; background: #eff6ff; color: #1e40af; }
+        .job-card-status-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 6px; }
+        .job-status-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 8px; }
+        .job-status-pending { background: #fef3c7; color: #b45309; }
+        .job-status-approved, .job-status-active { background: #d1fae5; color: #047857; }
+        .job-status-rejected { background: #fee2e2; color: #b91c1c; }
+        .job-card-action { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+        .job-card-action .btn-view-details { background: #86c540; color: white; border: none; padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .job-card-action .btn-view-details:hover { background: #76b030; }
+        .job-card-action .btn-applied-candidates { background: transparent; color: #86c540; border: 2px solid #86c540; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .job-card-action .btn-applied-candidates:hover { background: #86c540; color: white; }
+        .job-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+        .job-modal-overlay.is-open { display: flex; }
+        .job-modal { background: white; border-radius: 12px; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2); border-top: 4px solid #86c540; }
+        .job-modal-header { padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: flex-start; }
+        .job-modal-header h3 { margin: 0; font-size: 18px; color: #1f2937; }
+        .job-modal-close { background: #f3f4f6; border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; color: #4b5563; }
+        .job-modal-close:hover { background: #e5e7eb; }
+        .job-modal-body { padding: 24px; font-size: 13px; color: #4b5563; }
+        .job-modal-body .job-detail-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+        .job-modal-body .job-detail-label { font-weight: 600; color: #374151; min-width: 120px; flex-shrink: 0; }
+        .empty-state { padding: 40px 24px; text-align: center; color: #6b7280; font-size: 14px; background: white; border-radius: 12px; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+
+<body>
+    <script src="js/route-guard.js" data-required-role="user"></script>
+    <div id="header-placeholder"></div>
+    <div style="height: 100px;"></div>
+
+    <section class="dashboard-section">
+        <div class="dashboard-container">
+            <div class="main-content">
+                <div class="page-header">
+                    <div>
+                        <h1>My Posted Jobs</h1>
+                    </div>
+                    <a href="#" id="backToDashboard" class="back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+                </div>
+                <div id="jobsListContainer">
+                    <div style="text-align: center; padding: 24px; color: #666;"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top: 10px;">Loading your posted jobs...</p></div>
+                </div>
+            </div>
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>User Type</h3>
+                    <div id="userTypeLabel" style="background: #eff6ff; color: #1e40af; padding: 10px; border-radius: 6px; text-align: center; font-weight: 600;">—</div>
+                </div>
+                <a href="#" id="linkViewSubscriptions" class="sidebar-tile">
+                    <div class="sidebar-tile-icon"><i class="fas fa-credit-card"></i></div>
+                    <div class="sidebar-tile-title">View Subscriptions</div>
+                    <div class="sidebar-tile-desc">Manage your active plans and assigned candidates</div>
+                </a>
+                <a href="#" id="linkSubscriptionPlans" class="sidebar-tile">
+                    <div class="sidebar-tile-icon"><i class="fas fa-box-open"></i></div>
+                    <div class="sidebar-tile-title">Subscription Plans</div>
+                    <div class="sidebar-tile-desc">Browse and buy plans for candidate access</div>
+                </a>
+                <a href="#" id="backToDashboardTile" class="sidebar-tile">
+                    <div class="sidebar-tile-icon"><i class="fas fa-home"></i></div>
+                    <div class="sidebar-tile-title">Back to Dashboard</div>
+                    <div class="sidebar-tile-desc">Return to your dashboard</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="job-modal-overlay" id="jobDetailsModal" aria-hidden="true">
+        <div class="job-modal">
+            <div class="job-modal-header">
+                <h3 id="jobModalTitle">Job Details</h3>
+                <button type="button" class="job-modal-close" id="jobModalClose" aria-label="Close">&times;</button>
+            </div>
+            <div class="job-modal-body" id="jobModalBody"></div>
+        </div>
+    </div>
+
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        (function () {
+            var userType = localStorage.getItem('userType') || sessionStorage.getItem('userType') || '';
+            var params = new URLSearchParams(window.location.search);
+            var fromNonTeaching = params.get('from') === 'nonteaching';
+            var backLink = document.getElementById('backToDashboard');
+            var backTile = document.getElementById('backToDashboardTile');
+            var linkSubs = document.getElementById('linkViewSubscriptions');
+            var userTypeLabel = document.getElementById('userTypeLabel');
+            var dashboardHref = userType === 'teacher_employer' ? 'teacher-employer-dashboard.html'
+                : userType === 'teacher_employer_nonteaching' ? 'teacher-employer-nonteaching-dashboard.html'
+                : userType === 'it_vendor' ? 'it-vendor-dashboard.html'
+                : fromNonTeaching ? 'teacher-employer-nonteaching-dashboard.html' : 'teacher-employer-dashboard.html';
+            if (backLink) backLink.href = dashboardHref;
+            if (backTile) backTile.href = dashboardHref;
+            if (linkSubs) {
+                if (userType === 'teacher_employer') linkSubs.href = 'teacher-my-subscriptions.html';
+                else if (userType === 'teacher_employer_nonteaching') linkSubs.href = 'teacher-my-subscriptions.html?from=nonteaching';
+                else linkSubs.href = 'my-subscriptions.html';
+            }
+            var linkPlans = document.getElementById('linkSubscriptionPlans');
+            if (linkPlans) {
+                if (userType === 'teacher_employer' || userType === 'teacher_employer_nonteaching') linkPlans.href = 'teacher-subscription-plans.html';
+                else linkPlans.href = 'it-vendor-plans.html';
+            }
+            if (userTypeLabel) {
+                if (userType === 'teacher_employer') userTypeLabel.textContent = 'Teacher Employer';
+                else if (userType === 'teacher_employer_nonteaching') userTypeLabel.textContent = 'Non-Teaching Employer';
+                else if (userType === 'it_vendor') userTypeLabel.textContent = 'IT Vendor';
+                else userTypeLabel.textContent = 'Employer';
+            }
+
+            function getJobStatusLabel(job) {
+                var s = (job.status || '').toLowerCase();
+                if (s === 'pending' || s === 'pending_approval') return 'Waiting for approval';
+                if (s === 'active' || s === 'approved' || s === 'published') return 'Approved';
+                if (s === 'rejected' || s === 'inactive') return 'Rejected';
+                return job.status || '—';
+            }
+            function getJobStatusClass(job) {
+                var s = (job.status || '').toLowerCase();
+                if (s === 'pending' || s === 'pending_approval') return 'job-status-pending';
+                if (s === 'active' || s === 'approved' || s === 'published') return 'job-status-approved';
+                if (s === 'rejected' || s === 'inactive') return 'job-status-rejected';
+                return 'job-status-pending';
+            }
+            function openJobDetailsModal(job) {
+                var empType = job.employment_type || job.employment_type_display || '';
+                var workMode = job.work_mode || job.work_mode_display || '';
+                var expMin = job.min_experience != null ? job.min_experience : '';
+                var expMax = job.max_experience != null ? job.max_experience : '';
+                var expStr = [expMin, expMax].filter(Boolean).length ? (expMin || '0') + ' – ' + (expMax || '—') + ' yrs' : '—';
+                var salMin = job.salary_min != null ? job.salary_min : '';
+                var salMax = job.salary_max != null ? job.salary_max : '';
+                var salStr = [salMin, salMax].filter(Boolean).length ? (job.salary_currency || '') + (salMin || '0') + ' – ' + (salMax || '—') : '—';
+                var posted = job.created_at ? new Date(job.created_at).toLocaleDateString() : '—';
+                var row = function (label, value) {
+                    return '<div class="job-detail-row"><span class="job-detail-label">' + (label || '') + '</span><span>' + (value != null && value !== '' ? value : '—') + '</span></div>';
+                };
+                document.getElementById('jobModalTitle').textContent = job.title || 'Job Details';
+                document.getElementById('jobModalBody').innerHTML =
+                    row('Description', (job.description || '').trim() || '—') +
+                    row('Location', job.location) +
+                    row('Employment Type', empType) +
+                    row('Work Mode', workMode) +
+                    row('Experience', expStr) +
+                    row('Salary', salStr) +
+                    row('Posted', posted) +
+                    row('Applications', job.applications_count != null ? job.applications_count : '—') +
+                    row('Status', getJobStatusLabel(job));
+                document.getElementById('jobDetailsModal').classList.add('is-open');
+                document.getElementById('jobDetailsModal').setAttribute('aria-hidden', 'false');
+            }
+            function closeJobDetailsModal() {
+                var modal = document.getElementById('jobDetailsModal');
+                if (modal) { modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true'); }
+            }
+            document.getElementById('jobModalClose').addEventListener('click', closeJobDetailsModal);
+            document.getElementById('jobDetailsModal').addEventListener('click', function (e) {
+                if (e.target === this) closeJobDetailsModal();
+            });
+
+            function jobBelongsToUser(job, userId) {
+                if (!userId) return true;
+                var jobOwnerId = job.employer || job.user || job.posted_by;
+                if (job.posted_by && typeof job.posted_by === 'object') jobOwnerId = job.posted_by.id || jobOwnerId;
+                if (job.employer_details && job.employer_details.id) jobOwnerId = job.employer_details.id;
+                if (jobOwnerId == null || jobOwnerId === '') return true;
+                return String(jobOwnerId) === String(userId) || Number(jobOwnerId) === Number(userId);
+            }
+
+            async function loadJobs() {
+                var container = document.getElementById('jobsListContainer');
+                if (!container) return;
+                try {
+                    var res = await authManager.apiRequest('/api/v1/jobs/jobs/my-jobs/');
+                    var data = await res.json().catch(function () { return {}; });
+                    var raw = Array.isArray(data) ? data : (data.results || []);
+                    var userId = localStorage.getItem('userId') || '';
+                    try {
+                        var profile = JSON.parse(localStorage.getItem('userProfile') || sessionStorage.getItem('userProfile') || '{}');
+                        if (profile && (profile.id || profile.user_id)) userId = userId || profile.id || profile.user_id;
+                    } catch (e) {}
+                    var expectedCat = (userType === 'it_vendor') ? 'it' : 'teacher';
+                    var jobs = raw.filter(function (job) {
+                        var cat = (job.job_category || job.category || '').toLowerCase();
+                        if (cat !== expectedCat) return false;
+                        return jobBelongsToUser(job, userId);
+                    });
+                    if (jobs.length === 0 && raw.length > 0) {
+                        var catOnly = raw.filter(function (job) {
+                            return ((job.job_category || job.category) || '').toLowerCase() === expectedCat;
+                        });
+                        jobs = catOnly.length > 0 ? catOnly : raw;
+                    }
+                    window._myPostedJobsList = jobs;
+                    if (jobs.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-briefcase" style="font-size: 28px; color: #d1d5db; display: block; margin-bottom: 10px;"></i>No jobs posted yet. Use &ldquo;Post a Job&rdquo; from your dashboard to create one.</div>';
+                        return;
+                    }
+                    var salStr = function (j) {
+                        if (j.salary_min == null && j.salary_max == null) return '';
+                        return (j.salary_currency || '') + (j.salary_min || '0') + ' – ' + (j.salary_max || '—');
+                    };
+                    var empTypeStr = function (j) { return j.employment_type || j.employment_type_display || ''; };
+                    var statusIcon = function (cls) {
+                        return cls.indexOf('pending') !== -1 ? 'clock' : cls.indexOf('rejected') !== -1 ? 'times-circle' : 'check-circle';
+                    };
+                    container.innerHTML = jobs.map(function (job, i) {
+                        var title = job.title || 'Untitled';
+                        var loc = job.location || '—';
+                        var sal = salStr(job);
+                        var emp = empTypeStr(job);
+                        var tag = job.job_category || job.title || 'Job';
+                        var statusLabel = getJobStatusLabel(job);
+                        var statusClass = getJobStatusClass(job);
+                        var appliedUrl = 'job-applied-candidates.html?job_id=' + encodeURIComponent(job.id) + '&title=' + encodeURIComponent(title);
+                        return '<div class="job-card-simple">' +
+                            '<div class="job-card-icon"><i class="fas fa-briefcase"></i></div>' +
+                            '<div class="job-card-body"><h3>' + (title.replace(/</g, '&lt;').replace(/>/g, '&gt;')) + '</h3>' +
+                            '<div class="job-card-meta"><i class="fas fa-map-marker-alt"></i> ' + (loc.replace(/</g, '&lt;')) + (sal ? ' • <i class="fas fa-rupee-sign"></i> ' + sal : '') + (emp ? ' • <i class="fas fa-briefcase"></i> ' + (emp.replace(/</g, '&lt;')) : '') + '</div>' +
+                            '<div class="job-card-status-wrap"><span class="job-card-tag">' + (String(tag).replace(/</g, '&lt;')) + '</span><span class="job-status-badge ' + statusClass + '"><i class="fas fa-' + statusIcon(statusClass) + '"></i> ' + statusLabel + '</span></div></div>' +
+                            '<div class="job-card-action"><a href="' + appliedUrl + '" class="btn-applied-candidates"><i class="fas fa-users"></i> Applied Candidates</a><button type="button" class="btn-view-details" data-job-index="' + i + '">View Details</button></div></div>';
+                    }).join('');
+                    container.querySelectorAll('.btn-view-details').forEach(function (btn) {
+                        btn.addEventListener('click', function () {
+                            var idx = parseInt(btn.getAttribute('data-job-index'), 10);
+                            if (!isNaN(idx) && window._myPostedJobsList[idx]) openJobDetailsModal(window._myPostedJobsList[idx]);
+                        });
+                    });
+                } catch (e) {
+                    console.error('Load jobs error', e);
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i><p style="margin-top: 10px;">Unable to load jobs. Please try again later.</p></div>';
+                }
+            }
+            loadJobs();
+        })();
+    </script>
+</body>
+
+</html>

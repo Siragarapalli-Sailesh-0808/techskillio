@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Teaching Candidate Registration - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .registration-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .registration-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .registration-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .signin-link {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #64748b;
+        }
+
+        .signin-link a {
+            color: #86c540;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-section-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ff8c42;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group label .required {
+            color: #ef4444;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff8c42;
+            box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #ff8c42, #ff6b35);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .form-group.error input,
+        .form-group.error select {
+            border-color: #ef4444;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .registration-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+    <div style="height: 120px;"></div>
+
+    <section class="registration-section">
+        <div class="container">
+            <div class="registration-container">
+                <div class="registration-header">
+                    <h1><span class="gradient-text">Non-Teaching Candidate</span> Registration</h1>
+                    <p>Register for administrative and support staff positions in educational institutions</p>
+                </div>
+
+                <div class="signin-link">
+                    Already registered? <a href="login.html">Sign In</a>
+                </div>
+
+                <form id="nonTeachingRegistrationForm">
+                    <!-- Section A: Personal Information -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-user"></i> Personal Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name <span class="required">*</span></label>
+                                <input type="text" name="fullName" required placeholder="Enter your full name">
+                                <div class="error-message">Please enter your full name</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address <span class="required">*</span></label>
+                                <input type="email" name="email" required placeholder="your.email@example.com">
+                                <div class="error-message">Please enter a valid email address</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Contact Number <span class="required">*</span></label>
+                                <input type="tel" name="phone" required pattern="[0-9]{10}" maxlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
+                                    placeholder="10-digit mobile number">
+                                <div class="error-message">Please enter a valid 10-digit phone number</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Gender <span class="required">*</span></label>
+                                <select name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <div class="error-message">Please select your gender</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section B: Professional Details -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-briefcase"></i> Professional Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Position Type <span class="required">*</span></label>
+                                <select name="positionType" required id="positionType">
+                                    <option value="">Select Position</option>
+                                    <option value="Administrative Officer (AO)">Administrative Officer (AO)</option>
+                                    <option value="Librarian">Librarian</option>
+                                    <option value="Front Office Executive">Front Office Executive</option>
+                                    <option value="DTP Operator">DTP Operator</option>
+                                    <option value="Lab Assistant">Lab Assistant - Computer & Science</option>
+                                    <option value="Hostel Warden">Hostel Warden</option>
+                                    <option value="Counsellor / Academic Advisor">Counsellor / Academic Advisor</option>
+                                </select>
+                                <div class="error-message">Please select a position type</div>
+                            </div>
+                            <div class="form-group hidden" id="labAssistantSpec">
+                                <label>Lab Assistant Specialization <span class="required">*</span></label>
+                                <select name="labSpecialization" id="labSpec">
+                                    <option value="">Select Specialization</option>
+                                    <option value="Computer">Computer</option>
+                                    <option value="Science">Science</option>
+                                </select>
+                                <div class="error-message">Please select a specialization</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Years of Experience <span class="required">*</span></label>
+                            <select name="experience" required>
+                                <option value="">Select Experience</option>
+                                <option value="0">0 Years</option>
+                                <option value="1">1 Year</option>
+                                <option value="2">2 Years</option>
+                                <option value="3">3 Years</option>
+                                <option value="4">4 Years</option>
+                                <option value="5">5 Years</option>
+                                <option value="6">6 Years</option>
+                                <option value="7">7 Years</option>
+                                <option value="8">8 Years</option>
+                                <option value="9">9 Years</option>
+                                <option value="10">10 Years</option>
+                                <option value="11">11 Years</option>
+                                <option value="12">12 Years</option>
+                                <option value="13">13 Years</option>
+                                <option value="14">14 Years</option>
+                                <option value="15">15 Years</option>
+                                <option value="16">16 Years</option>
+                                <option value="17">17 Years</option>
+                                <option value="18">18 Years</option>
+                                <option value="19">19 Years</option>
+                                <option value="20">20 Years</option>
+                                <option value="20+">More than 20 Years</option>
+                            </select>
+                            <div class="error-message">Please select your years of experience</div>
+                        </div>
+                    </div>
+
+                    <!-- Section C: Attachments -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-file-upload"></i> Attachments</h3>
+                        <div class="form-group">
+                            <label>Resume Upload <span class="required">*</span></label>
+                            <input type="file" name="resume" accept=".pdf,.doc,.docx" required id="resumeUpload">
+                            <small style="color: #64748b;">PDF/Word, Max 2 MB</small>
+                            <div class="error-message">Please upload a resume (max 2 MB)</div>
+                        </div>
+                    </div>
+
+                    <!-- Section D: Password Setup -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-lock"></i> Password Setup</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Password <span class="required">*</span></label>
+                                <input type="password" name="password" required minlength="8" id="password"
+                                    placeholder="Minimum 8 characters">
+                                <small style="color: #64748b;">Must include uppercase, lowercase, number, and special
+                                    character</small>
+                                <div class="error-message">Password must be at least 8 characters with uppercase,
+                                    lowercase, number, and special character</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password <span class="required">*</span></label>
+                                <input type="password" name="confirmPassword" required minlength="8"
+                                    id="confirmPassword" placeholder="Re-enter password">
+                                <div class="error-message">Passwords do not match</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 3rem;">
+                        <button type="submit" class="btn btn-primary btn-large"
+                            style="background: linear-gradient(135deg, #ff8c42, #ff6b35);">
+                            <span>Submit Registration</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                        <p style="margin-top: 1rem; color: #64748b; font-size: 0.9rem;">
+                            By submitting, you agree to our Terms & Conditions
+                        </p>
+                    </div>
+
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                        <h3>Registration Successful!</h3>
+                        <p>Thank you for registering. Our team will review your profile and contact you soon.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo"><img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img"></div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="js/api-config.js"></script>
+    <script src="js/registration-manager.js"></script>
+    <script>
+        // Show/hide Lab Assistant specialization
+        document.getElementById('positionType').addEventListener('change', function () {
+            const labAssistantSpec = document.getElementById('labAssistantSpec');
+            const labSpec = document.getElementById('labSpec');
+
+            if (this.value === 'Lab Assistant') {
+                labAssistantSpec.classList.remove('hidden');
+                labSpec.required = true;
+            } else {
+                labAssistantSpec.classList.add('hidden');
+                labSpec.required = false;
+                labSpec.value = '';
+            }
+        });
+
+        // Form validation and submission
+        document.getElementById('nonTeachingRegistrationForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+
+            // Validate password
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!passwordRegex.test(password)) {
+                alert('Password must contain at least 8 characters with uppercase, lowercase, number, and special character');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Loading State
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Processing...</span><div class="btn-glow"></div>';
+
+            try {
+                // Get form reference for reliable field access
+                const form = document.getElementById('nonTeachingRegistrationForm');
+
+                const fullName = (form.elements['fullName']?.value || '').trim();
+                const email = (form.elements['email']?.value || '').trim();
+                const phone = (form.elements['phone']?.value || '').trim();
+                const gender = form.elements['gender']?.value || '';
+                const positionType = form.elements['positionType']?.value || '';
+                const experience = form.elements['experience']?.value || '0';
+
+                if (!fullName || !email || !phone || !positionType) {
+                    alert('Please fill in all required fields');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
+                // Validate phone number (10 digits)
+                if (phone.length !== 10 || !/^\d{10}$/.test(phone)) {
+                    alert('Please enter a valid 10-digit phone number');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
+                // Transform data to match exact API schema
+                const apiData = {
+                    is_teaching_candidate: false,  // Non-teaching candidate
+
+                    full_name: fullName,
+                    email: email,
+                    contact_number: '+91-' + phone,
+                    gender: gender.toLowerCase(),
+
+                    position_type: positionType,
+                    non_teaching_experience_years: parseInt(experience),
+
+                    // Required fields with defaults
+                    available_for_interview: true,
+                    joining_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 1 week from now
+                    interview_slot: {
+                        from: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T10:00:00',
+                        to: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T17:00:00'
+                    },
+
+                    current_profile: positionType,
+                    current_profile_experience_years: parseInt(experience),
+                    applied_profile: positionType,
+                    total_experience_years: parseInt(experience),
+
+                    qualification: 'Graduation',
+
+                    current_city: 'Not Specified',
+                    relocation_preference: 'anywhere',
+                    native_place: 'Not Specified',
+                    preferred_cities: ['Anywhere'],
+
+                    current_salary: 0,
+                    expected_salary: 0,
+
+                    photo_url: "https://example.com/uploads/photo.jpg",
+                    resume_url: "https://example.com/uploads/resume.pdf",
+                    certificates_urls: [],
+
+                    // Teaching-specific fields set to null for non-teaching
+                    experience_in_boards: null,
+                    teaching_method: null,
+                    objective_type: null,
+                    subjects: null,
+                    teaching_levels: null,
+                    boards_handled: null,
+                    can_teach_english: false,
+                    other_languages: [],
+                    youtube_link: null,
+
+                    password: password,
+                    confirm_password: confirmPassword
+                };
+
+                console.log('Non-Teaching Candidate API Data:', apiData);
+
+                const result = await registrationManager.registerTeacherCandidate(apiData);
+
+                if (result.success) {
+                    document.getElementById('successMessage').classList.add('show');
+
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    throw new Error(result.error || 'Registration failed');
+                }
+
+            } catch (error) {
+                console.error('Registration Error:', error);
+                alert(error.message || 'An error occurred. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+    </script>
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+</body>
+
+</html>

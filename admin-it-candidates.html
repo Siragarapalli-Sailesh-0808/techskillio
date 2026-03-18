@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Candidates - TechSkillio Admin</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-shared.css">
+    <link rel="stylesheet" href="css/admin-responsive.css">
+    <style>
+        /* ── Action Bar ──────────────────────────────────── */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .action-bar .page-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .count-badge {
+            background: #86c540;
+            color: #fff;
+            padding: 0.15rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* ── Filter Bar ──────────────────────────────────── */
+        .filter-bar {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .filter-bar .search-box {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .filter-bar .search-box i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .filter-bar .search-box input {
+            width: 100%;
+            padding: 0.55rem 1rem 0.55rem 2.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .filter-bar .search-box input:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        .filter-bar select {
+            padding: 0.55rem 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            background: #fff;
+            cursor: pointer;
+            min-width: 140px;
+            transition: all 0.2s ease;
+        }
+
+        .filter-bar select:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        /* ── Badges ──────────────────────────────────────── */
+        .badge-type {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .badge-it {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .badge-approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ── Detail Modal ────────────────────────────────── */
+        .detail-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .detail-modal-overlay.show {
+            display: flex;
+        }
+
+        .detail-modal {
+            background: #fff;
+            border-radius: 12px;
+            max-width: 650px;
+            width: 92%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .detail-modal .close-modal {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.9rem;
+        }
+
+        .detail-row strong {
+            color: #2c3e50;
+            min-width: 40%;
+        }
+
+        .detail-row span {
+            color: #475569;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
+        }
+
+        .detail-section-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #86c540;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 1rem 0 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 2px solid #f1f5f9;
+        }
+
+        /* ── Mobile ──────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-bar select {
+                min-width: 100%;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-container">
+        <div id="sidebarContainer"></div>
+
+        <main class="main-content">
+            <div id="headerContainer"></div>
+
+            <!-- Action Bar -->
+            <div class="action-bar">
+                <div class="page-title">
+                    <i class="fas fa-laptop-code"></i> IT Candidates
+                    <span class="count-badge" id="candidateCount">0</span>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by name, email, skills, location..." oninput="applyFilters()">
+                </div>
+                <select id="filterStatus" onchange="applyFilters()">
+                    <option value="">All Status</option>
+                    <option value="approved">Approved</option>
+                    <option value="pending">Pending</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+                <select id="filterDate" onchange="applyFilters()">
+                    <option value="">All Time</option>
+                    <option value="this_week">This Week</option>
+                    <option value="last_week">Last Week</option>
+                    <option value="this_month">This Month</option>
+                    <option value="last_month">Last Month</option>
+                </select>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Role / Profile</th>
+                            <th>Skills</th>
+                            <th>Location</th>
+                            <th>Experience</th>
+                            <th>Status</th>
+                            <th>Registered</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="candidatesTableBody">
+                        <tr>
+                            <td colspan="9" style="text-align:center; padding:2rem; color:#888;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading candidates...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Mobile Card View -->
+                <div class="mobile-card-view" id="candidatesMobileCards">
+                    <div style="text-align:center; padding:2rem; color:#888;">
+                        <i class="fas fa-spinner fa-spin"></i> Loading candidates...
+                    </div>
+                </div>
+            </div>
+
+            <div id="footerContainer"></div>
+        </main>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="detail-modal-overlay" id="detailModal">
+        <div class="detail-modal">
+            <button class="close-modal" onclick="closeDetailModal()">&times;</button>
+            <div id="detailModalContent"></div>
+        </div>
+    </div>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        currentPage = 'it-candidates';
+
+        // ── STATE ──────────────────────────────────────────
+        let allCandidates = [];
+        let filteredCandidates = [];
+
+        // ── HELPERS ────────────────────────────────────────
+        function getToken() {
+            if (typeof authManager !== 'undefined' && authManager.getAccessToken()) return authManager.getAccessToken();
+            return localStorage.getItem('access_token');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            try { return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
+            catch { return dateStr; }
+        }
+
+        function formatSalary(val) {
+            if (!val) return '—';
+            if (val >= 100000) return '₹' + (val / 100000).toFixed(1).replace('.0', '') + 'L';
+            if (val >= 1000) return '₹' + (val / 1000).toFixed(0) + 'K';
+            return '₹' + val;
+        }
+
+        function getStatusBadge(status) {
+            const s = (status || '').toLowerCase();
+            if (s === 'approved') return '<span class="badge-type badge-approved">Approved</span>';
+            if (s === 'rejected') return '<span class="badge-type badge-rejected">Rejected</span>';
+            return '<span class="badge-type badge-pending">Pending</span>';
+        }
+
+        function capitalizeFirst(str) {
+            if (!str) return '—';
+            return str.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        // ── DATE FILTER HELPER ─────────────────────────────
+        function isInDateRange(dateStr, range) {
+            if (!range || !dateStr) return true;
+            const d = new Date(dateStr);
+            const now = new Date();
+            const startOfWeek = new Date(now);
+            startOfWeek.setDate(now.getDate() - now.getDay());
+            startOfWeek.setHours(0, 0, 0, 0);
+
+            switch (range) {
+                case 'this_week':
+                    return d >= startOfWeek;
+                case 'last_week': {
+                    const lastWeekStart = new Date(startOfWeek);
+                    lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+                    return d >= lastWeekStart && d < startOfWeek;
+                }
+                case 'this_month':
+                    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                case 'last_month': {
+                    const lm = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                    const lmEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
+                    return d >= lm && d <= lmEnd;
+                }
+                default: return true;
+            }
+        }
+
+        // ── FILTERS ────────────────────────────────────────
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
+            const statusFilter = document.getElementById('filterStatus').value;
+            const dateFilter = document.getElementById('filterDate').value;
+
+            filteredCandidates = allCandidates.filter(c => {
+                const p = c.profile || {};
+
+                // Status filter
+                if (statusFilter && (p.status || '').toLowerCase() !== statusFilter) return false;
+
+                // Date filter
+                if (!isInDateRange(p.created_at, dateFilter)) return false;
+
+                // Search
+                if (search) {
+                    const haystack = [
+                        p.full_name, c.email, p.current_role, p.desired_role,
+                        p.qualification, p.current_location,
+                        ...(p.key_skills || []), ...(p.preferred_work_locations || [])
+                    ].filter(Boolean).join(' ').toLowerCase();
+                    if (!haystack.includes(search)) return false;
+                }
+
+                return true;
+            });
+
+            renderCandidates();
+        }
+
+        // ── FETCH & RENDER ─────────────────────────────────
+        async function loadCandidates() {
+            const tbody = document.getElementById('candidatesTableBody');
+            const mobileContainer = document.getElementById('candidatesMobileCards');
+            try {
+                const token = getToken();
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = 'TSK ' + token;
+
+                const res = await fetch(`${API_BASE_URL}/api/v1/auth/candidates/?type=it`, { headers });
+                if (!res.ok) throw new Error(`Server returned ${res.status}`);
+
+                const data = await res.json();
+                allCandidates = Array.isArray(data) ? data : (data.results || []);
+                filteredCandidates = [...allCandidates];
+                renderCandidates();
+            } catch (err) {
+                console.error('Failed to load candidates:', err);
+                const errorMsg = `<i class="fas fa-exclamation-triangle"></i> Failed to load: ${err.message}`;
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#e74c3c;">${errorMsg}</td></tr>`;
+                mobileContainer.innerHTML = `<div style="text-align:center;padding:2rem;color:#e74c3c;">${errorMsg}</div>`;
+            }
+        }
+
+        function renderCandidates() {
+            const tbody = document.getElementById('candidatesTableBody');
+            const mobileContainer = document.getElementById('candidatesMobileCards');
+            document.getElementById('candidateCount').textContent = filteredCandidates.length;
+
+            if (filteredCandidates.length === 0) {
+                const emptyMsg = `<i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:0.5rem;"></i>No candidates found matching your filters.`;
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2.5rem;color:#94a3b8;">${emptyMsg}</td></tr>`;
+                mobileContainer.innerHTML = `<div style="text-align:center;padding:2.5rem;color:#94a3b8;">${emptyMsg}</div>`;
+                return;
+            }
+
+            // Table
+            tbody.innerHTML = filteredCandidates.map(c => {
+                const p = c.profile || {};
+                const skills = p.key_skills && p.key_skills.length ? p.key_skills.slice(0, 3).join(', ') + (p.key_skills.length > 3 ? ` +${p.key_skills.length - 3}` : '') : '—';
+                const role = p.current_role || p.desired_role || '—';
+                
+                return `
+                    <tr>
+                        <td>#${c.user_id}</td>
+                        <td style="font-weight:500;">${p.full_name || '—'}</td>
+                        <td>${role}</td>
+                        <td title="${p.key_skills ? p.key_skills.join(', ') : ''}">${skills}</td>
+                        <td>${p.current_location || '—'}</td>
+                        <td>${p.years_of_experience ? p.years_of_experience + ' yrs' : '—'}</td>
+                        <td>${getStatusBadge(p.status)}</td>
+                        <td>${formatDate(p.created_at)}</td>
+                        <td>
+                            <button class="action-btn btn-view" onclick="viewCandidate(${c.user_id})">View</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Mobile cards
+            mobileContainer.innerHTML = filteredCandidates.map(c => {
+                const p = c.profile || {};
+                const role = p.current_role || p.desired_role || '—';
+                return `
+                    <div class="mobile-card">
+                        <div class="mobile-card-header">
+                            <span class="mobile-card-title">${p.full_name || '—'}</span>
+                            <span class="badge-type badge-it">IT</span>
+                        </div>
+                        <div class="mobile-card-body">
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">ID:</span>
+                                <span class="mobile-card-value">#${c.user_id}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Email:</span>
+                                <span class="mobile-card-value">${c.email || '—'}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Role:</span>
+                                <span class="mobile-card-value">${role}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">City:</span>
+                                <span class="mobile-card-value">${p.current_location || '—'}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Status:</span>
+                                <span class="mobile-card-value">${getStatusBadge(p.status)}</span>
+                            </div>
+                        </div>
+                        <div class="mobile-card-actions">
+                            <button class="action-btn btn-view" onclick="viewCandidate(${c.user_id})">View</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ── VIEW DETAIL ────────────────────────────────────
+        function viewCandidate(userId) {
+            const c = allCandidates.find(x => x.user_id == userId);
+            if (!c) return;
+            const p = c.profile || {};
+            const skills = p.key_skills && p.key_skills.length ? p.key_skills.join(', ') : '—';
+            const ctc = (p.expected_ctc_min || p.expected_ctc_max) 
+                ? `${formatSalary(p.expected_ctc_min)} – ${formatSalary(p.expected_ctc_max)}` 
+                : '—';
+
+            let html = `
+                <h3 style="margin-bottom:1rem;color:#2c3e50;display:flex;align-items:center;gap:0.5rem;">
+                    <i class="fas fa-user-code" style="color:#86c540;"></i> ${p.full_name || 'Candidate Details'}
+                    <span class="badge-type badge-it">IT Candidate</span>
+                </h3>
+
+                <div class="detail-section-title">Personal Information</div>
+                <div class="detail-row"><strong>User ID</strong><span>#${c.user_id}</span></div>
+                <div class="detail-row"><strong>Email</strong><span>${c.email || '—'}</span></div>
+                <div class="detail-row"><strong>Contact</strong><span>${p.contact_number || '—'}</span></div>
+                <div class="detail-row"><strong>Current Location</strong><span>${p.current_location || '—'}</span></div>
+                <div class="detail-row"><strong>Preferred Locations</strong><span>${p.preferred_work_locations && p.preferred_work_locations.length ? p.preferred_work_locations.join(', ') : '—'}</span></div>
+
+                <div class="detail-section-title">Professional Details</div>
+                <div class="detail-row"><strong>Current Role</strong><span>${p.current_role || '—'}</span></div>
+                <div class="detail-row"><strong>Desired Role</strong><span>${p.desired_role || '—'}</span></div>
+                <div class="detail-row"><strong>Qualification</strong><span>${p.qualification || '—'} (${capitalizeFirst(p.education_status || '')} - ${p.pass_out_year || '—'})</span></div>
+                <div class="detail-row"><strong>Total Experience</strong><span>${p.years_of_experience ? p.years_of_experience + ' years' : '—'}</span></div>
+                <div class="detail-row"><strong>Skills</strong><span>${skills}</span></div>
+                <div class="detail-row"><strong>Work Mode</strong><span>${capitalizeFirst(p.preferred_mode_of_work)}</span></div>
+                <div class="detail-row"><strong>Employment Type</strong><span>${capitalizeFirst(p.employment_type)}</span></div>
+            
+                <div class="detail-section-title">Compensation & Notice</div>
+                <div class="detail-row"><strong>Expected CTC</strong><span>${ctc}</span></div>
+                <div class="detail-row"><strong>Notice Period</strong><span>${p.notice_period_days ? p.notice_period_days + ' Days' : '—'}</span></div>
+
+                <div class="detail-section-title">Status & Links</div>
+                <div class="detail-row"><strong>Status</strong><span>${getStatusBadge(p.status)}</span></div>
+                <div class="detail-row"><strong>Registered</strong><span>${formatDate(p.created_at)}</span></div>
+                ${p.resume_url ? `<div class="detail-row"><strong>Resume</strong><span><a href="${p.resume_url}" target="_blank" style="color:#86c540;">Download Resume</a></span></div>` : ''}
+            `;
+
+            document.getElementById('detailModalContent').innerHTML = html;
+            document.getElementById('detailModal').classList.add('show');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('show');
+        }
+
+        document.getElementById('detailModal').addEventListener('click', function (e) {
+            if (e.target === this) closeDetailModal();
+        });
+
+        // ── INIT ───────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function () {
+            loadCandidates();
+        });
+    </script>
+    <script src="js/admin-components.js"></script>
+</body>
+
+</html>

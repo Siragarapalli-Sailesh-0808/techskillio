@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teaching Jobs - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .jobs-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .jobs-header {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .jobs-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .jobs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .job-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(134, 197, 64, 0.1);
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(134, 197, 64, 0.15);
+        }
+
+        .job-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .job-school {
+            color: #64748b;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .job-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .job-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .job-detail-item i {
+            color: #86c540;
+        }
+
+        .subject-tag {
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            color: #3730a3;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .job-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-apply {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-apply:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(134, 197, 64, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .job-details {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0px 0px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 5px;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .dropdown-menu {
+                display: none;
+                position: static;
+                background-color: #f9f9f9;
+                box-shadow: none;
+                padding-left: 10px;
+            }
+
+            .dropdown.open .dropdown-menu {}
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+    <div style="height: 120px;"></div>
+    <section class="jobs-section">
+        <div class="container" style="max-width: 1200px; padding: 0 2rem;">
+            <div class="jobs-header">
+                <h1><span class="gradient-text">Teaching Jobs</span> Available</h1>
+                <p style="color: #64748b; font-size: 1.1rem;">
+                    Showing <span id="jobCount">0</span> teaching opportunities
+                    <span id="appliedCountContainer"
+                        style="display:none; margin-left: 15px; border-left: 2px solid #ccc; padding-left: 15px;">
+                        You have applied to <span id="appliedCount" style="color: #86c540; font-weight: bold;">0</span>
+                        jobs
+                    </span>
+                </p>
+            </div>
+
+            <div class="jobs-list" id="jobsList">
+                <!-- Jobs will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo"><img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img"></div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="js/api-config.js"></script>
+    <script src="js/job-display-helpers.js"></script>
+    <script src="js/job-application-modal.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        let allJobs = [];
+
+        function getPostedByDisplayName(job) {
+            return (typeof getCompanyOrInstitutionName === 'function' ? getCompanyOrInstitutionName(job) : '') || 'Not specified';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchJobs();
+        });
+
+        async function fetchJobs() {
+            const jobsList = document.getElementById('jobsList');
+            const jobCountDisplay = document.getElementById('jobCount');
+
+            jobsList.innerHTML = '<div style="text-align: center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 40px; color: #86c540;"></i><p>Loading jobs...</p></div>';
+
+            try {
+                // Determine user type for filtering
+                const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+                const isTeachingCandidate = userProfile.is_teaching_candidate; // true, false, or undefined
+
+                // Fetch all teacher jobs
+                const response = await authManager.apiRequest('/api/v1/jobs/jobs/?job_category=teacher');
+                const data = await response.json();
+                let jobs = Array.isArray(data) ? data : (data.results || []);
+
+                // Apply filtering if user is logged in as a candidate
+                if (typeof isTeachingCandidate !== 'undefined') {
+                    if (isTeachingCandidate === true) {
+                        jobs = jobs.filter(job => job.is_teaching_job === true);
+                        console.log('Filtering for Teaching Candidate: Showing teaching jobs only');
+                    } else if (isTeachingCandidate === false) {
+                        jobs = jobs.filter(job => job.is_teaching_job === false);
+                        console.log('Filtering for Non-Teaching Candidate: Showing non-teaching jobs only');
+                    }
+                }
+
+                // Fetch applications if logged in
+                if (authManager.isAuthenticated()) {
+                    try {
+                        const appsResponse = await authManager.apiRequest('/api/v1/jobs/applications/');
+                        const appsData = await appsResponse.json();
+                        const applications = Array.isArray(appsData) ? appsData : (appsData.results || []);
+
+                        document.getElementById('appliedCount').textContent = applications.length;
+                        document.getElementById('appliedCountContainer').style.display = 'inline';
+
+                        // Mark applied jobs in the list
+                        jobs = jobs.map(job => {
+                            const isApplied = applications.some(app => app.job === job.id || app.job_title === job.title);
+                            if (isApplied) job.isApplied = true;
+                            return job;
+                        });
+                    } catch (e) {
+                        console.error('Failed to fetch applications', e);
+                    }
+                }
+
+                allJobs = jobs;
+                displayJobs(jobs);
+
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+                jobsList.innerHTML = `
+                    <div class="no-jobs">
+                        <i class="fas fa-exclamation-circle" style="color: #ef4444;"></i>
+                        <h3>Failed to load jobs</h3>
+                        <p>Please check your connection and try again.</p>
+                        <button onclick="fetchJobs()" class="btn-apply" style="margin-top: 15px;">Retry</button>
+                    </div>
+                `;
+                jobCountDisplay.textContent = '0';
+            }
+        }
+
+        function displayJobs(jobs) {
+            const jobsList = document.getElementById('jobsList');
+            const jobCount = document.getElementById('jobCount');
+            jobCount.textContent = jobs.length;
+
+            if (jobs.length === 0) {
+                jobsList.innerHTML = `
+                    <div class="no-jobs">
+                        <i class="fas fa-briefcase"></i>
+                        <h3>No Jobs Found</h3>
+                        <p>No jobs matching your criteria are available right now.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            jobsList.innerHTML = jobs.map(job => `
+                <div class="job-card">
+                    <h2 class="job-title">${job.title}</h2>
+                    <div class="job-school"><i class="fas fa-school"></i> ${getPostedByDisplayName(job)}</div>
+                    <div class="job-details">
+                        <div class="job-detail-item"><i class="fas fa-map-marker-alt"></i> ${job.location || 'Remote'}</div>
+                        <div class="job-detail-item"><i class="fas fa-briefcase"></i> ${job.experience || 'Not specified'}</div>
+                        <div class="job-detail-item"><i class="fas fa-rupee-sign"></i> ${formatSalary(job.salary_min, job.salary_max)}</div>
+                        <div class="job-detail-item"><i class="fas fa-clock"></i> ${job.employment_type ? job.employment_type.replace('_', ' ') : 'Full Time'}</div>
+                        <div class="job-detail-item"><i class="fas fa-calendar"></i> Posted ${new Date(job.created_at).toLocaleDateString()}</div>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0;">
+                        ${(job.skills_required || []).map(subject => `<span class="subject-tag">${subject}</span>`).join('')}
+                    </div>
+                    <p style="color: #64748b; margin-bottom: 1.5rem;">${job.description ? job.description.substring(0, 150) + '...' : 'No description available.'}</p>
+                    <div class="job-actions">
+                        <button class="btn-apply" style="background: white; color: #86c540; border: 2px solid #86c540;" onclick="viewJobDetails(${job.id})">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                         ${job.isApplied
+                        ? `<button class="btn-apply" disabled style="background: #e2e8f0; color: #64748b; cursor: not-allowed;"><i class="fas fa-check"></i> Applied</button>`
+                        : `<button class="btn-apply" onclick="applyForJob(${job.id})"><i class="fas fa-paper-plane"></i> Apply Now</button>`
+                    }
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewJobDetails(jobId) {
+            const job = allJobs.find(j => j.id === jobId);
+            if (!job) return;
+
+            // Normalize data shape for the shared modal component
+            const postedBy = getPostedByDisplayName(job);
+            const modalJob = {
+                ...job,
+                institution: postedBy,
+                company: postedBy,
+                posted_by_name: postedBy,
+                location: job.location || 'Remote',
+                salary_min: job.salary_min,
+                salary_max: job.salary_max,
+                experience_min_years: job.experience_min_years || job.min_experience,
+                experience_max_years: job.experience_max_years || job.max_experience,
+                employment_type: job.employment_type,
+                work_mode: job.work_mode,
+                skills_required: job.skills_required || [],
+                subjects_required: job.subjects_required || []
+            };
+
+            jobApplicationModal.showJobDetails(modalJob);
+        }
+
+        async function applyForJob(id) {
+            // Check auth
+            if (!authManager.isAuthenticated()) {
+                // Redirect to login with return URL
+                window.location.href = `login.html?returnUrl=${encodeURIComponent(window.location.href)}`;
+                return;
+            }
+
+            if (!confirm('Apply for this position?')) return;
+
+            try {
+                const button = document.querySelector(`button[onclick="applyForJob(${id})"]`);
+                const originalText = button.innerHTML;
+                button.disabled = true;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Applying...';
+
+                const response = await authManager.apiRequest('/api/v1/jobs/applications/', {
+                    method: 'POST',
+                    body: JSON.stringify({ job: id })
+                });
+
+                if (response.ok) {
+                    alert('Application submitted successfully!');
+                    button.innerHTML = '<i class="fas fa-check"></i> Applied';
+                    button.style.background = '#cbd5e1';
+                    button.style.cursor = 'not-allowed';
+                } else {
+                    const data = await response.json();
+                    alert(data.message || 'Failed to apply.');
+                    button.disabled = false;
+                    button.innerHTML = originalText;
+                }
+            } catch (error) {
+                console.error('Apply error:', error);
+                alert('An error occurred.');
+            }
+        }
+
+        function formatSalary(min, max) {
+            if (!min && !max) return 'Not disclosed';
+            if (min > 1000) return `${(min / 1000).toFixed(0)}k - ${(max / 1000).toFixed(0)}k / mo`;
+            return `${min} - ${max}`;
+        }
+    </script>
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+</body>
+
+</html>

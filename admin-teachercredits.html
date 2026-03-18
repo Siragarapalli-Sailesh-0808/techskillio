@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Credits - TechSkillio Admin</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-shared.css">
+    <link rel="stylesheet" href="css/admin-responsive.css">
+    <style>
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .action-bar .page-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-bar .count-badge {
+            background: #86c540;
+            color: #fff;
+            padding: 0.15rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .btn-add {
+            padding: 0.6rem 1.25rem;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(134, 197, 64, 0.3);
+        }
+
+        .info-banner {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 0.85rem 1.1rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.9rem;
+            color: #1e40af;
+        }
+
+        .info-banner a {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .panel-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .panel-overlay.open {
+            display: flex;
+        }
+
+        .slide-panel {
+            width: 100%;
+            max-width: 440px;
+            background: #fff;
+            height: 100%;
+            overflow-y: auto;
+            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .panel-body {
+            padding: 1.25rem;
+        }
+
+        .panel-body .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .panel-body label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.35rem;
+        }
+
+        .panel-body input,
+        .panel-body textarea {
+            width: 100%;
+            padding: 0.55rem 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .panel-footer {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .btn-cancel {
+            padding: 0.55rem 1rem;
+            border: 2px solid #e2e8f0;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-submit {
+            padding: 0.55rem 1.25rem;
+            background: #86c540;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .desc-cell {
+            max-width: 280px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <div id="sidebarContainer"></div>
+        <main class="main-content">
+            <div id="headerContainer"></div>
+
+            <div class="action-bar">
+                <div class="page-title">
+                    <i class="fas fa-coins"></i> Teacher credit packs
+                    <span class="count-badge" id="packCount">0</span>
+                </div>
+                <button type="button" class="btn-add" onclick="openAddPanel()">
+                    <i class="fas fa-plus"></i> Add pack
+                </button>
+            </div>
+
+
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Credits</th>
+                            <th>Price (₹)</th>
+                            <th>Description</th>
+                            <th>Featured</th>
+                        </tr>
+                    </thead>
+                    <tbody id="packsBody">
+                        <tr>
+                            <td colspan="6" style="text-align:center; padding:2rem; color:#888;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading…
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="mobile-card-view" id="packsMobile"></div>
+            </div>
+            <div id="footerContainer"></div>
+        </main>
+    </div>
+
+    <div class="panel-overlay" id="addPanel">
+        <div class="slide-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-plus-circle"></i> New credit pack</h3>
+                <button type="button" class="close-btn" onclick="closeAddPanel()">&times;</button>
+            </div>
+            <form id="addPackForm">
+                <div class="panel-body">
+                    <div id="packFormError" style="display:none; margin-bottom:1rem; padding:0.75rem; border-radius:8px; border:1px solid #fecaca; background:#fef2f2; color:#991b1b; font-size:0.85rem;"></div>
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" name="name" required placeholder="e.g. Starter pack">
+                    </div>
+                    <div class="form-group">
+                        <label>Credits *</label>
+                        <input type="number" name="credits" min="1" required placeholder="e.g. 50">
+                    </div>
+                    <div class="form-group">
+                        <label>Price (₹) * <small style="font-weight:400;color:#64748b;">(API: price_in_inr)</small></label>
+                        <input type="number" name="price" min="0" step="1" required placeholder="e.g. 5000">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="description" rows="3" placeholder="Shown on purchase page"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label><input type="checkbox" name="featured" value="1"> Featured / recommended</label>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn-cancel" onclick="closeAddPanel()">Cancel</button>
+                    <button type="submit" class="btn-submit" id="btnSavePack">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        currentPage = 'teacher-credits';
+    </script>
+    <script src="js/api-config.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script src="js/admin-components.js"></script>
+    <script>
+        function normalizePack(p) {
+            const id = p.id != null ? p.id : p.pack_id;
+            const credits = Number(p.credits ?? p.credit_count ?? p.credit_amount ?? p.amount_credits ?? 0);
+            const price = Number(p.price_in_inr != null ? p.price_in_inr : (p.price ?? p.amount ?? p.selling_price ?? 0));
+            return {
+                id,
+                name: p.name || p.title || '—',
+                credits,
+                price,
+                description: (p.description || '').slice(0, 200),
+                featured: !!(p.is_recommended || p.featured)
+            };
+        }
+
+        function esc(s) {
+            if (s == null) return '';
+            const d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
+        }
+
+        async function fetchPacks() {
+            const urls = [];
+            if (typeof window.API_CREDIT_PACKS_URL === 'string' && window.API_CREDIT_PACKS_URL) {
+                urls.push(window.API_CREDIT_PACKS_URL);
+            }
+            if (typeof window.ADMIN_CREDIT_PACK_LIST_URL === 'string' && window.ADMIN_CREDIT_PACK_LIST_URL &&
+                urls.indexOf(window.ADMIN_CREDIT_PACK_LIST_URL) === -1) {
+                urls.push(window.ADMIN_CREDIT_PACK_LIST_URL);
+            }
+            urls.push(
+                '/api/v1/plans/credit-packs/',
+                '/api/v1/finance/credit-packs/',
+                '/api/v1/finance/credit_packs/'
+            );
+            for (const url of urls) {
+                try {
+                    const res = await authManager.apiRequest(url);
+                    if (!res.ok) continue;
+                    const data = await res.json().catch(function () { return null; });
+                    if (!data) continue;
+                    const list = Array.isArray(data) ? data : (data.results || data.data || data.credit_packs || []);
+                    if (Array.isArray(list)) return list.map(normalizePack).filter(function (p) { return p.id != null; });
+                } catch (e) { /* next */ }
+            }
+            return [];
+        }
+
+        function renderPacks(packs) {
+            document.getElementById('packCount').textContent = String(packs.length);
+            const tbody = document.getElementById('packsBody');
+            const mobile = document.getElementById('packsMobile');
+            if (!packs.length) {
+                const msg = 'No credit packs found. Please add packs to display here.';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:2rem; color:#64748b;">' + msg + '</td></tr>';
+                mobile.innerHTML = '<div style="padding:2rem; color:#64748b; text-align:center;">' + msg + '</div>';
+                return;
+            }
+            tbody.innerHTML = packs.map(function (p) {
+                return '<tr>' +
+                    '<td>' + esc(String(p.id)) + '</td>' +
+                    '<td><strong>' + esc(p.name) + '</strong></td>' +
+                    '<td>' + esc(String(p.credits)) + '</td>' +
+                    '<td>₹' + Number(p.price).toLocaleString('en-IN') + '</td>' +
+                    '<td class="desc-cell" title="' + esc(p.description) + '">' + esc(p.description || '—') + '</td>' +
+                    '<td>' + (p.featured ? '<span class="status-completed">Yes</span>' : '—') + '</td>' +
+                    '</tr>';
+            }).join('');
+            mobile.innerHTML = packs.map(function (p) {
+                return '<div class="mobile-card">' +
+                    '<div class="mobile-card-header"><span class="mobile-card-title">' + esc(p.name) + '</span></div>' +
+                    '<div class="mobile-card-body">' +
+                    '<div class="mobile-card-row"><span class="mobile-card-label">ID</span><span>' + esc(String(p.id)) + '</span></div>' +
+                    '<div class="mobile-card-row"><span class="mobile-card-label">Credits</span><span>' + esc(String(p.credits)) + '</span></div>' +
+                    '<div class="mobile-card-row"><span class="mobile-card-label">Price</span><span>₹' + Number(p.price).toLocaleString('en-IN') + '</span></div>' +
+                    '</div></div>';
+            }).join('');
+        }
+
+        async function loadPacks() {
+            const packs = await fetchPacks();
+            renderPacks(packs);
+        }
+
+        function openAddPanel() {
+            document.getElementById('addPanel').classList.add('open');
+        }
+
+        function closeAddPanel() {
+            document.getElementById('addPanel').classList.remove('open');
+        }
+
+        document.getElementById('addPanel').addEventListener('click', function (e) {
+            if (e.target === this) closeAddPanel();
+        });
+
+        function uniqUrls(arr) {
+            var out = [];
+            arr.forEach(function (u) {
+                if (!u || typeof u !== 'string') return;
+                var t = u.replace(/\/+$/, '') + '/';
+                if (out.indexOf(t) === -1) out.push(t);
+            });
+            return out;
+        }
+
+        document.getElementById('addPackForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            var errEl = document.getElementById('packFormError');
+            errEl.style.display = 'none';
+            errEl.innerHTML = '';
+            const fd = new FormData(e.target);
+            const name = fd.get('name');
+            const credits = Number(fd.get('credits'));
+            const priceInr = Number(fd.get('price'));
+            const description = fd.get('description') || '';
+            const featured = fd.get('featured') === '1';
+            /* API expects price_in_inr (not price) — see POST /api/v1/plans/credit-packs/ */
+            const bodyPrimary = {
+                name: name,
+                credits: credits,
+                price_in_inr: priceInr,
+                description: description,
+                status: 'active',
+                is_recommended: featured
+            };
+            const bodyVariants = [
+                bodyPrimary,
+                Object.assign({}, bodyPrimary, { featured: featured, price: priceInr }),
+                { name: name, credits: credits, price_in_inr: priceInr, description: description, status: 'active' }
+            ];
+            const tryUrls = uniqUrls([
+                '/api/v1/plans/credit-packs/',
+                typeof window.ADMIN_CREDIT_PACK_CREATE_URL === 'string' ? window.ADMIN_CREDIT_PACK_CREATE_URL : '',
+                typeof window.API_CREDIT_PACKS_URL === 'string' ? window.API_CREDIT_PACKS_URL : '',
+                '/api/v1/plans/teacher/credit-packs/',
+                '/api/v1/plans/teacher/credit_packs/',
+                '/api/v1/plans/credit-packs/create/',
+                '/api/v1/plans/admin/credit-packs/',
+                '/api/v1/finance/credit-packs/'
+            ]);
+            const btn = document.getElementById('btnSavePack');
+            btn.disabled = true;
+            var ok = false;
+            var lastErr = '';
+            var lastStatus = 0;
+            var saw400 = null;
+            var base = typeof window.API_BASE_URL === 'string' ? window.API_BASE_URL.replace(/\/+$/, '') : '';
+            var tok = authManager.getAccessToken();
+            outer: for (var ui = 0; ui < tryUrls.length; ui++) {
+                for (var bi = 0; bi < bodyVariants.length; bi++) {
+                    try {
+                        var res = await authManager.apiRequest(tryUrls[ui], {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(bodyVariants[bi])
+                        });
+                        lastStatus = res.status;
+                        var data = await res.json().catch(function () { return {}; });
+                        if (res.ok && (res.status === 200 || res.status === 201)) {
+                            ok = true;
+                            break outer;
+                        }
+                        if (res.status === 400) {
+                            saw400 = data;
+                            var parts = [];
+                            if (data && typeof data === 'object') {
+                                Object.keys(data).forEach(function (k) {
+                                    var v = data[k];
+                                    parts.push(k + ': ' + (Array.isArray(v) ? v.join(', ') : String(v)));
+                                });
+                            }
+                            lastErr = parts.length ? parts.join(' ') : (data.detail || JSON.stringify(data));
+                            break outer;
+                        }
+                        if (res.status === 403) {
+                            lastErr = (data.detail || 'Forbidden') + ' — log in with an admin/staff account that may POST to credit-packs.';
+                            saw400 = { _403: true };
+                            break outer;
+                        }
+                        if (res.status !== 404) {
+                            lastErr = data.detail || data.message || ('HTTP ' + res.status);
+                            break outer;
+                        }
+                    } catch (x) {
+                        lastErr = x.message || String(x);
+                        break outer;
+                    }
+                }
+            }
+            if (!ok && !saw400 && base && tok) {
+                for (var bj = 0; bj < bodyVariants.length && !ok; bj++) {
+                    try {
+                        var r2 = await fetch(base + '/api/v1/plans/credit-packs/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + tok
+                            },
+                            body: JSON.stringify(bodyVariants[bj])
+                        });
+                        lastStatus = r2.status;
+                        var d2 = await r2.json().catch(function () { return {}; });
+                        if (r2.ok) ok = true;
+                        else if (r2.status === 400) {
+                            saw400 = d2;
+                            lastErr = d2.detail || JSON.stringify(d2);
+                        }
+                    } catch (e2) { /* ignore */ }
+                }
+            }
+            btn.disabled = false;
+            if (ok) {
+                closeAddPanel();
+                e.target.reset();
+                loadPacks();
+            } else if (saw400 && saw400._403) {
+                errEl.innerHTML = '<strong>403 Forbidden</strong> — ' + esc(lastErr);
+                errEl.style.display = 'block';
+            } else if (saw400) {
+                errEl.innerHTML = '<strong>Validation error</strong> — ' + esc(lastErr || 'Check field names on the API.');
+                errEl.style.display = 'block';
+            } else {
+                errEl.innerHTML = lastStatus === 404
+                    ? '<strong>404 on all create URLs tried.</strong> Set the exact POST path in <code>js/api-config.js</code> → <code>ADMIN_CREDIT_PACK_CREATE_URL</code> (tried: teacher/credit-packs, credit-packs, create/, etc.).'
+                    : ('<strong>' + esc(lastErr || 'Request failed') + '</strong>');
+                errEl.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof authManager === 'undefined' || !authManager.getAccessToken()) {
+                document.getElementById('packsBody').innerHTML =
+                    '<tr><td colspan="6" style="text-align:center; padding:2rem;">Please <a href="admin-login.html">log in</a> as admin.</td></tr>';
+                return;
+            }
+            loadPacks();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School/Employer Registration - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .registration-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .registration-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .registration-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-section-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #86c540;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group label .required {
+            color: #ef4444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        .jd-fields {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .registration-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0px 0px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 5px;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .dropdown-menu {
+                display: none;
+                position: static;
+                background-color: #f9f9f9;
+                box-shadow: none;
+                padding-left: 10px;
+            }
+
+            .dropdown.open .dropdown-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+    <div style="height: 120px;"></div>
+    <section class="registration-section">
+        <div class="container">
+            <div class="registration-container">
+                <div class="registration-header">
+                    <h1><span class="gradient-text">School/Employer</span> Registration</h1>
+                    <p>Post teaching positions and hire qualified educators</p>
+                </div>
+
+                <form id="employerRegistrationForm">
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-school"></i> Institution Details</h3>
+                        <div class="form-row">
+                            <div class="form-group"><label>Institution Name <span
+                                        class="required">*</span></label><input type="text" name="institutionName"
+                                    required placeholder="Enter school/institution name"></div>
+                            <div class="form-group"><label>Institution Type <span
+                                        class="required">*</span></label><select name="institutionType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="Pre-Primary">Pre-Primary</option>
+                                    <option value="School">School</option>
+                                    <option value="K-12">K-12</option>
+                                    <option value="College">College</option>
+                                    <option value="Coaching Institute">Coaching Institute</option>
+                                    <option value="University">University</option>
+                                    <option value="Higher Education">Higher Education</option>
+                                    <option value="Autonomous">Autonomous</option>
+                                </select></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Board/Affiliation <span
+                                        class="required">*</span></label><select name="board" required>
+                                    <option value="">Select Board</option>
+                                    <option value="CBSE">CBSE</option>
+                                    <option value="ICSE">ICSE</option>
+                                    <option value="State Board">State Board</option>
+                                    <option value="IB">IB</option>
+                                    <option value="IGCSE">IGCSE</option>
+                                    <option value="University Affiliated">University Affiliated</option>
+                                    <option value="Autonomous">Autonomous</option>
+                                </select></div>
+                            <div class="form-group"><label>Location <span class="required">*</span></label><input
+                                    type="text" name="location" required placeholder="City, State"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Website Link</label><input type="url" name="website"
+                                    placeholder="https://www.yourschool.com"></div>
+                            <div class="form-group"><label>Upload Photo/Logo <span
+                                        class="required">*</span></label><input type="file" name="logo"
+                                    accept=".jpg,.jpeg,.png,.webp" required id="logoUpload">
+                                <small style="color: #64748b;">JPG/PNG/WEBP, Max 1 MB</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-address-card"></i> Contact Information</h3>
+                        <div class="form-row">
+                            <div class="form-group"><label>Contact Person Name <span
+                                        class="required">*</span></label><input type="text" name="contactPerson"
+                                    required placeholder="Principal/HR Name"></div>
+                            <div class="form-group"><label>Email Address <span class="required">*</span></label><input
+                                    type="email" name="email" required placeholder="school@example.com"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Contact Number <span class="required">*</span></label><input
+                                    type="tel" name="phone" required pattern="[0-9]{10}" maxlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
+                                    placeholder="10-digit number">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-lock"></i> Password Setup</h3>
+                        <div class="form-row">
+                            <div class="form-group"><label>Password <span class="required">*</span></label><input
+                                    type="password" name="password" required minlength="8" id="password"
+                                    placeholder="Minimum 8 characters">
+                                <small style="color: #64748b;">Must include uppercase, lowercase, number, and special
+                                    character</small>
+                            </div>
+                            <div class="form-group"><label>Confirm Password <span
+                                        class="required">*</span></label><input type="password" name="confirmPassword"
+                                    required minlength="8" id="confirmPassword" placeholder="Re-enter password"></div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 3rem;">
+                        <button type="submit" class="btn btn-primary btn-large"><span>Submit Registration</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                        <p style="margin-top: 1rem; color: #64748b; font-size: 0.9rem;">After registration, choose a
+                            subscription plan to access candidates</p>
+                    </div>
+
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                        <h3>Registration Successful!</h3>
+                        <p>Redirecting to dashboard...</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo"><img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img"></div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="js/api-config.js"></script>
+    <script src="js/registration-manager.js"></script>
+    <script>
+        document.getElementById('employerRegistrationForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+
+            // Validate password
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!passwordRegex.test(password)) {
+                alert('Password must contain at least 8 characters with uppercase, lowercase, number, and special character');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Loading State
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Processing...</span><div class="btn-glow"></div>';
+
+            try {
+                // Get form reference for reliable field access
+                const form = document.getElementById('employerRegistrationForm');
+
+                // Validate required fields using form.elements
+                const institutionName = (form.elements['institutionName']?.value || '').trim();
+                const institutionType = form.elements['institutionType']?.value || '';
+                const board = form.elements['board']?.value || '';
+                const location = (form.elements['location']?.value || '').trim();
+                const contactPerson = (form.elements['contactPerson']?.value || '').trim();
+                const email = (form.elements['email']?.value || '').trim();
+                const phone = (form.elements['phone']?.value || '').trim();
+                const website = (form.elements['website']?.value || '').trim();
+
+                console.log('Form field values:', {
+                    institutionName,
+                    institutionType,
+                    board,
+                    location,
+                    contactPerson,
+                    email,
+                    phone,
+                    website
+                });
+
+                if (!institutionName || !institutionType || !board || !location || !contactPerson || !email || !phone) {
+                    alert('Please fill in all required fields');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
+                // Validate phone number (10 digits)
+                if (phone.length !== 10 || !/^\d{10}$/.test(phone)) {
+                    alert('Please enter a valid 10-digit phone number (got: ' + phone + ')');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
+                // Get board affiliation as array
+                const boardAffiliation = board ? [board] : ['CBSE'];
+
+                // Transform data to match exact API schema
+                const apiData = {
+                    is_teaching_employer: true,
+                    institution_name: institutionName,
+                    institution_type: institutionType.toLowerCase(),
+                    board_affiliation: boardAffiliation,
+                    location: location,
+                    website_url: website || null,
+                    institution_logo_url: "https://example.com/uploads/logo.png", // Placeholder
+                    contact_person_name: contactPerson,
+                    email: email,
+                    contact_number: '+91-' + phone,
+                    password: password,
+                    confirm_password: confirmPassword
+                };
+
+                console.log('Teacher Employer API Data:', apiData);
+
+                const result = await registrationManager.registerTeacherEmployer(apiData);
+
+                if (result.success) {
+                    document.getElementById('successMessage').classList.add('show');
+
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    throw new Error(result.error || 'Registration failed');
+                }
+
+            } catch (error) {
+                console.error('Registration Error:', error);
+                alert(error.message || 'An error occurred. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+    </script>
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+</body>
+
+</html>

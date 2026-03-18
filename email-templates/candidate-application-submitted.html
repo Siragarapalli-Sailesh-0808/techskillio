@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Submitted Successfully</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .content {
+            padding: 30px;
+            color: #333;
+        }
+
+        .job-details {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .job-details h3 {
+            margin-top: 0;
+            color: #1e40af;
+        }
+
+        .job-details p {
+            margin: 8px 0;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #86c540;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .timeline {
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin: 15px 0;
+            align-items: start;
+        }
+
+        .timeline-icon {
+            width: 30px;
+            height: 30px;
+            background: #86c540;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>✅ Application Submitted!</h1>
+        </div>
+
+        <div class="content">
+            <h2>Hi {{candidateName}},</h2>
+
+            <p>Great news! Your application has been successfully submitted.</p>
+
+            <span class="status-badge">Application Received</span>
+
+            <div class="job-details">
+                <h3>{{jobTitle}}</h3>
+                <p><strong>🏫 Institution:</strong> {{institutionName}}</p>
+                <p><strong>📍 Location:</strong> {{location}}</p>
+                <p><strong>📅 Applied On:</strong> {{applicationDate}}</p>
+                <p><strong>🔖 Reference Number:</strong> {{referenceNumber}}</p>
+            </div>
+
+            <h3>What Happens Next?</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">1</div>
+                    <div class="timeline-content">
+                        <strong>Application Review</strong>
+                        <p>The employer will review your profile and application</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">2</div>
+                    <div class="timeline-content">
+                        <strong>Shortlisting</strong>
+                        <p>If shortlisted, you'll receive an interview invitation</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">3</div>
+                    <div class="timeline-content">
+                        <strong>Interview</strong>
+                        <p>Attend the interview and showcase your skills</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">4</div>
+                    <div class="timeline-content">
+                        <strong>Offer</strong>
+                        <p>Receive and accept the job offer</p>
+                    </div>
+                </div>
+            </div>
+
+            <center>
+                <a href="{{applicationTrackingUrl}}" class="cta-button">Track Application Status →</a>
+            </center>
+
+            <p style="margin-top: 30px;"><strong>💡 Pro Tip:</strong> Keep your profile updated and respond promptly to
+                any communication from the employer to increase your chances.</p>
+
+            <p>Best regards,<br>
+                <strong>The TechSkillio Team</strong>
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+
+</html>

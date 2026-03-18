@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Plans - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .plans-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .plans-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .plans-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(134, 197, 64, 0.2);
+            border-color: #86c540;
+        }
+
+        .plan-card.featured {
+            border-color: #86c540;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+        }
+
+        .plan-badge {
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            color: #86c540;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1.2rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .plan-description {
+            color: #64748b;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        .plan-features li {
+            padding: 0.75rem 0;
+            color: #64748b;
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+        }
+
+        .plan-features li:before {
+            content: "✓";
+            color: #86c540;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .btn-select-plan {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-select-plan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(134, 197, 64, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0px 0px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 5px;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .dropdown-menu {
+                display: none;
+                position: static;
+                background-color: #f9f9f9;
+                box-shadow: none;
+                padding-left: 10px;
+            }
+
+            .dropdown.open .dropdown-menu {}
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+    <div style="height: 120px;"></div>
+    <section class="plans-section">
+        <div class="container">
+            <div class="plans-header">
+                <h1><span class="gradient-text">Subscription</span> Plans</h1>
+                <p style="color: #64748b; font-size: 1.1rem;">Choose the perfect plan for your hiring needs</p>
+            </div>
+
+            <div id="plansContainer" class="plans-grid" data-endpoint="/api/v1/plans/it/">
+                <!-- Plans will be loaded dynamically by plan-loader.js -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                    <p style="margin-top:10px;">Loading subscription plans...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo"><img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img"></div>
+                    <p class="footer-description">Transforming education through innovation.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="it-vendor-register.html">Register</a></li>
+                        <li><a href="it-vendor-dashboard.html">Dashboard</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="js/plan-selection-modal.js"></script>
+    <script src="js/plan-loader.js"></script>
+    <script src="script.js"></script>
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blogs | TechSkillio</title>
+  <meta name="description" content="Read the latest blogs from TechSkillio — insights, guides, and stories across education, careers, and skills.">
+  <link rel="icon" href="favicon.jpg" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+    .page-hero.blog-hero {
+      background-image: linear-gradient(to right bottom, rgba(239,246,255,.6), rgba(255,224,224,.9)), url('public/success-story.png');
+      background-size: cover; background-position: center;
+      padding: 90px 0; position: relative;
+    }
+    .page-hero-content { text-align: center; }
+    .page-hero-title { font-size: 42px; margin: 0 0 10px; font-weight: 700; }
+    .page-hero-subtitle { font-size: 18px; color: #334155; max-width: 780px; margin: 0 auto; }
+    .gradient-text { background: linear-gradient(90deg, #8b5cf6, #f43f5e); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    .breadcrumb-wrap { margin-top: 16px; }
+    .breadcrumb { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 14px; color: #6b7280; padding: 0; list-style: none; }
+    .breadcrumb a { color: #111827; text-decoration: none; }
+    .breadcrumb li::after { content: '›'; margin-left: 10px; color: #9ca3af; }
+    .breadcrumb li:last-child::after { content: ''; }
+
+    .blogs-section { padding: 60px 0; }
+    .section-header { text-align: center; margin-bottom: 28px; }
+    .section-title { font-size: 28px; margin: 0 0 8px; font-weight: 700; }
+    .section-subtitle { color: #475569; margin: 0 auto; max-width: 760px; }
+
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 991px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 576px) { .blog-grid { grid-template-columns: 1fr; } }
+
+    .blog-card {
+      background: #ffffff; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      display: flex; flex-direction: column;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .blog-card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(0,0,0,0.10); }
+    .blog-thumb { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; }
+    .blog-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .blog-meta { font-size: 13px; color: #64748b; }
+    .blog-title { font-size: 18px; line-height: 1.35; font-weight: 700; margin: 0; }
+    .blog-title a { text-decoration: none; color: #111827; }
+    .blog-excerpt { color: #475569; font-size: 15px; line-height: 1.6; margin: 0; }
+    .blog-actions { margin-top: 14px; }
+    .blog-readmore {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 14px; border-radius: 10px;
+      background: #111827; color: #fff; text-decoration: none; font-weight: 500;
+    }
+    .blog-readmore:hover { opacity: .92; }
+
+    .pagination { margin-top: 28px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .pagination a, .pagination span {
+      padding: 10px 14px; border-radius: 10px; text-decoration: none; font-weight: 500;
+      border: 1px solid #e5e7eb; color: #111827; background: #fff;
+    }
+    .pagination .current { background: #111827; color: #fff; border-color: #111827; }
+    .pagination a:hover { background: #f9fafb; }
+
+    /* Optional CTA buttons look */
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding:12px 16px; border-radius:10px; text-decoration:none; font-weight:600; }
+    .btn-primary{ background:#111827; color:#fff; }
+    .btn-secondary{ background:#f3f4f6; color:#111827; }
+    .btn-large{ padding:14px 18px; }
+  </style>
+</head>
+<body>
+  <!-- HEADER PLACEHOLDER -->
+  <div id="header-placeholder"></div>
+
+  <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+  <div style="height: 120px;"></div>
+
+
+  <!-- STICKY HEADER WRAPPER -->
+
+
+<!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+
+
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Road2Edu",
+  "image": "https://www.road2edu.com/logo.png",
+  "priceRange": "₹₹",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "6-3-354/5, Mothi Nagar, Dwarakapuri, Punjagutta",
+    "addressLocality": "Hyderabad",
+    "addressRegion": "Telangana",
+    "postalCode": "500082",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "17.4239",
+    "longitude": "78.4738"
+  },
+  "telephone": "+91-91603-54567",
+  "email": "info@road2edu.com",
+  "url": "https://www.road2edu.com",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "09:00",
+      "closes": "18:00"
+    }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "200"
+  }
+}
+</script>
+  <!-- Hero -->
+  <section class="page-hero blog-hero">
+    <div class="container">
+      <div class="page-hero-content">
+        <h1 class="page-hero-title">
+          Latest <span class="gradient-text">Blogs</span>
+        </h1>
+        <p class="page-hero-subtitle">
+          Insights, guides, and stories from the TechSkillio team — education, careers, skills, and more.
+        </p>
+
+        <div class="breadcrumb-wrap">
+          <ul class="breadcrumb">
+            <li><a href="index.html">Home</a></li>
+            <li>Blogs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blogs Grid -->
+  <section class="blogs-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Explore Our <span class="gradient-text">Updates</span></h2>
+        <p class="section-subtitle">Handpicked articles to help you learn faster, plan smarter, and grow your career.</p>
+      </div>
+
+              <div class="blog-grid">
+                      <article class="blog-card">
+              <a href="the-shifting-job-market-digital-skills-as-baseline.html">
+                <img
+                  class="blog-thumb"
+                  src="progpt/uploads/blogs/The&#32;shifting&#32;Job&#32;Market&#32;(3).png"
+                  alt="The Shifting Job Market: Why Digital Skills Are the New Career Baseline"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <div class="blog-body">
+                                  <div class="blog-meta">Oct 16, 2025</div>
+                                <h3 class="blog-title"><a href="the-shifting-job-market-digital-skills-as-baseline.html">The Shifting Job Market: Why Digital Skills Are the New Career Baseline</a></h3>
+                                  <p class="blog-excerpt">The shifting job market: digital skills as baselineIn today’s fast-changing world, knowing how to code or analyze data is no longer optional — it’s becoming a…</p>
+                                <div class="blog-actions">
+                  <a class="blog-readmore" href="the-shifting-job-market-digital-skills-as-baseline.html" aria-label="Read more about The Shifting Job Market: Why Digital Skills Are the New Career Baseline">Read More ▸</a>
+                </div>
+              </div>
+            </article>
+                  </div>
+
+        <!-- Pagination -->
+                  <nav class="pagination" aria-label="Pagination">
+                          <a href="blogs.php@page=1.html">Previous</a>
+                        <span class="current">Page 2 of 2</span>
+                      </nav>
+        
+          </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content" style="text-align:center; padding: 40px 0;">
+        <h2 class="cta-title">Want to <span class="gradient-text">Learn More</span>?</h2>
+        <p class="cta-subtitle">Talk to our team or explore programs tailored to your goals.</p>
+        <div class="cta-buttons" style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="contact-us.html" class="btn btn-primary btn-large"><span>Contact Us</span></a>
+          <a href="contact-us.html" class="btn btn-secondary btn-large"><span>Explore Programs</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+   <!--  Footer -->
+   <style>
+    .footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-section {
+  flex: 1 1 18%; /* Ensures roughly 5 items per row */
+  min-width: 200px;
+}
+
+   </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img">
+                </div>
+                <p class="footer-description">
+                    Transforming education through
+                    innovation, career-focused training, 
+                    and global opportunities that shape tomorrow's leaders.
+                </p>
+                <h4>Connect With Us</h4>
+   <div class="social-links">
+    <a href="https://www.facebook.com/techskillioUpskillingTraining" class="social-link" aria-label="Facebook" target="_blank">
+        <span class="social-icon" style="color: #1877f2;"><i class="fab fa-facebook-f"></i></span>
+    </a>
+    <a href="https://www.instagram.com/techskillio/" class="social-link" aria-label="Instagram" target="_blank">
+        <span class="social-icon" style="color: #e4405f;"><i class="fab fa-instagram"></i></span>
+    </a>
+    <a href="https://www.linkedin.com/company/techskillio/" class="social-link" aria-label="LinkedIn" target="_blank">
+        <span class="social-icon" style="color: #0077b5;"><i class="fab fa-linkedin-in"></i></span>
+    </a>
+    <a href="https://x.com/TechSkillio" class="social-link" aria-label="X (Twitter)" target="_blank">
+    <span class="social-icon" style="color: black; font-weight: bold; font-size: 20px;">X</span>
+</a>
+
+    <a href="https://t.me/TechSkillio" class="social-link" aria-label="Telegram" target="_blank">
+        <span class="social-icon" style="color: #0088cc;"><i class="fab fa-telegram-plane"></i></span>
+    </a>
+</div>
+
+            </div>
+
+            <div class="footer-section">
+                <h4>Our Services</h4>
+                <ul>
+                    <li><a href="career-hub.html">IT Staffing</a></li>
+                    <li><a href="upskill.html">Corporate Training</a></li>
+                    <li><a href="upskill.html">E-Learning Support</a></li>
+                    <li><a href="career-guidance.html">Career Pulse</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Learning Solutions</h4>
+                <ul>
+                    <li><a href="k12-learning.html">K12 Universe</a></li>
+                    <li><a href="upskill.html">Up Skill</a></li>
+                    <li><a href="teacher-training.html">Teacher Trainings</a></li>
+                    <li><a href="contact-us.html">Pre-Training Process</a></li>
+                    <li><a href="contact-us.html">Consultation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Global Services</h4>
+                <ul>
+                 
+                    <li><a href="https://iflyabroad.com/" target="_blank">IFly Abroad</a></li>
+                    <li><a href="https://settleineurope.eu/" target="_blank">Settle in Europe</a></li>
+                       <li><a href="contact-us.html">Immigration</a></li>
+                    <li><a href="contact-us.html">Visa Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <div class="footer-contact">
+                    <p><strong>📍 Address:</strong><br>Chandra Mouleswara Chambers, 3rd Floor,SR Nagar Circle, Hyderabad, TG, India-500038</p>
+                    <p><strong>📞 Phone:</strong><a href="tel:9100626283"> +91-9100626283</a> </p>
+                    <p><strong>✉️ Email:</strong><a href="mailto:Info@techskillio.com"> Info@techskillio.com</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 TechSkillio. All rights reserved. | Designed & Developed With 
+                    <span>&#x2764;</span> 
+                    <a href="https://webbingprotechnologies.com/" style="color:#FBAE18;" target="_blank">Webbing Pro Technologies -</a><a href="tel: +91 9059329297" style="color:#FBAE18;">9059329297</a>
+                 </p>
+        </div>
+    </div>
+</footer>
+      <!-- WhatsApp Float -->
+    <div class="whatsapp-float">
+       <a href="https://wa.me/+919100626283" target="_blank" aria-label="Contact us on WhatsApp">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-icon-img">
+        <div class="whatsapp-pulse"></div>
+    </a>
+    </div>
+
+    
+  <!-- Optional: your theme’s scripts -->
+  <script src="script.js"></script>
+  <script src="js/api-config.js"></script>
+  <script src="load-header.js"></script>
+</body>
+</html>

@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upskill - TechSkillio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+     <link rel="icon" href="favicon.jpg" type="image/png">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#8BC34A',
+                        secondary: '#4CAF50',
+                        accent: '#FF6B35',
+                        dark: '#2C3E50',
+                        light: '#ECF0F1'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+       .card-hover {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.card-hover:hover {
+  transform: scale(1.05) rotateX(2deg) rotateY(2deg);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 0 10px rgba(34, 197, 94, 0.3); /* green glow */
+  z-index: 2;
+}
+
+/* Animate center card on page load */
+.card-animate {
+  animation: zoomGlow 1.2s ease-out 0.3s 1 both;
+}
+
+@keyframes zoomGlow {
+  0% {
+    transform: scale(1) rotateX(0) rotateY(0);
+    box-shadow: none;
+  }
+  50% {
+    transform: scale(1.05) rotateX(2deg) rotateY(2deg);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 0 10px rgba(34, 197, 94, 0.2);
+  }
+  100% {
+    transform: scale(1) rotateX(0) rotateY(0);
+    box-shadow: none;
+  }
+}
+     .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        .floating-icon:nth-child(2) { animation-delay: -1s; }
+        .floating-icon:nth-child(3) { animation-delay: -2s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    
+        .hot-job-wrapper {
+  width: 100%;
+  overflow: hidden;
+  background-color: #1f3a6e;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.hot-job-scroll {
+  display: flex;
+  white-space: nowrap;
+  animation: scrollLoop 50s linear infinite;
+}
+
+.hot-job-wrapper:hover .hot-job-scroll {
+  animation-play-state: paused;
+}
+
+.hot-job-track {
+  display: inline-block;
+}
+
+.blink {
+  color: #ff0;
+  animation: blinker 1s linear infinite;
+  font-weight: bold;
+}
+
+@keyframes scrollLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
+
+@media (max-width: 768px) {
+  .nav-menu {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 2rem;
+    transition: left 0.3s ease;
+    z-index: 9999;
+    overflow-y: auto;
+  }
+
+  .nav-menu.active {
+    left: 0;
+    margin-top: -18px;
+  }
+}
+
+        /* Dropdown container */
+
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        .floating-icon:nth-child(2) { animation-delay: -1s; }
+        .floating-icon:nth-child(3) { animation-delay: -2s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    
+        .hot-job-wrapper {
+  width: 100%;
+  overflow: hidden;
+  background-color: #1f3a6e;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+}
+
+
+.hot-job-track {
+  display: inline-block;
+}
+
+.blink {
+  color: #ff0;
+  animation: blinker 1s linear infinite;
+  font-weight: bold;
+}
+/* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown toggle */
+.dropdown-toggle {
+    cursor: pointer;
+    display: inline-block;
+    padding: 0px 0px;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+    border-radius: 5px;
+}
+
+/* Dropdown items */
+.dropdown-item {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+    white-space: nowrap;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+ .container-lvm {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .card {
+     background: linear-gradient(to bottom right, #86C540, #2d5007);
+      color: white;
+      border-radius: 16px;
+      padding: 2rem;
+      flex: 1 1 300px;
+     
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      font-size:20px;
+      line-height: 1.4;
+      opacity: 0.95;
+    }
+
+    
+
+    .heading {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 1.8rem;
+    }
+
+    .highlight {
+      color: #e91e63;
+    }
+   .courses-section {
+      text-align: center;
+    }
+
+    .courses-section h2 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .courses-section h2 span {
+      color: #ff3e85;
+    }
+
+    .courses-section p {
+      font-size: 16px;
+      margin-bottom: 30px;
+      color: #555;
+    }
+
+    .courses-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .course-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .course-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .course-info {
+      padding: 20px;
+      text-align: left;
+    }
+
+    .course-info h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      color: #ff3e85;
+      font-weight: 600;
+      float: right;
+    }
+
+    .details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .details i {
+      margin-right: 5px;
+    }
+
+    .buy-btn {
+      background-color: transparent;
+      color: #5a32ea;
+      font-weight: 600;
+      padding: 12px;
+      text-align: center;
+      border-top: 1px solid #eee;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .buy-btn:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .courses-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .course-card {
+        width: 100%;
+        max-width: 350px;
+      }
+    }
+    @media (max-width: 768px) {
+      .container-lvm {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .card {
+         width: 90%;
+        min-height: 684px;
+        max-height: 684px;
+        overflow: hidden;
+      }
+    }
+/* Default desktop behavior (hover) */
+@media (min-width: 768px) {
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+}
+
+/* Mobile: hide dropdown by default */
+@media (max-width: 767px) {
+    .dropdown-menu {
+        display: none;
+        position: static;
+        background-color: #f9f9f9;
+        box-shadow: none;
+        padding-left: 10px;
+    }
+
+    .dropdown.open .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-toggle::after {
+        content: ' ▼';
+        font-size: 0.6rem;
+    }
+}
+
+@keyframes scrollLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
+
+@media (max-width: 768px) {
+  .nav-menu {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 2rem;
+    transition: left 0.3s ease;
+    z-index: 9999;
+    overflow-y: auto;
+  }
+
+  .nav-menu.active {
+    left: 0;
+    margin-top: -18px;
+  }
+}
+
+.mt-2
+{
+    margin-top:0px !important;
+}
+/* Popup Styles */
+        .popup-over {
+            display: none;
+            position: fixed;
+            z-index: 10001;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            overflow: auto;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .popup-form {
+            background: #fff;
+            width: 90%;
+            max-width: 500px;
+            margin: 5% auto;
+            margin-top: 140px;
+            padding: 25px 20px;
+            border-radius: 10px;
+            position: relative;
+            animation: slideDown 0.3s ease-in-out;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .close-btn:hover {
+            color: #000;
+        }
+
+        .popup-form h3 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,0.3);
+        }
+
+        .hot-job-wrapper {
+  width: 100%;
+  overflow: hidden;
+  background-color: #1f3a6e;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+}
+.desktop-only {
+    display:none;
+}
+.hot-job-scroll {
+  display: flex;
+  white-space: nowrap;
+  animation: scrollLoop 30s linear infinite;
+}
+
+.hot-job-wrapper:hover .hot-job-scroll {
+  animation-play-state: paused;
+}
+
+.hot-job-track {
+  display: inline-block;
+}
+
+.blink {
+  color: #ff0;
+  animation: blinker 1s linear infinite;
+  font-weight: bold;
+}
+.card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 30px;
+}
+
+.card {
+
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  margin: 15px 0 10px;
+  color: #333;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #555;
+  padding: 0 15px;
+}
+
+/* Hover Effect */
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+     .card {
+        max-width: 100%;
+        flex: 1 1 100%;
+        color: black;
+        min-height: 450px;
+        max-height: 450px;
+        overflow: hidden;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .image-box {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+@keyframes scrollLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
+    </style>
+</head>
+<body class="font-inter bg-gray-50" >
+  <!-- HEADER PLACEHOLDER -->
+  <div id="header-placeholder"></div>
+
+  <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+  <div style="height: 120px;"></div>
+
+
+    
+<nav class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+   <div class="hot-job-wrapper">
+    <a href="javascript:void(0);" class="btn-custom" onclick="openApplyPopup()">
+  <div class="hot-job-scroll">
+    <div class="hot-job-track">
+      <span class="blink">🔥 HOT JOB POST:</span>
+      🟢 AI Engineer (Python, On-Premise) – 4-6 Yrs – Immediate Hiring &nbsp;&nbsp;|&nbsp;&nbsp;
+      🟠 Pega CDH - II – 10-12 Yrs – Immediate Joining &nbsp;&nbsp;|&nbsp;&nbsp;
+      🔵 Pega CDG - I – 8-10 Yrs – Apply Now &nbsp;&nbsp;|&nbsp;&nbsp;
+      🟢 Data Engineering Architect [AWS] – 8-9 Yrs – Contract/Permanent &nbsp;&nbsp;|&nbsp;&nbsp;
+      🟠 AWS Data Engineer – 4-6 Yrs – Join Now &nbsp;&nbsp;|&nbsp;&nbsp;
+      🔵 SAP Solution Architect – 10-15 Yrs – Urgent Opening &nbsp;&nbsp;|&nbsp;&nbsp;
+      🟢 Salesforce FSL Developer – 7-10 Yrs – Immediate Need &nbsp;&nbsp;|&nbsp;&nbsp;
+      🟠 Salesforce QA – 6-8 Yrs – Apply Today &nbsp;&nbsp;|&nbsp;&nbsp;
+      🔵 Java Developer – 8-10 Yrs – Hiring Fast &nbsp;&nbsp;|&nbsp;&nbsp;
+      🟢 Sr. ServiceNow Developer – 5-9 Yrs – Urgent Requirement &nbsp;&nbsp;|&nbsp;&nbsp;
+      🟠 ServiceNow Developer ITSM – 5-8 Yrs – Immediate Role &nbsp;&nbsp;|&nbsp;&nbsp;
+      🔵 ServiceNow Sr. Developer – 4-9 Yrs – Apply Now &nbsp;&nbsp;|&nbsp;&nbsp;
+      🟢 Data Operations Engineer – 5-9 Yrs – Immediate Hiring &nbsp;&nbsp;|&nbsp;&nbsp;
+    </div>
+  </div>
+  </a>
+</div>
+  <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+    
+    <!-- Logo -->
+    <a href="index.html" class="flex items-center">
+      <img src="tech.png" alt="TechSkillio Logo" class="h-10">
+    </a>
+
+    <!-- TOGGLE BUTTON (Mobile only) -->
+    <div id="nav-toggle" class="md:hidden cursor-pointer">
+      <span class="block w-6 h-0.5 bg-black my-1"></span>
+      <span class="block w-6 h-0.5 bg-black my-1"></span>
+      <span class="block w-6 h-0.5 bg-black my-1"></span>
+    </div>
+
+    <!-- NAVIGATION MENU -->
+    <div id="nav-menu" class="nav-menu md:flex hidden md:flex-row md:space-x-6 absolute md:static bg-white w-full md:w-auto p-4 md:p-0 z-50">
+  <a href="index.html" class="text-gray-800 hover:text-blue-600">Home</a>
+ <div class="relative group">
+  <div class="cursor-pointer flex items-center gap-1 group-hover:text-primary">
+    Academics <span class="text-sm">⏷</span>
+  </div>
+  <div class="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md z-50 
+              opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200 ease-in-out">
+    <a href="k12-learning.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 font-medium"> K12 Universe</a>
+    <a href="upskill.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 font-medium"> Up Skill</a>
+    <a href="teacher-training.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 font-medium"> Teacher Trainings</a>
+  </div>
+</div>
+ <div class="relative group">
+  <div class="cursor-pointer flex items-center gap-1 group-hover:text-primary">
+   Impact <span class="text-sm">⏷</span>
+  </div>
+  <div class="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md z-50 
+              opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200 ease-in-out">
+    <a href="career-hub.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 font-medium"> Job Roles</a>
+    <a href="it-services.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 font-medium"> IT Services</a>
+    
+  </div>
+</div>
+ <!-- <a href="career-hub.php" class="text-gray-800 hover:text-blue-600">Career Gateway</a> -->
+ <div class="relative group">
+  <div class="cursor-pointer flex items-center gap-1 group-hover:text-primary">
+     Fly Ed Services  <span class="text-sm">⏷</span>
+  </div>
+  <div class="absolute left-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md z-50 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition duration-200 ease-in-out">
+    <a href="https://iflyabroad.com/" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 font-medium"> Ifly Abroad</a>
+    <a href="https://settleineurope.eu/" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 font-medium"> Settle in Europe</a>
+   
+  </div>
+</div>
+ 
+  <a href="about-us.html" class="text-gray-800 hover:text-blue-600">Our Story</a>
+  <a href="contact-us.html" class="text-gray-800 hover:text-blue-600">Connect</a>
+</div>
+
+
+  </div>
+</nav>
+<!-- HOT JOB POST TICKER -->
+
+<div id="applyPopup" class="popup-over">
+        <div class="popup-form">
+            <span class="close-btn" onclick="closeApplyPopup()">&times;</span>
+            <h3>Job Application Form</h3>
+            <form id="jobForm" action="https://techskillio.com/submit_form1.php" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}">
+                </div>
+                <div class="form-group">
+                    <label for="resume">Upload Resume (PDF/DOC) *</label>
+                    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+   <section class="pt-24 pb-16 relative z-10 bg-cover bg-center" style="margin-top: 108px; background-image: linear-gradient(to right bottom, rgba(239, 246, 255, 0.5), rgb(255 224 224 / 90%)), url(public/upskill-ban.png);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+        
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">  Upskilling Programs </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+           
+             From core fundamentals to cutting-edge expertise — gain the skills, guidance, and confidence to thrive in today’s tech-driven world.
+            </p>
+            <br>
+             
+        </div>
+    </div>
+</section>
+
+
+    <!-- Teacher Training Programs -->
+    <section class="py-20 bg-white relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Overview of Learning Tracks</h2>
+               
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                
+
+                <div class="card-hover bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-2xl border border-blue-200">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-6" style="margin:auto;">
+                        <i class="fas fa-layer-group text-white text-2xl"></i>
+                    </div>
+                    <br>
+                    <h3 class="text-xl text-center font-bold text-gray-900 mb-4">Beginner</h3>
+<p class="text-gray-600 mb-4">Get started with foundational courses in tech and business skills.</p>
+<ul class="space-y-2 text-sm text-gray-700 mb-6">
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Foundations in Data Science</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Digital Marketing Essentials</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Introduction to Cloud Computing</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Programming Foundations in Python</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Data Analytics Basics</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Cybersecurity Fundamentals</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Web Design</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Full Stack Developer</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Data Science Certification</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Digital Transformation & Innovation</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>MBA with AI Specialization</li>
+</ul>
+
+                     <div class="flex justify-center">
+                    <a href="contact-us.html" class="inline-flex items-center bg-blue-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-600 transition-colors"  style="margin:auto;">
+                        Enroll Now <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                     </div>
+                </div>
+
+               <div class="card-hover card-animate bg-gradient-to-br from-green-50 to-emerald-100 p-8 rounded-2xl border border-green-200">
+
+                    <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-6" style="margin:auto;">
+                        <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                    </div>
+                       <br>
+                    <h3 class="text-xl text-center font-bold text-gray-900 mb-4">Intermediate</h3>
+<p class="text-gray-600 mb-4">Enhance your skills with industry-relevant tools and technologies.</p>
+<ul class="space-y-2 text-sm text-gray-700 mb-6">
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Intermediate Python Programming</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>AI for Business</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Product Management Essentials</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Data Science with R</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Full-Stack Web Development</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Applied Machine Learning</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Business Analytics with Python</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Business Intelligence & Data Visualization</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Cloud Solutions Architect</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Advanced Project Management</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Executive Diploma in Tech Management</li>
+</ul>
+
+                  <div class="flex justify-center">
+  <a href="contact-us.html" class="inline-flex items-center bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors">
+    Enroll Now <i class="fas fa-arrow-right ml-2"></i>
+  </a>
+</div>
+
+                </div>
+                <div class="card-hover bg-gradient-to-br from-purple-50 to-violet-100 p-8 rounded-2xl border border-purple-200">
+                    <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mb-6" style="margin:auto;">
+                        <i class="fas fa-award text-white text-2xl"></i>
+                    </div>
+                       <br>
+                   <h3 class="text-xl text-center font-bold text-gray-900 mb-4">Advanced</h3>
+<p class="text-gray-600 mb-4">Master cutting-edge technologies and pursue advanced research tracks.</p>
+<ul class="space-y-2 text-sm text-gray-700 mb-6">
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Advanced Deep Learning</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Computer Vision Applications</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>AI Ethics and Society</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Advanced Machine Learning</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Generative AI & Creative Technology</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Reinforcement Learning</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Neural Networks Specialization</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Data Science Master's Track</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Applied Deep Learning</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>PhD in AI and Machine Learning</li>
+    <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Advanced DBA in Emerging Technologies</li>
+</ul>
+
+                     <div class="flex justify-center">
+                    <a href="contact-us.html" class="inline-flex items-center bg-purple-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-purple-600 transition-colors">
+                        Enroll Now <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                </div>
+                
+            </div>
+ 
+            
+        </div>
+    </section>
+
+
+<section class="training-section">
+  <div class="container">
+    <h2 class="title">Upskill Courses for Students & Working Professionals</h2>
+  <br>
+
+
+    <!-- Tabs for desktop -->
+    <div class="tab-buttons desktop-only">
+      <button class="tab-btn active" data-target="tab1">3 Months</button>
+      <button class="tab-btn" data-target="tab2">6 Months</button>
+         <button class="tab-btn" data-target="tab3">9 Months</button>
+          <button class="tab-btn" data-target="tab4">12 Months</button>
+             <button class="tab-btn" data-target="tab5">24 Months</button>
+               
+    </div>
+
+    <!-- Tab Contents (shared for desktop & mobile) -->
+    <div class="tab-content-wrapper">
+      <div id="tab1" class="tab-content active">
+        
+       <div class="card-row nz">
+  <div class="card">
+    <img src="public/python-developer.png" alt="Image 1">
+    <h3>Python</h3>
+    <p>Crack the Code: Comprehensive Python for Beginners
+</p>
+<ul>
+      <li>➡️ Strong foundation in Python.</li>
+      <li>➡️ Enable intermediate programming tasks.</li>
+      <li>➡️ Prepare for more advanced courses.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <img src="public/gen-ai.png" alt="Image 2">
+    <h3>Generative Ai</h3>
+    <p>This is a short description for the second card. It’s fully responsive and cleanly designed.</p>
+     <ul>
+      <li>➡️ Master AI fundamentals.</li>
+      <li>➡️ Develop an AI adoption roadmap.</li>
+      <li>➡️ Enhance leadership & decision-making.</li>
+    </ul>
+  </div>
+  
+ 
+</div>
+
+
+      
+      </div>
+      <div id="tab2" class="tab-content">
+         <div class="card-row nz">
+  <div class="card">
+    <img src="public/devops.png" alt="Image 1">
+    <h3>Cloud Computing and Devops</h3>
+    
+<ul>
+      <li>➡️ Master Cloud Computing Concepts.</li>
+      <li>➡️ Implement Cloud Security & Compliance.</li>
+      <li>➡️ Monitor & Optimize Performance</li>
+    </ul>
+  </div>
+  <div class="card">
+    <img src="public/data-analytics.png" alt="Image 2">
+    <h3>Data Analystics</h3>
+   
+     <ul>
+      <li>➡️ Master Advanced Analytics.</li>
+      <li>➡️ Proficiency in data visualization tools.</li>
+      <li>➡️ Apply predictive models.</li>
+    </ul>
+  </div>
+  
+</div>
+      </div>
+       <div id="tab3" class="tab-content">
+        <div class="card-row nz">
+  <div class="card">
+    <img src="public/cyber.png" alt="Image 1">
+    <h3>Cybersecurity</h3>
+ 
+<ul>
+      <li>➡️ Skills to detect, prevent.</li>
+      <li>➡️ Security and ensure data protection.</li>
+      <li>➡️ CISSP, CEH, and CompTIA Security+.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <img src="public/analytics.png" alt="Image 2">
+    <h3>Data Science and Business</h3>
+   
+     <ul>
+      <li>➡️ Data Analysis Proficiency.</li>
+      <li>➡️ Business Insight Application.</li>
+      <li>➡️ Tool Competency</li>
+    </ul>
+  </div>
+ 
+</div>
+      </div>
+       <div id="tab4" class="tab-content">
+         <div class="card-row nz">
+  <div class="card">
+    <img src="public/analt.png" alt="Image 1">
+    <h3>Cloud Solution Architect</h3>
+   
+<ul>
+      <li>➡️ Design and deploy high-availability.</li>
+      <li>➡️ Prepared for industry certifications.</li>
+      <li>➡️ expertise in cloud native solutions.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <img src="public/fullstack.png" alt="Image 2">
+    <h3>Full Stack Development</h3>
+   
+     <ul>
+      <li>➡️ Master modern Full Stack Development.</li>
+      <li>➡️ Build complete web applications.</li>
+      <li>➡️ Project management methodologies.</li>
+    </ul>
+  </div>
+ 
+</div>
+      </div>
+       <div id="tab5" class="tab-content">
+         <div class="card-row nz">
+  <div class="card">
+    <img src="public/python-developer.png" alt="Image 1">
+    <h3>Business management</h3>
+   
+<ul>
+      <li>➡️ Strategic Leadership in Tech Businesses.</li>
+      <li>➡️ Expertise in Business Integration.</li>
+      <li>➡️ Enhanced Problem-Solving Skills.</li>
+    </ul>
+  </div>
+   
+  <div class="card">
+    <img src="public/python-developer.png" alt="Image 1">
+    <h3>Business management</h3>
+   
+<ul>
+      <li>➡️ Strategic Leadership in Tech Businesses.</li>
+      <li>➡️ Expertise in Business Integration.</li>
+      <li>➡️ Enhanced Problem-Solving Skills.</li>
+    </ul>
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- Accordions for mobile -->
+    <div class="accordion mobile-only">
+      <div class="accordion-item active">
+        <div class="accordion-header" data-target="tab1">3 Months <span class="arrow">▼</span></div>
+        <div class="accordion-body" id="tab1">
+          <div class="card-row">
+  <div class="card">
+    <img src="public/python-developer.png" alt="Image 1">
+    <h3>Python</h3>
+   
+<ul style="text-align: left;">
+      <li>➡️ Strong foundation in Python.</li>
+      <li>➡️ Enable intermediate programming tasks.</li>
+      <li>➡️ Prepare for more advanced courses.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <img src="public/gen-ai.png" alt="Image 2">
+    <h3>Generative Ai</h3>
+    
+     <ul style="text-align: left;">
+      <li>➡️ Master AI fundamentals.</li>
+      <li>➡️ Develop an AI adoption roadmap.</li>
+      <li>➡️ Enhance leadership & decision-making.</li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" data-target="tab2">6 Months <span class="arrow">▼</span></div>
+        <div class="accordion-body" id="tab2">
+         <div class="card-row">
+  <div class="card">
+    <img src="public/devops.png" alt="Image 1">
+    <h3>Cloud Computing and Devops</h3>
+    
+<ul style="text-align: left;">
+      <li>➡️ Master Cloud Computing Concepts.</li>
+      <li>➡️ Implement Cloud Security & Compliance.</li>
+      <li>➡️ Monitor & Optimize Performance</li>
+    </ul>
+  </div>
+  <div class="card">
+    <img src="public/data-analytics.png" alt="Image 2">
+    <h3>Data Analystics</h3>
+   
+     <ul style="text-align: left;">
+      <li>➡️ Master Advanced Analytics.</li>
+      <li>➡️ Proficiency in data visualization tools.</li>
+      <li>➡️ Apply predictive models.</li>
+    </ul>
+  </div>
+  
+</div>
+        </div>
+      </div>
+
+       <div class="accordion-item">
+        <div class="accordion-header" data-target="tab3">9 Months <span class="arrow">▼</span></div>
+        <div class="accordion-body" id="tab3">
+          <div class="card-row">
+  <div class="card">
+    <img src="public/cyber.png" alt="Image 1">
+    <h3>Cybersecurity</h3>
+ 
+<ul style="text-align: left;">
+      <li>➡️ Skills to detect, prevent.</li>
+      <li>➡️ Security and ensure data protection.</li>
+      <li>➡️ CISSP, CEH, and CompTIA Security+.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <img src="public/analytics.png" alt="Image 2">
+    <h3>Data Science and Business</h3>
+   
+     <ul style="text-align: left;">
+      <li>➡️ Data Analysis Proficiency.</li>
+      <li>➡️ Business Insight Application.</li>
+      <li>➡️ Tool Competency</li>
+    </ul>
+  </div>
+ 
+</div>
+        </div>
+      </div>
+
+       <div class="accordion-item">
+        <div class="accordion-header" data-target="tab4"> 12 Months <span class="arrow">▼</span></div>
+        <div class="accordion-body" id="tab4">
+                  <div class="card-row">
+  <div class="card">
+    <img src="public/analt.png" alt="Image 1">
+    <h3>Cloud Solution Architect</h3>
+   
+<ul style="text-align: left;">
+      <li>➡️ Design and deploy high-availability.</li>
+      <li>➡️ Prepared for industry certifications.</li>
+      <li>➡️ expertise in cloud native solutions.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <img src="public/fullstack.png" alt="Image 2">
+    <h3>Full Stack Development</h3>
+   
+     <ul style="text-align: left;">
+      <li>➡️ Master modern Full Stack Development.</li>
+      <li>➡️ Build complete web applications.</li>
+      <li>➡️ Project management methodologies.</li>
+    </ul>
+  </div>
+ 
+</div>
+        </div>
+      </div>
+
+       <div class="accordion-item">
+        <div class="accordion-header" data-target="tab5">24 Months <span class="arrow">▼</span></div>
+        <div class="accordion-body" id="tab5">
+              <div class="card-row">
+  <div class="card">
+    <img src="public/python-developer.png" alt="Image 1">
+    <h3>Business management</h3>
+   
+<ul style="text-align: left;">
+      <li>➡️ Strategic Leadership in Tech Businesses.</li>
+      <li>➡️ Expertise in Business Integration.</li>
+      <li>➡️ Enhanced Problem-Solving Skills.</li>
+    </ul>
+  </div>
+   
+  <div class="card">
+    <img src="public/python-developer.png" alt="Image 1">
+    <h3>Business management</h3>
+   
+<ul>
+      <li>➡️ Strategic Leadership in Tech Businesses.</li>
+      <li>➡️ Expertise in Business Integration.</li>
+      <li>➡️ Enhanced Problem-Solving Skills.</li>
+    </ul>
+
+</div>
+        </div>
+      </div>
+
+       
+  </div>
+</section>
+
+
+
+
+    <!-- <section class="py-20 bg-white relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            
+            
+        </div>
+    </section> -->
+    <br>
+   <h2 class="title">Why Choose Us?</h2>
+   <br>
+ <section class="features-section">
+   
+     
+    <!-- Left Image and Description -->
+    
+    <div class="left-box">
+      <img src="public/certi.png" alt="Graduation Cap Image" />
+      <div class="bottom-text">
+        <h3>Industry-Relevant Curriculum</h3>
+        <p>Our curriculum is designed in collaboration with industry leaders to ensure alignment with the latest technologies, tools, and methodologies. Each program equips you with practical, in-demand skills that make you job-ready and give you a competitive advantage in the job market.
+
+ </p>
+      </div>
+    </div>
+
+    <!-- Right Feature Boxes -->
+    <div class="right-box">
+      <div class="feature-item">
+        <img src="public/mentors.png" alt="Expert Mentorship" />
+        <div>
+          <h4>Expert Mentorship</h4>
+          <p>Receive personalized guidance from seasoned industry professionals who offer tailored feedback and real-world insights to help you succeed.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <img src="public/pay.png" alt="Flexible Payment Plans" />
+        <div>
+          <h4>Flexible Payment Plans</h4>
+          <p>Access quality education without financial stress through no-cost EMI options, scholarships, and available financial assistance.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <img src="public/livepro.png" alt="Real-World Projects" />
+        <div>
+          <h4>Real-World Projects</h4>
+          <p>Apply your learning by working on live projects, capstone assignments, and case studies that help you build a compelling portfolio.</p>
+        </div>
+      </div>
+</div>
+    </div>
+  </section>
+    <!-- Testimonials -->
+  <section class="py-20 bg-gray-50 relative z-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Upskill Your Career – Success Stories</h2>
+      <p class="text-xl text-gray-600">Hear from learners who achieved growth and confidence through our upskill programs</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-white p-8 rounded-2xl shadow-lg">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mr-4">
+            <span class="text-white font-bold">M</span>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900">Manjusha Jadhav</h4>
+            <p class="text-sm text-gray-600">SAP FICO Learner</p>
+          </div>
+        </div>
+        <p class="text-gray-600 mb-4">"Experienced trainers with tips for problem‑solving… very satisfied with the learning experience!"</p>
+        <div class="flex text-yellow-400">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+      </div>
+      <div class="bg-white p-8 rounded-2xl shadow-lg">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
+            <span class="text-white font-bold">S</span>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900">Shruthi Maknapur</h4>
+            <p class="text-sm text-gray-600">SAP FICO Student</p>
+          </div>
+        </div>
+        <p class="text-gray-600 mb-4">"Very good learning experience… Vijay Sir has depth of knowledge and made complex topics clear."</p>
+        <div class="flex text-yellow-400">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+      </div>
+      <div class="bg-white p-8 rounded-2xl shadow-lg">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mr-4">
+            <span class="text-white font-bold">R</span>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900">Rahul S.</h4>
+            <p class="text-sm text-gray-600">Marketing &amp; Advertising Learner</p>
+          </div>
+        </div>
+        <p class="text-gray-600 mb-4">"Love the range of trending courses… allowed me to gain new competencies on my schedule."</p>
+        <div class="flex text-yellow-400">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-primary to-secondary relative z-10">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+      Ready to Upskill and Advance Your Career?
+    </h2>
+    <p class="text-xl text-white/90 mb-8">
+      Join thousands of students and professionals who have transformed their futures through our industry-relevant Upskill Programs.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="contact-us.html" class="inline-flex items-center bg-white text-primary px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg">
+        Get Started <i class="fas fa-rocket ml-2"></i>
+      </a>
+      <a href="about-us.html" class="inline-flex items-center border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-primary transition-colors">
+        Learn More <i class="fas fa-arrow-right ml-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+
+   <!--  Footer -->
+   <style>
+    .footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-section {
+  flex: 1 1 18%; /* Ensures roughly 5 items per row */
+  min-width: 200px;
+}
+
+   </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img">
+                </div>
+                <p class="footer-description">
+                    Transforming education through
+                    innovation, career-focused training, 
+                    and global opportunities that shape tomorrow's leaders.
+                </p>
+                <h4>Connect With Us</h4>
+   <div class="social-links">
+    <a href="https://www.facebook.com/techskillioUpskillingTraining" class="social-link" aria-label="Facebook" target="_blank">
+        <span class="social-icon" style="color: #1877f2;"><i class="fab fa-facebook-f"></i></span>
+    </a>
+    <a href="https://www.instagram.com/techskillio/" class="social-link" aria-label="Instagram" target="_blank">
+        <span class="social-icon" style="color: #e4405f;"><i class="fab fa-instagram"></i></span>
+    </a>
+    <a href="https://www.linkedin.com/company/techskillio/" class="social-link" aria-label="LinkedIn" target="_blank">
+        <span class="social-icon" style="color: #0077b5;"><i class="fab fa-linkedin-in"></i></span>
+    </a>
+    <a href="https://x.com/TechSkillio" class="social-link" aria-label="X (Twitter)" target="_blank">
+    <span class="social-icon" style="color: black; font-weight: bold; font-size: 20px;">X</span>
+</a>
+
+    <a href="https://t.me/TechSkillio" class="social-link" aria-label="Telegram" target="_blank">
+        <span class="social-icon" style="color: #0088cc;"><i class="fab fa-telegram-plane"></i></span>
+    </a>
+</div>
+
+            </div>
+
+            <div class="footer-section">
+                <h4>Our Services</h4>
+                <ul>
+                    <li><a href="career-hub.html">IT Staffing</a></li>
+                    <li><a href="upskill.html">Corporate Training</a></li>
+                    <li><a href="upskill.html">E-Learning Support</a></li>
+                    <li><a href="career-guidance.html">Career Pulse</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Learning Solutions</h4>
+                <ul>
+                    <li><a href="k12-learning.html">K12 Universe</a></li>
+                    <li><a href="upskill.html">Up Skill</a></li>
+                    <li><a href="teacher-training.html">Teacher Trainings</a></li>
+                    <li><a href="contact-us.html">Pre-Training Process</a></li>
+                    <li><a href="contact-us.html">Consultation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Global Services</h4>
+                <ul>
+                 
+                    <li><a href="https://iflyabroad.com/" target="_blank">IFly Abroad</a></li>
+                    <li><a href="https://settleineurope.eu/" target="_blank">Settle in Europe</a></li>
+                       <li><a href="contact-us.html">Immigration</a></li>
+                    <li><a href="contact-us.html">Visa Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <div class="footer-contact">
+                    <p><strong>📍 Address:</strong><br>Chandra Mouleswara Chambers, 3rd Floor,SR Nagar Circle, Hyderabad, TG, India-500038</p>
+                    <p><strong>📞 Phone:</strong><a href="tel:9100626283"> +91-9100626283</a> </p>
+                    <p><strong>✉️ Email:</strong><a href="mailto:Info@techskillio.com"> Info@techskillio.com</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 TechSkillio. All rights reserved. | Designed & Developed With 
+                    <span>&#x2764;</span> 
+                    <a href="https://webbingprotechnologies.com/" style="color:#FBAE18;" target="_blank">Webbing Pro Technologies -</a><a href="tel: +91 9059329297" style="color:#FBAE18;">9059329297</a>
+                 </p>
+        </div>
+    </div>
+</footer>
+      <!-- WhatsApp Float -->
+    <div class="whatsapp-float">
+       <a href="https://wa.me/+919100626283" target="_blank" aria-label="Contact us on WhatsApp">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-icon-img">
+        <div class="whatsapp-pulse"></div>
+    </a>
+    </div>
+
+    
+    <!-- <script src="js/main.js"></script> -->
+    <script src="script.js"></script>
+
+<script>
+  // Desktop Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const target = btn.getAttribute('data-target');
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(target).classList.add('active');
+    });
+  });
+
+  // Mobile Accordion
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.parentElement;
+      const body = item.querySelector('.accordion-body');
+
+      // Close all
+      document.querySelectorAll('.accordion-item').forEach(i => {
+        i.classList.remove('active');
+        i.querySelector('.accordion-body').style.display = 'none';
+      });
+
+      // Open current
+      item.classList.add('active');
+      body.style.display = 'block';
+    });
+  });
+</script>
+
+
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('nav-toggle');
+    const menu = document.getElementById('nav-menu');
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  });
+</script>
+
+
+<style>
+    .training-section {
+  background: #f0f8ff;
+  padding: 40px 20px;
+}
+.title {
+  text-align: center;
+  font-size: 2rem;
+  color: #0d47a1;
+}
+.title span {
+  color: #1976d2;
+}
+.subtitle {
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Desktop Tabs */
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.tab-btn {
+  padding: 10px 20px;
+  border: 2px solid #1976d2;
+  background-color: transparent;
+  color: #1976d2;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.tab-btn.active,
+.tab-btn:hover {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+/* Tab Content */
+.tab-content-wrapper {
+  max-width: 800px;
+  margin: auto;
+}
+.tab-content {
+  display: none;
+  animation: fade 0.4s ease-in-out;
+}
+.tab-content.active {
+  display: block;
+}
+@keyframes fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.tab-content ul {
+  list-style: none;
+  padding: 0;
+}
+.tab-content li {
+  padding: 10px 0;
+  color: #333;
+}
+
+/* Accordion (Mobile Only) */
+.accordion {
+  margin-top: 20px;
+}
+.accordion-header {
+  background-color: #e3f2fd;
+  color: #0d47a1;
+  padding: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  border-bottom: 1px solid #cce;
+}
+.accordion-body {
+  display: none;
+  padding: 10px 15px;
+  background: #fff;
+}
+.accordion-item.active .accordion-body {
+  display: block;
+}
+.accordion-header .arrow {
+  float: right;
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+.accordion-item.active .arrow {
+  transform: rotate(180deg);
+}
+
+.desktop-only {  }
+.mobile-only { display: none; }
+.accordion-item.active .accordion-body {
+    display: block;
+}
+   .features-section {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+      gap: 20px;
+    }
+
+    .left-box {
+      flex: 1 1 50%;
+      min-width: 300px;
+    }
+
+    .left-box img {
+      width: 100%;
+      border-radius: 20px;
+      display: block;
+    }
+
+    .bottom-text {
+      margin-top: 20px;
+    }
+
+    .bottom-text h3 {
+      font-size: 20px;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .bottom-text p {
+      font-size: 16px;
+      color: #6c7a89;
+      line-height: 1.6;
+    }
+
+    .right-box {
+      flex: 1 1 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .feature-item img {
+      width: 80px;
+      height: 80px;
+      border-radius: 15px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .feature-item h4 {
+      margin: 0;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+
+    .feature-item p {
+      margin: 5px 0 0;
+      font-size: 15px;
+      color: #6c7a89;
+    }
+
+    @media (max-width: 768px) {
+      .features-section {
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .left-box, .right-box {
+        flex: 1 1 100%;
+      }
+
+      .feature-item {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .feature-item img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+@media (max-width: 768px) {
+  .desktop-only { display: none; }
+  .mobile-only { display: block; }
+  .nz{
+    display:none;
+  }
+}
+
+</style>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.getElementById('nav-toggle');
+            const menu = document.getElementById('nav-menu');
+            toggle.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        });
+
+        // Popup functionality
+        function openApplyPopup() {
+            document.getElementById("applyPopup").style.display = "block";
+        }
+
+        function closeApplyPopup() {
+            document.getElementById("applyPopup").style.display = "none";
+        }
+
+        // Close popup when clicking outside
+        window.onclick = function(event) {
+            const popup = document.getElementById("applyPopup");
+            if (event.target === popup) {
+                closeApplyPopup();
+            }
+        };
+
+        // Form validation
+        function validateForm() {
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const resume = document.getElementById("resume").value;
+
+            if (!name || !email || !phone || !resume) {
+                alert("Please fill in all required fields.");
+                return false;
+            }
+
+            const phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return false;
+            }
+
+            alert("Application submitted successfully!");
+            closeApplyPopup();
+            document.getElementById("jobForm").reset();
+            return false;
+        }
+
+        // Mobile dropdown toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                
+                toggle.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 767) {
+                        e.preventDefault();
+                        dropdown.classList.toggle('open');
+                    }
+                });
+            });
+        });
+    </script>
+  <script src="js/api-config.js"></script>
+  <script src="load-header.js"></script>
+</body>
+</html>

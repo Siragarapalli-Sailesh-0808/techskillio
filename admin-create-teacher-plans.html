@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Plans - TechSkillio Admin</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-shared.css">
+    <link rel="stylesheet" href="css/admin-responsive.css">
+    <style>
+        /* ── Action Bar ──────────────────────────────────── */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .action-bar .page-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-bar .page-title .count-badge {
+            background: #86c540;
+            color: #fff;
+            padding: 0.15rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .btn-add-plan {
+            padding: 0.6rem 1.25rem;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-add-plan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(134, 197, 64, 0.3);
+        }
+
+        /* ── Filter Bar ──────────────────────────────────── */
+        .filter-bar {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .filter-bar .search-box {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .filter-bar .search-box i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .filter-bar .search-box input {
+            width: 100%;
+            padding: 0.55rem 1rem 0.55rem 2.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .filter-bar .search-box input:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        .filter-bar select {
+            padding: 0.55rem 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            background: #fff;
+            cursor: pointer;
+            min-width: 140px;
+            transition: all 0.2s ease;
+        }
+
+        .filter-bar select:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        /* ── Status Badges ───────────────────────────────── */
+        .status-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .status-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ── Slide-in Panel ──────────────────────────────── */
+        .panel-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            justify-content: flex-end;
+        }
+
+        .panel-overlay.show {
+            display: flex;
+        }
+
+        .slide-panel {
+            background: #fff;
+            width: 500px;
+            max-width: 95%;
+            height: 100%;
+            overflow-y: auto;
+            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15);
+            animation: slideInRight 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .panel-header {
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, #1f3a6e, #152847);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 1.05rem;
+        }
+
+        .panel-header .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .panel-header .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .panel-body {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .panel-body .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .panel-body .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .panel-body .form-group input,
+        .panel-body .form-group select,
+        .panel-body .form-group textarea {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .panel-body .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .panel-body .form-group input:focus,
+        .panel-body .form-group select:focus,
+        .panel-body .form-group textarea:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        .panel-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .panel-footer .btn-cancel {
+            padding: 0.6rem 1.25rem;
+            background: #e2e8f0;
+            color: #475569;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .panel-footer .btn-cancel:hover {
+            background: #cbd5e1;
+        }
+
+        .panel-footer .btn-submit {
+            padding: 0.6rem 1.5rem;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .panel-footer .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(134, 197, 64, 0.3);
+        }
+
+        .panel-footer .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ── Detail Modal ────────────────────────────────── */
+        .detail-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .detail-modal-overlay.show {
+            display: flex;
+        }
+
+        .detail-modal {
+            background: #fff;
+            border-radius: 12px;
+            max-width: 550px;
+            width: 92%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detail-modal .close-modal {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.9rem;
+        }
+
+        .detail-row strong {
+            color: #2c3e50;
+        }
+
+        .detail-row span {
+            color: #475569;
+            text-align: right;
+            max-width: 60%;
+        }
+
+        /* ── Toast ───────────────────────────────────────── */
+        .toast-notification {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 99999;
+            animation: slideInRight 0.3s ease;
+            border-left: 4px solid #10b981;
+        }
+
+        .toast-notification.error {
+            border-left-color: #ef4444;
+        }
+
+        @media (max-width: 768px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-bar select {
+                min-width: 100%;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-container">
+        <!-- Sidebar Container (loaded dynamically) -->
+        <div id="sidebarContainer"></div>
+
+        <main class="main-content">
+            <!-- Header Container (loaded dynamically) -->
+            <div id="headerContainer"></div>
+
+            <!-- Action Bar -->
+            <div class="action-bar">
+                <div class="page-title">
+                    <i class="fas fa-chalkboard-teacher"></i> Teacher Plans
+                    <span class="count-badge" id="planCount">0</span>
+                </div>
+                <button class="btn-add-plan" onclick="openAddPlanPanel()">
+                    <i class="fas fa-plus"></i> Add Plan
+                </button>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by name, description..."
+                        oninput="applyFilters()">
+                </div>
+                <select id="filterStatus" onchange="applyFilters()">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+
+            <!-- Plans Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Candidates</th>
+                            <th>Validity</th>
+                            <th>Interview</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="plansTableBody">
+                        <tr>
+                            <td colspan="9" style="text-align:center; padding:2rem; color:#888;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading plans...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Mobile Card View -->
+                <div class="mobile-card-view" id="plansMobileCards">
+                    <div style="text-align:center; padding:2rem; color:#888;">
+                        <i class="fas fa-spinner fa-spin"></i> Loading plans...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Container (loaded dynamically) -->
+            <div id="footerContainer"></div>
+        </main>
+    </div>
+
+    <!-- ── Add Plan Slide Panel ─────────────────────────── -->
+    <div class="panel-overlay" id="addPlanPanel">
+        <div class="slide-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-plus-circle"></i> Create Teacher Plan</h3>
+                <button class="close-btn" onclick="closeAddPlanPanel()">&times;</button>
+            </div>
+            <form id="createTeacherPlanForm">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Plan Name *</label>
+                        <input type="text" name="name" placeholder="e.g. Premium Teacher Plan" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Plan Price (₹) *</label>
+                        <input type="number" name="price" min="0" placeholder="e.g. 15000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Candidate Limit *</label>
+                        <input type="number" name="candidate_limit" min="1" placeholder="e.g. 50" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Validity (Days) *</label>
+                        <input type="number" name="validity_days" min="1" placeholder="e.g. 30" required>
+                    </div>
+
+                    <!-- Future Integration: Interview Slots -->
+                    <!-- 
+                    <div class="form-group">
+                        <label>Interview Slots Included</label>
+                        <input type="number" name="interview_slots" min="0" placeholder="e.g. 5">
+                        <small>Number of interview credits included in this plan</small>
+                    </div> 
+                    -->
+
+                    <div class="form-group">
+                        <label>Interview Allowed For Employer? *</label>
+                        <select name="is_interview_allowed_for_employer">
+                            <option value="true">Yes - Employer Can Interview</option>
+                            <option value="false">No - TechSkillio Interviews</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea name="description" placeholder="Enter plan description..." required></textarea>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn-cancel" onclick="closeAddPlanPanel()">Cancel</button>
+                    <button type="submit" class="btn-submit" id="btnSubmitPlan">
+                        <i class="fas fa-save"></i> Create Plan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ── Detail Modal ─────────────────────────────────── -->
+    <div class="detail-modal-overlay" id="detailModal">
+        <div class="detail-modal">
+            <button class="close-modal" onclick="closeDetailModal()">&times;</button>
+            <div id="detailModalContent"></div>
+        </div>
+    </div>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        currentPage = 'teacher-plans';
+
+        // ── STATE ──────────────────────────────────────────
+        let allPlans = [];
+        let filteredPlans = [];
+
+        // ── HELPERS ────────────────────────────────────────
+        function getToken() {
+            if (typeof authManager !== 'undefined' && authManager.getAccessToken()) return authManager.getAccessToken();
+            return localStorage.getItem('access_token');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            try { return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
+            catch { return dateStr; }
+        }
+
+        function formatPrice(price) {
+            if (price == null) return '—';
+            return '₹' + Number(price).toLocaleString('en-IN');
+        }
+
+        function getStatusBadge(status) {
+            const s = (status || '').toLowerCase();
+            if (s === 'active') return '<span class="status-badge status-active">Active</span>';
+            return '<span class="status-badge status-inactive">Inactive</span>';
+        }
+
+        function showToast(message, isError = false) {
+            const existing = document.querySelector('.toast-notification');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification' + (isError ? ' error' : '');
+            toast.innerHTML = `
+                <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}" style="font-size:1.3rem;color:${isError ? '#ef4444' : '#10b981'};"></i>
+                <span style="font-size:0.9rem;color:#2c3e50;">${message}</span>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // ── PANEL LOGIC ────────────────────────────────────
+        function openAddPlanPanel() {
+            document.getElementById('createTeacherPlanForm').reset();
+            document.getElementById('addPlanPanel').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAddPlanPanel() {
+            document.getElementById('addPlanPanel').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('addPlanPanel').addEventListener('click', function (e) {
+            if (e.target === this) closeAddPlanPanel();
+        });
+
+        // ── FILTER LOGIC ───────────────────────────────────
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
+            const status = document.getElementById('filterStatus').value.toLowerCase();
+
+            filteredPlans = allPlans.filter(p => {
+                if (status && (p.status || '').toLowerCase() !== status) return false;
+                if (search) {
+                    const haystack = [p.name, p.description, String(p.price)].filter(Boolean).join(' ').toLowerCase();
+                    if (!haystack.includes(search)) return false;
+                }
+                return true;
+            });
+            renderPlans();
+        }
+
+        // ── FETCH & RENDER ─────────────────────────────────
+        async function loadPlans() {
+            const tbody = document.getElementById('plansTableBody');
+            const mobileContainer = document.getElementById('plansMobileCards');
+            try {
+                const token = getToken();
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = 'TSK ' + token;
+
+                const res = await fetch(`${API_BASE_URL}/api/v1/plans/teacher/`, { headers });
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.detail || errData.message || `Server returned ${res.status}`);
+                }
+
+                const data = await res.json();
+                allPlans = Array.isArray(data) ? data : (data.results || []);
+                filteredPlans = [...allPlans];
+
+                applyFilters(); // Render handled here
+            } catch (err) {
+                console.error('Failed to load plans:', err);
+                const errorMsg = `<i class="fas fa-exclamation-triangle"></i> Failed to load plans: ${err.message}`;
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#e74c3c;">${errorMsg}</td></tr>`;
+                mobileContainer.innerHTML = `<div style="text-align:center;padding:2rem;color:#e74c3c;">${errorMsg}</div>`;
+            }
+        }
+
+        function renderPlans() {
+            const tbody = document.getElementById('plansTableBody');
+            const mobileContainer = document.getElementById('plansMobileCards');
+            document.getElementById('planCount').textContent = filteredPlans.length;
+
+            if (filteredPlans.length === 0) {
+                const emptyMsg = `<i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:0.5rem;"></i>No plans found.`;
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2.5rem;color:#94a3b8;">${emptyMsg}</td></tr>`;
+                mobileContainer.innerHTML = `<div style="text-align:center;padding:2.5rem;color:#94a3b8;">${emptyMsg}</div>`;
+                return;
+            }
+
+            // Table
+            tbody.innerHTML = filteredPlans.map(p => `
+                <tr>
+                    <td>#${p.id}</td>
+                    <td style="font-weight:500;">${p.name || '—'}</td>
+                    <td>${formatPrice(p.price)}</td>
+                    <td>${p.candidate_limit ?? '—'}</td>
+                    <td>${p.validity_days ?? '—'} days</td>
+                    <td>${p.is_interview_allowed_for_employer ? '<span style="color:#16a34a;"><i class="fas fa-check"></i> Employer</span>' : '<span style="color:#2563eb;">TechSkillio</span>'}</td>
+                    <td>${getStatusBadge(p.status)}</td>
+                    <td>${formatDate(p.created_at)}</td>
+                    <td><button class="action-btn btn-view" onclick="viewPlan(${p.id})">View</button></td>
+                </tr>
+            `).join('');
+
+            // Mobile Cards
+            mobileContainer.innerHTML = filteredPlans.map(p => `
+                <div class="mobile-card">
+                    <div class="mobile-card-header">
+                        <span class="mobile-card-title">${p.name || '—'}</span>
+                        ${getStatusBadge(p.status)}
+                    </div>
+                    <div class="mobile-card-body">
+                        <div class="mobile-card-row">
+                            <span class="mobile-card-label">ID:</span>
+                            <span class="mobile-card-value">#${p.id}</span>
+                        </div>
+                        <div class="mobile-card-row">
+                            <span class="mobile-card-label">Price:</span>
+                            <span class="mobile-card-value">${formatPrice(p.price)}</span>
+                        </div>
+                        <div class="mobile-card-row">
+                            <span class="mobile-card-label">Candidates:</span>
+                            <span class="mobile-card-value">${p.candidate_limit ?? '—'}</span>
+                        </div>
+                        <div class="mobile-card-row">
+                            <span class="mobile-card-label">Interview By:</span>
+                            <span class="mobile-card-value">${p.is_interview_allowed_for_employer ? 'Employer' : 'TechSkillio'}</span>
+                        </div>
+                        <div class="mobile-card-row">
+                            <span class="mobile-card-label">Created:</span>
+                            <span class="mobile-card-value">${formatDate(p.created_at)}</span>
+                        </div>
+                    </div>
+                    <div class="mobile-card-actions">
+                        <button class="action-btn btn-view" onclick="viewPlan(${p.id})">View</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ── VIEW DETAIL ────────────────────────────────────
+        function viewPlan(id) {
+            const plan = allPlans.find(p => p.id == id);
+            if (!plan) return;
+
+            document.getElementById('detailModalContent').innerHTML = `
+                <h3 style="margin-bottom:1rem;color:#2c3e50;display:flex;align-items:center;gap:0.5rem;">
+                    <i class="fas fa-clipboard-list" style="color:#86c540;"></i> Plan Info
+                </h3>
+                <div class="detail-row"><strong>Plan ID</strong><span>#${plan.id}</span></div>
+                <div class="detail-row"><strong>Name</strong><span>${plan.name || '—'}</span></div>
+                <div class="detail-row"><strong>Price</strong><span>${formatPrice(plan.price)}</span></div>
+                <div class="detail-row"><strong>Candidate Limit</strong><span>${plan.candidate_limit ?? '—'}</span></div>
+                <div class="detail-row"><strong>Validity</strong><span>${plan.validity_days ?? '—'} days</span></div>
+                <div class="detail-row"><strong>Interview By</strong><span>${plan.is_interview_allowed_for_employer ? 'Employer' : 'TechSkillio'}</span></div>
+                <div class="detail-row"><strong>Status</strong><span>${getStatusBadge(plan.status)}</span></div>
+                <div class="detail-row"><strong>Created</strong><span>${formatDate(plan.created_at)}</span></div>
+                <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #f1f5f9;">
+                    <strong style="display:block;margin-bottom:0.5rem;color:#2c3e50;">Description</strong>
+                    <p style="color:#475569;font-size:0.9rem;line-height:1.5;">${plan.description || 'No description provided.'}</p>
+                </div>
+            `;
+            document.getElementById('detailModal').classList.add('show');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('show');
+        }
+
+        document.getElementById('detailModal').addEventListener('click', function (e) {
+            if (e.target === this) closeDetailModal();
+        });
+
+        // ── SUBMIT HANDLER ─────────────────────────────────
+        document.getElementById('createTeacherPlanForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('btnSubmitPlan');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+
+            const formData = new FormData(this);
+            const payload = {
+                name: formData.get('name'),
+                price: Number(formData.get('price')),
+                candidate_limit: Number(formData.get('candidate_limit')),
+                validity_days: Number(formData.get('validity_days')),
+                is_interview_allowed_for_employer: formData.get('is_interview_allowed_for_employer') === 'true',
+                status: formData.get('status'),
+                description: formData.get('description')
+            };
+
+            try {
+                const token = getToken();
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = 'TSK ' + token;
+
+                const res = await fetch(`${API_BASE_URL}/api/v1/plans/teacher/`, {
+                    method: 'POST',
+                    headers,
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    showToast('Plan created successfully!');
+                    closeAddPlanPanel();
+                    loadPlans();
+                } else {
+                    const errMsg = data.message || data.detail || JSON.stringify(data);
+                    showToast('Failed to create plan: ' + errMsg, true);
+                }
+            } catch (err) {
+                console.error('Create error:', err);
+                showToast('Network error: ' + err.message, true);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        });
+
+        // ── INIT ───────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', loadPlans);
+    </script>
+    <script src="js/admin-components.js"></script>
+</body>
+
+</html>

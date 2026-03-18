@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TechSkillio Admin</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-shared.css">
+    <link rel="stylesheet" href="css/admin-responsive.css">
+    <style>
+        /* Dashboard-specific styles */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stat-card h3 {
+                font-size: 2rem;
+            }
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--admin-primary);
+            margin-bottom: 0.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .stat-card h3.loading {
+            color: #cbd5e1;
+            font-size: 1.5rem;
+        }
+
+        .stat-card p {
+            color: #64748b;
+        }
+
+        .stat-card .stat-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            border-radius: 0 3px 0 0;
+            transition: width 0.8s ease;
+        }
+
+        .stat-card:nth-child(1) .stat-bar {
+            background: #6366f1;
+        }
+
+        .stat-card:nth-child(2) .stat-bar {
+            background: #8b5cf6;
+        }
+
+        .stat-card:nth-child(3) .stat-bar {
+            background: #3b82f6;
+        }
+
+        .stat-card:nth-child(4) .stat-bar {
+            background: #10b981;
+        }
+
+        .stat-card:nth-child(5) .stat-bar {
+            background: #f59e0b;
+        }
+
+        .quick-links {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .quick-links h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-link {
+            padding: 1rem;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .quick-link:hover {
+            border-color: var(--admin-primary);
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .quick-link i {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/api-config.js"></script>
+    <script src="js/auth-manager.js"></script>
+
+    <div class="admin-container">
+        <!-- Sidebar Container (loaded dynamically) -->
+        <div id="sidebarContainer"></div>
+
+        <main class="main-content">
+            <!-- Header Container (loaded dynamically) -->
+            <div id="headerContainer"></div>
+
+            <!-- Dashboard Content -->
+            <div class="content-wrapper">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 id="statItCandidates" class="loading"><i class="fas fa-spinner fa-spin"
+                                style="font-size:1.2rem;"></i></h3>
+                        <p><i class="fas fa-laptop-code"></i> Total IT Candidates</p>
+                        <div class="stat-bar" id="barItCandidates" style="width:0;"></div>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="statTeacherCandidates" class="loading"><i class="fas fa-spinner fa-spin"
+                                style="font-size:1.2rem;"></i></h3>
+                        <p><i class="fas fa-chalkboard-teacher"></i> Total Teacher Candidates</p>
+                        <div class="stat-bar" id="barTeacherCandidates" style="width:0;"></div>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="statItEmployers" class="loading"><i class="fas fa-spinner fa-spin"
+                                style="font-size:1.2rem;"></i></h3>
+                        <p><i class="fas fa-building"></i> Total IT Employers</p>
+                        <div class="stat-bar" id="barItEmployers" style="width:0;"></div>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="statTeacherEmployers" class="loading"><i class="fas fa-spinner fa-spin"
+                                style="font-size:1.2rem;"></i></h3>
+                        <p><i class="fas fa-school"></i> Total Teacher Employers</p>
+                        <div class="stat-bar" id="barTeacherEmployers" style="width:0;"></div>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="statK12Apps" class="loading"><i class="fas fa-spinner fa-spin"
+                                style="font-size:1.2rem;"></i></h3>
+                        <p><i class="fas fa-graduation-cap"></i> Total K12 Applications</p>
+                        <div class="stat-bar" id="barK12Apps" style="width:0;"></div>
+                    </div>
+                </div>
+
+                <div class="quick-links">
+                    <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                    <div class="link-grid">
+                        <a href="admin-it-candidates.html" class="quick-link">
+                            <i class="fas fa-laptop-code"></i><br>Manage IT Candidates
+                        </a>
+                        <a href="admin-teachers.html" class="quick-link">
+                            <i class="fas fa-chalkboard-teacher"></i><br>Manage Teachers
+                        </a>
+                        <a href="admin-employers.html" class="quick-link">
+                            <i class="fas fa-building"></i><br>Manage Employers
+                        </a>
+                        <a href="admin-job-postings.html" class="quick-link">
+                            <i class="fas fa-briefcase"></i><br>Manage Job Postings
+                        </a>
+                        <a href="admin-subscriptions.html" class="quick-link">
+                            <i class="fas fa-credit-card"></i><br>Subscriptions
+                        </a>
+                        <a href="admin-settings.html" class="quick-link">
+                            <i class="fas fa-cog"></i><br>Account Settings
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Container (loaded dynamically) -->
+            <div id="footerContainer"></div>
+        </main>
+    </div>
+
+    <script>
+        currentPage = 'dashboard';
+
+        function getToken() {
+            if (typeof authManager !== 'undefined' && authManager.getAccessToken()) return authManager.getAccessToken();
+            return localStorage.getItem('access_token');
+        }
+
+        // Animate counting up
+        function animateValue(el, target, duration = 800) {
+            el.classList.remove('loading');
+            const start = 0;
+            const startTime = performance.now();
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // ease-out
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(start + (target - start) * eased);
+                el.textContent = current.toLocaleString('en-IN');
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        async function loadDashboardStats() {
+            try {
+                const token = getToken();
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = 'TSK ' + token;
+
+                const res = await fetch(`${API_BASE_URL}/api/v1/auth/dashboard/stats/`, { headers });
+                if (!res.ok) throw new Error(`Server returned ${res.status}`);
+
+                const data = await res.json();
+
+                // Map API fields to UI elements
+                const stats = {
+                    statItCandidates: data.total_it_candidates || 0,
+                    statTeacherCandidates: data.total_teacher_candidates || 0,
+                    statItEmployers: data.total_it_employers || 0,
+                    statTeacherEmployers: data.total_teacher_employers || 0,
+                    statK12Apps: data.total_k12_applications || 0,
+                };
+
+                // Find max for proportional bar widths
+                const values = Object.values(stats);
+                const maxVal = Math.max(...values, 1);
+
+                // Animate each stat and its bar
+                const barMap = {
+                    statItCandidates: 'barItCandidates',
+                    statTeacherCandidates: 'barTeacherCandidates',
+                    statItEmployers: 'barItEmployers',
+                    statTeacherEmployers: 'barTeacherEmployers',
+                    statK12Apps: 'barK12Apps',
+                };
+
+                Object.entries(stats).forEach(([elId, value]) => {
+                    const el = document.getElementById(elId);
+                    animateValue(el, value);
+
+                    const bar = document.getElementById(barMap[elId]);
+                    if (bar) {
+                        const pct = Math.max((value / maxVal) * 100, 8);
+                        setTimeout(() => { bar.style.width = pct + '%'; }, 200);
+                    }
+                });
+
+            } catch (err) {
+                console.error('Failed to load dashboard stats:', err);
+                // Show error state for all stat cards
+                ['statItCandidates', 'statTeacherCandidates', 'statItEmployers', 'statTeacherEmployers', 'statK12Apps'].forEach(id => {
+                    const el = document.getElementById(id);
+                    el.classList.remove('loading');
+                    el.innerHTML = '<span style="font-size:1rem;color:#e74c3c;">Error</span>';
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadDashboardStats();
+        });
+    </script>
+    <script src="js/admin-components.js"></script>
+</body>
+
+</html>

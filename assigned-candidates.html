@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigned Candidates - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .dashboard-section {
+            padding: 40px 0 60px;
+            background: #f5f7fa;
+            min-height: calc(100vh - 80px);
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar { margin-top: 30px; }
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            color: #86c540;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid #86c540;
+            border-radius: 8px;
+        }
+
+        .back-link:hover {
+            background: #86c540;
+            color: white;
+        }
+
+        .plan-badge {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .candidate-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 16px;
+            border-left: 5px solid #86c540;
+            transition: transform 0.2s;
+        }
+
+        .candidate-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .candidate-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .candidate-card-name-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            min-width: 0;
+        }
+
+        .candidate-card .candidate-name {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .candidate-card .candidate-id {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .candidate-card .candidate-status {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: #dcfce7;
+            color: #166534;
+            font-weight: 600;
+        }
+
+        .candidate-preview-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 18px;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .candidate-preview-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: #475569;
+            background: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .candidate-preview-item .preview-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .candidate-preview-item .preview-value {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .candidate-preview-item .preview-value.name-highlight {
+            font-weight: 700;
+            color: #1e3a5f;
+            background: rgba(134, 197, 64, 0.15);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-card h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .sidebar-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-card li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-card a {
+            text-decoration: none;
+            color: #2c3e50;
+        }
+
+        .sidebar-card a:hover {
+            color: #86c540;
+        }
+
+        .sidebar-card a i {
+            margin-right: 8px;
+            color: #86c540;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: #86c540;
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #ef4444;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .error-state .retry-btn {
+            margin-top: 16px;
+            padding: 10px 20px;
+            background: #86c540;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .error-state .retry-btn:hover {
+            background: #75b035;
+        }
+
+        /* Detail modal */
+        .detail-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+        .detail-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .detail-modal {
+            background: white;
+            border-radius: 12px;
+            max-width: 480px;
+            width: 92%;
+            max-height: 85vh;
+            overflow: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-left: 5px solid #86c540;
+        }
+        .detail-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .detail-modal-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+        .detail-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+        .detail-modal-close:hover {
+            color: #86c540;
+        }
+        .detail-modal-body {
+            padding: 24px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-row strong {
+            color: #64748b;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            min-width: 120px;
+        }
+        .detail-row span {
+            color: #2c3e50;
+            text-align: right;
+        }
+        .btn-view-details {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #86c540;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .btn-view-details:hover {
+            background: #75b035;
+            box-shadow: 0 4px 12px rgba(134, 197, 64, 0.35);
+        }
+        .btn-view-details.header-btn {
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/route-guard.js" data-required-role="user"></script>
+    <div id="header-placeholder"></div>
+    <div style="height: 100px;"></div>
+
+    <section class="dashboard-section">
+        <div class="dashboard-container">
+
+            <div class="main-content">
+                <div class="page-header">
+                    <div>
+                        <h1>Assigned Candidates</h1>
+                        <p class="plan-badge" id="planBadge"></p>
+                    </div>
+                    <a href="my-subscriptions.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to My Subscriptions</a>
+                </div>
+
+                <div id="candidatesList">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p style="margin-top: 10px;">Loading assigned candidates...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="it-vendor-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                        <li><a href="it-jobs.html"><i class="fas fa-briefcase"></i> My Jobs</a></li>
+                        <li><a href="my-subscriptions.html"><i class="fas fa-credit-card"></i> My Subscriptions</a></li>
+                        <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Candidate details modal -->
+    <div class="detail-modal-overlay" id="detailModal" aria-hidden="true">
+        <div class="detail-modal">
+            <div class="detail-modal-header">
+                <h3><i class="fas fa-user" style="color:#86c540;margin-right:8px;"></i> Profile details</h3>
+                <button type="button" class="detail-modal-close" id="detailModalClose" aria-label="Close">&times;</button>
+            </div>
+            <div class="detail-modal-body" id="detailModalBody"></div>
+        </div>
+    </div>
+
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            function escapeHtml(text) {
+                if (text == null || text === '') return '';
+                var div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            const params = new URLSearchParams(window.location.search);
+            const subscriptionId = params.get('subscription_id');
+            const container = document.getElementById('candidatesList');
+            const planBadge = document.getElementById('planBadge');
+
+            if (!subscriptionId) {
+                container.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Invalid link</h3>
+                        <p>No subscription selected. Please go back to My Subscriptions and click Assign Candidates on a plan.</p>
+                        <a href="my-subscriptions.html" class="back-link" style="margin-top: 16px; display: inline-flex;"><i class="fas fa-arrow-left"></i> My Subscriptions</a>
+                    </div>`;
+                return;
+            }
+
+            try {
+                if (typeof authManager === 'undefined') {
+                    throw new Error('Please log in again.');
+                }
+
+                const response = await authManager.apiRequest('/api/v1/plans/it/subscriptions/assigned-candidates/?subscription_id=' + encodeURIComponent(subscriptionId));
+
+                if (!response.ok) {
+                    const errData = await response.json().catch(function () { return {}; });
+                    throw new Error(errData.detail || errData.message || 'Failed to load assigned candidates');
+                }
+
+                const data = await response.json();
+                const candidates = Array.isArray(data) ? data : (data.results || data.candidates || []);
+
+                planBadge.textContent = 'Subscription #' + subscriptionId;
+
+                if (candidates.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-users"></i>
+                            <h3>No candidates assigned yet</h3>
+                            <p>No candidates have been assigned to this plan yet.</p>
+                            <a href="my-subscriptions.html" class="back-link" style="margin-top: 16px; display: inline-flex;"><i class="fas fa-arrow-left"></i> My Subscriptions</a>
+                        </div>`;
+                    return;
+                }
+
+                function getPreviewVal(c, ...keys) {
+                    const p = c.profile || c;
+                    for (let i = 0; i < keys.length; i++) {
+                        const v = p[keys[i]] != null ? p[keys[i]] : c[keys[i]];
+                        if (v != null && v !== '') return Array.isArray(v) ? v.slice(0, 5).join(', ') : String(v);
+                    }
+                    return '—';
+                }
+
+                function formatExpectedCtc(val) {
+                    if (val == null || val === '') return null;
+                    if (typeof val === 'number') return String(val);
+                    if (typeof val === 'string') return val;
+                    if (typeof val === 'object') {
+                        if (val.min != null && val.max != null) return val.min + ' – ' + val.max + (val.unit ? ' ' + val.unit : '');
+                        if (val.amount != null) return String(val.amount) + (val.unit ? ' ' + val.unit : '');
+                        if (val.expected_ctc != null) return formatExpectedCtc(val.expected_ctc);
+                        if (val.expected_salary != null) return formatExpectedCtc(val.expected_salary);
+                    }
+                    return null;
+                }
+                function getExpectedCtcFromDetail(d) {
+                    var user = d.user || d;
+                    var profile = d.profile || user.profile || {};
+                    var raw = user.expected_salary != null ? user.expected_salary : (user.expected_ctc != null ? user.expected_ctc : (user.ctc != null ? user.ctc : (profile.expected_salary != null ? profile.expected_salary : (profile.expected_ctc != null ? profile.expected_ctc : (profile.ctc != null ? profile.ctc : (d.expected_salary != null ? d.expected_salary : (d.expected_ctc != null ? d.expected_ctc : (d.ctc != null ? d.ctc : null))))))));
+                    if (raw != null && raw !== '') return formatExpectedCtc(raw);
+                    var min = user.salary_min != null ? user.salary_min : (profile.salary_min != null ? profile.salary_min : d.salary_min);
+                    var max = user.salary_max != null ? user.salary_max : (profile.salary_max != null ? profile.salary_max : d.salary_max);
+                    if (min != null || max != null) return (min != null ? min : '') + (min != null && max != null ? ' – ' : '') + (max != null ? max : '');
+                    return null;
+                }
+                function getFromDetail(d, keys) {
+                    var user = d.user || d;
+                    var profile = d.profile || user.profile || {};
+                    for (var i = 0; i < keys.length; i++) {
+                        var v = (user[keys[i]] != null ? user[keys[i]] : (profile[keys[i]] != null ? profile[keys[i]] : d[keys[i]]));
+                        if (v != null && v !== '') return Array.isArray(v) ? v.slice(0, 8).join(', ') : String(v);
+                    }
+                    return null;
+                }
+                function getFromDetailDeep(d, keys, keySubstr) {
+                    var sources = [d, d.user, d.profile];
+                    if (d.profile && typeof d.profile === 'object') {
+                        Object.keys(d.profile).forEach(function (k) {
+                            if (d.profile[k] && typeof d.profile[k] === 'object' && d.profile[k] !== d.profile) sources.push(d.profile[k]);
+                        });
+                    }
+                    if (d.user && d.user.profile) sources.push(d.user.profile);
+                    for (var ki = 0; ki < keys.length; ki++) {
+                        for (var si = 0; si < sources.length; si++) {
+                            var obj = sources[si];
+                            if (!obj || typeof obj !== 'object') continue;
+                            var v = obj[keys[ki]];
+                            if (v == null || v === '') continue;
+                            if (typeof v === 'number') return String(v);
+                            if (typeof v === 'string') return v;
+                            if (Array.isArray(v)) {
+                                var parts = v.slice(0, 8).map(function (x) { return x && (typeof x === 'object' ? (x.name || x.title || x) : x); }).filter(Boolean);
+                                return parts.length ? parts.join(', ') : null;
+                            }
+                        }
+                    }
+                    if (keySubstr) {
+                        for (var si = 0; si < sources.length; si++) {
+                            var obj = sources[si];
+                            if (!obj || typeof obj !== 'object') continue;
+                            for (var k in obj) {
+                                if (obj.hasOwnProperty(k) && k.toLowerCase().indexOf(keySubstr) !== -1) {
+                                    var v = obj[k];
+                                    if (v == null || v === '') continue;
+                                    if (typeof v === 'string' || typeof v === 'number') return String(v);
+                                    if (typeof v === 'object' && (v.name || v.title)) return String(v.name || v.title);
+                                }
+                            }
+                        }
+                    }
+                    return null;
+                }
+
+                container.innerHTML = '<div class="loading-spinner" style="padding:24px;"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:10px;">Loading candidate details…</p></div>';
+                const enriched = await Promise.all(candidates.map(async function (c) {
+                    const id = c.candidate_user_id != null ? c.candidate_user_id : (c.user_id != null ? c.user_id : c.id);
+                    if (!id) return c;
+                    try {
+                        const r = await authManager.apiRequest('/api/v1/auth/candidates/' + id + '/');
+                        if (!r.ok) return c;
+                        const d = await r.json().catch(function () { return {}; });
+                        const user = d.user || d;
+                        const profile = d.profile || user.profile || {};
+                        const merged = Object.assign({}, c);
+                        const keySkills = getFromDetail(d, ['key_skills', 'skills', 'subjects']);
+                        if (keySkills) merged.key_skills = keySkills;
+                        const desiredRole = getFromDetailDeep(d, ['desired_role', 'current_role', 'current_designation', 'role', 'preferred_role', 'job_role', 'teaching_role', 'designation', 'position', 'target_role']) || getFromDetailDeep(d, [], 'desired') || getFromDetailDeep(d, [], 'designation');
+                        if (desiredRole) merged.desired_role = desiredRole;
+                        const noticePeriod = getFromDetailDeep(d, ['notice_period', 'notice_period_days', 'notice_days', 'available_in_days', 'joining_days', 'days_notice']) || getFromDetailDeep(d, [], 'notice');
+                        if (noticePeriod != null && noticePeriod !== '') merged.notice_period = noticePeriod;
+                        const expectedCtcVal = getExpectedCtcFromDetail(d);
+                        if (expectedCtcVal) merged.expected_salary = expectedCtcVal;
+                        const qual = getFromDetail(d, ['qualification', 'education', 'degree', 'college']);
+                        if (qual) merged.qualification = qual;
+                        return merged;
+                    } catch (err) { return c; }
+                }));
+
+                window._assignedCandidatesList = enriched;
+                container.innerHTML = enriched.map(function (c, idx) {
+                    const name = c.candidate_name || c.name || c.full_name || '—';
+                    const id = c.candidate_user_id || c.user_id || c.id || '';
+                    const status = (c.status || 'assigned').toLowerCase();
+                    const qualification = getPreviewVal(c, 'qualification', 'education', 'degree', 'college');
+                    const keySkills = getPreviewVal(c, 'key_skills', 'skills', 'subjects');
+                    const desiredRole = getPreviewVal(c, 'desired_role', 'current_role', 'current_designation', 'role', 'preferred_role', 'teaching_role');
+                    const noticePeriod = getPreviewVal(c, 'notice_period', 'notice_period_days', 'notice_days', 'available_in_days');
+                    const expectedCtc = getPreviewVal(c, 'expected_salary', 'expected_ctc', 'expected_ctc_lakhs', 'ctc');
+                    const previewItems = [
+                        '<span class="preview-label">Name</span><span class="preview-value name-highlight">' + escapeHtml(name) + '</span>',
+                        '<span class="preview-label">Qualification</span><span class="preview-value">' + escapeHtml(qualification) + '</span>',
+                        '<span class="preview-label">Key skills</span><span class="preview-value">' + escapeHtml(keySkills) + '</span>',
+                        '<span class="preview-label">Desired role</span><span class="preview-value">' + escapeHtml(desiredRole) + '</span>',
+                        '<span class="preview-label">Notice period</span><span class="preview-value">' + escapeHtml(noticePeriod) + '</span>',
+                        '<span class="preview-label">Expected CTC</span><span class="preview-value">' + escapeHtml(expectedCtc) + '</span>'
+                    ].map(function (html) { return '<div class="candidate-preview-item">' + html + '</div>'; }).join('');
+                    return '<div class="candidate-card">' +
+                        '<div class="candidate-card-header">' +
+                        '<div class="candidate-card-name-wrap">' +
+                        '<span class="candidate-name">' + escapeHtml(name) + '</span>' + (id ? '<span class="candidate-id">#' + escapeHtml(String(id)) + '</span>' : '') +
+                        (status ? '<span class="candidate-status">' + escapeHtml(status) + '</span>' : '') +
+                        '</div>' +
+                        '<button type="button" class="btn-view-details header-btn" onclick="openDetailModal(' + idx + ')"><i class="fas fa-eye"></i> View Details</button>' +
+                        '</div>' +
+                        '<div class="candidate-preview-tabs">' + previewItems + '</div>' +
+                        '</div>';
+                }).join('');
+
+            } catch (err) {
+                console.error('Error loading assigned candidates:', err);
+                container.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Error loading candidates</h3>
+                        <p>${escapeHtml(err.message || 'Please check your connection and try again.')}</p>
+                        <button type="button" class="retry-btn" onclick="window.location.reload()"><i class="fas fa-redo"></i> Try again</button>
+                        <br><a href="my-subscriptions.html" class="back-link" style="margin-top: 12px; display: inline-flex;"><i class="fas fa-arrow-left"></i> My Subscriptions</a>
+                    </div>`;
+            }
+
+            window.openDetailModal = async function (candidateIndex) {
+                var modal = document.getElementById('detailModal');
+                var body = document.getElementById('detailModalBody');
+                if (!modal || !body) return;
+                var list = window._assignedCandidatesList;
+                var c = list && list[candidateIndex];
+                var candidateId = c && (c.candidate_user_id || c.user_id || c.id);
+                if (!candidateId) {
+                    body.innerHTML = '<p style="color:#ef4444;">Candidate ID not available.</p>';
+                    modal.classList.add('show');
+                    modal.setAttribute('aria-hidden', 'false');
+                    return;
+                }
+                body.innerHTML = '<div class="loading-spinner" style="padding:24px;"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:10px;">Loading details...</p></div>';
+                modal.classList.add('show');
+                modal.setAttribute('aria-hidden', 'false');
+                try {
+                    var res = await authManager.apiRequest('/api/v1/auth/candidates/' + candidateId + '/');
+                    var data = await res.json().catch(function () { return {}; });
+                    if (!res.ok) {
+                        body.innerHTML = '<p style="color:#ef4444;">' + escapeHtml(data.detail || data.message || 'Failed to load details.') + '</p>';
+                        return;
+                    }
+                    var rows = [];
+                    function addRow(label, value) {
+                        if (value == null || value === '') return;
+                        if (Array.isArray(value)) value = value.join(', ');
+                        if (typeof value === 'object') return;
+                        rows.push('<div class="detail-row"><strong>' + escapeHtml(String(label).replace(/_/g, ' ')) + '</strong><span>' + escapeHtml(String(value)) + '</span></div>');
+                    }
+                    function addRowLink(label, url, text) {
+                        if (!url) return;
+                        rows.push('<div class="detail-row"><strong>' + escapeHtml(String(label).replace(/_/g, ' ')) + '</strong><span><a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(text || 'View') + '</a></span></div>');
+                    }
+                    var user = data.user || data;
+                    var profile = data.profile || user.profile || {};
+                    addRow('Name', user.full_name || user.name || profile.full_name || profile.name || user.email);
+                    addRow('Email', user.email || profile.email);
+                    addRow('User ID', user.id);
+                    addRow('Phone', user.phone || profile.phone || profile.mobile);
+                    addRow('User type', user.user_type || data.user_type || profile.user_type);
+                    addRowLink('Resume', user.resume_url || profile.resume_url || data.resume_url, 'View resume');
+                    ['experience', 'current_company', 'current_designation', 'expected_salary', 'notice_period', 'education', 'degree', 'college', 'location', 'city', 'state', 'country', 'date_of_birth', 'gender', 'summary', 'bio', 'skills', 'subjects', 'certifications', 'languages'].forEach(function (k) {
+                        var v = user[k] || profile[k] || data[k];
+                        if (v != null && v !== '') addRow(k, v);
+                    });
+                    if (profile && typeof profile === 'object') {
+                        Object.keys(profile).forEach(function (k) {
+                            if (['name', 'full_name', 'email', 'phone', 'mobile', 'user_type', 'resume_url'].indexOf(k) !== -1) return;
+                            var v = profile[k];
+                            if (v != null && v !== '') addRow(k, v);
+                        });
+                    }
+                    Object.keys(data).forEach(function (k) {
+                        if (['user', 'profile'].indexOf(k) !== -1) return;
+                        var v = data[k];
+                        if (v != null && v !== '' && typeof v !== 'object') addRow(k, v);
+                    });
+                    body.innerHTML = rows.length ? rows.join('') : '<p style="color:#64748b;">No details available.</p>';
+                } catch (e) {
+                    body.innerHTML = '<p style="color:#ef4444;">' + escapeHtml(e.message || 'Failed to load details.') + '</p>';
+                }
+            };
+
+            var closeBtn = document.getElementById('detailModalClose');
+            var modalEl = document.getElementById('detailModal');
+            if (closeBtn) closeBtn.addEventListener('click', function () {
+                if (modalEl) { modalEl.classList.remove('show'); modalEl.setAttribute('aria-hidden', 'true'); }
+            });
+            if (modalEl) modalEl.addEventListener('click', function (e) {
+                if (e.target === this) { this.classList.remove('show'); this.setAttribute('aria-hidden', 'true'); }
+            });
+        });
+    </script>
+</body>
+
+</html>

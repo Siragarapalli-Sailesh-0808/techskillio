@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Details - TechSkillio</title>
+    <meta name="description" content="View detailed job information and apply for IT positions with TechSkillio.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .job-details-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .job-details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        .job-main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .job-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #86c540;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+        }
+
+        .job-title-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .job-title-main {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .job-company-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .company-name {
+            font-size: 1.3rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+        }
+
+        .meta-item i {
+            color: #86c540;
+        }
+
+        .job-skills-section {
+            margin: 2rem 0;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .skill-badge {
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .job-description-section,
+        .job-requirements-section {
+            margin: 2.5rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .job-description-section p {
+            color: #64748b;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .requirements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .requirements-list li {
+            padding: 0.75rem 0;
+            color: #64748b;
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+        }
+
+        .requirements-list li:before {
+            content: "✓";
+            color: #86c540;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .apply-card {
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(134, 197, 64, 0.3);
+            position: sticky;
+            top: 140px;
+        }
+
+        .apply-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .apply-card p {
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+
+        .btn-apply-now {
+            width: 100%;
+            padding: 1rem;
+            background: white;
+            color: #86c540;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .btn-apply-now:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-save-job {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save-job:hover {
+            background: white;
+            color: #86c540;
+        }
+
+        .company-info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .company-info-card h3 {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .info-value {
+            color: #64748b;
+        }
+
+        .related-jobs {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .related-jobs h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+
+        .related-jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .related-job-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid #cbd5e1;
+        }
+
+        .related-job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(134, 197, 64, 0.15);
+        }
+
+        .related-job-card h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .related-job-card p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .related-job-link {
+            color: #86c540;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .related-job-link:hover {
+            gap: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .job-details-container {
+                grid-template-columns: 1fr;
+            }
+
+            .job-sidebar {
+                order: -1;
+            }
+
+            .apply-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .job-main-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .job-title-main {
+                font-size: 2rem;
+            }
+
+            .related-jobs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0px 0px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 5px;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .dropdown-menu {
+                display: none;
+                position: static;
+                background-color: #f9f9f9;
+                box-shadow: none;
+                padding-left: 10px;
+            }
+
+            .dropdown.open .dropdown-menu {
+            }
+        }
+    </style>
+</head>
+
+<body>
+  <!-- HEADER PLACEHOLDER -->
+  <div id="header-placeholder"></div>
+
+  <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+  <div style="height: 120px;"></div>
+
+    <!-- STICKY HEADER WRAPPER -->
+    
+
+    <!-- SPACER --><!-- JOB DETAILS SECTION -->
+    <section class="job-details-section">
+        <div class="job-details-container">
+            <!-- Main Content -->
+            <div class="job-main-content">
+                <a href="it-jobs.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back to Jobs
+                </a>
+
+                <div id="jobDetailsContent">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="job-sidebar">
+                <div class="apply-card">
+                    <h3>Ready to Apply?</h3>
+                    <p>Submit your application and take the next step in your career journey.</p>
+                    <button class="btn-apply-now" onclick="applyNow()">
+                        <i class="fas fa-paper-plane"></i> Apply Now
+                    </button>
+                    <button class="btn-save-job" onclick="saveJob()">
+                        <i class="far fa-bookmark"></i> Save for Later
+                    </button>
+                </div>
+
+                <div class="company-info-card" id="companyInfo">
+                    <!-- Company info will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img">
+                    </div>
+                    <p class="footer-description">
+                        Transforming education through innovation, career-focused training, and global opportunities.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="it-jobs.html">Browse IT Jobs</a></li>
+                        <li><a href="it-candidate-register.html">Register as Candidate</a></li>
+                        <li><a href="it-vendor-register.html">Post Jobs</a></li>
+                        <li><a href="contact-us.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <div class="footer-contact">
+                        <p><strong>📍 Address:</strong><br>Chandra Mouleswara Chambers, 3rd Floor, SR Nagar Circle,
+                            Hyderabad, TG, India-500038</p>
+                        <p><strong>📞 Phone:</strong><a href="tel:9100626283"> +91-9100626283</a></p>
+                        <p><strong>✉️ Email:</strong><a href="mailto:Info@techskillio.com"> Info@techskillio.com</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="data/it-jobs-data.js"></script>
+    <script>
+        // Get job ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get('id');
+
+        // Load job details
+        document.addEventListener('DOMContentLoaded', function () {
+            if (jobId) {
+                const job = getITJobById(jobId);
+                if (job) {
+                    displayJobDetails(job);
+                    displayRelatedJobs(job);
+                } else {
+                    document.getElementById('jobDetailsContent').innerHTML = `
+                        <div style="text-align: center; padding: 4rem 0;">
+                            <i class="fas fa-exclamation-circle" style="font-size: 4rem; color: #cbd5e1; margin-bottom: 1rem;"></i>
+                            <h2>Job Not Found</h2>
+                            <p style="color: #64748b; margin-bottom: 2rem;">The job you're looking for doesn't exist or has been removed.</p>
+                            <a href="it-jobs.html" class="btn btn-primary">Browse All Jobs</a>
+                        </div>
+                    `;
+                }
+            }
+        });
+
+        function displayJobDetails(job) {
+            const content = document.getElementById('jobDetailsContent');
+
+            content.innerHTML = `
+                <div class="job-title-section">
+                    <h1 class="job-title-main">${job.title}</h1>
+                    <div class="job-company-info">
+                        <span class="company-name">
+                            <i class="fas fa-building"></i>
+                            ${job.company}
+                        </span>
+                    </div>
+                    <div class="job-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${job.location}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-briefcase"></i>
+                            <span>${job.experience}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span>${job.ctc}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-laptop-house"></i>
+                            <span>${job.mode}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>${job.type}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Posted ${job.posted}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="job-skills-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-code"></i>
+                        Required Skills
+                    </h2>
+                    <div class="skills-grid">
+                        ${job.skills.map(skill => `<span class="skill-badge">${skill}</span>`).join('')}
+                    </div>
+                </div>
+                
+                <div class="job-description-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-file-alt"></i>
+                        Job Description
+                    </h2>
+                    <p>${job.description}</p>
+                </div>
+                
+                <div class="job-requirements-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-list-check"></i>
+                        Requirements
+                    </h2>
+                    <ul class="requirements-list">
+                        ${job.requirements.map(req => `<li>${req}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+
+            // Display company info
+            document.getElementById('companyInfo').innerHTML = `
+                <h3><i class="fas fa-building"></i> Company Details</h3>
+                <div class="info-item">
+                    <span class="info-label">Company Name</span>
+                    <span class="info-value">${job.company}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Location</span>
+                    <span class="info-value">${job.location}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Job Type</span>
+                    <span class="info-value">${job.type}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Work Mode</span>
+                    <span class="info-value">${job.mode}</span>
+                </div>
+            `;
+        }
+
+        function displayRelatedJobs(currentJob) {
+            const allJobs = getAllITJobs();
+            const relatedJobs = allJobs
+                .filter(job => job.id !== currentJob.id)
+                .slice(0, 3);
+
+            if (relatedJobs.length > 0) {
+                const relatedSection = document.createElement('div');
+                relatedSection.className = 'related-jobs';
+                relatedSection.innerHTML = `
+                    <h2>Related Jobs</h2>
+                    <div class="related-jobs-grid">
+                        ${relatedJobs.map(job => `
+                            <div class="related-job-card">
+                                <h4>${job.title}</h4>
+                                <p><i class="fas fa-building"></i> ${job.company}</p>
+                                <p><i class="fas fa-map-marker-alt"></i> ${job.location}</p>
+                                <p><i class="fas fa-rupee-sign"></i> ${job.ctc}</p>
+                                <a href="it-job-details.html?id=${job.id}" class="related-job-link">
+                                    View Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                document.getElementById('jobDetailsContent').appendChild(relatedSection);
+            }
+        }
+
+        function applyNow() {
+            // Redirect to registration page
+            window.location.href = 'it-candidate-register.html';
+        }
+
+        function saveJob() {
+            alert('Job saved to your profile!');
+            console.log('Saving job:', jobId);
+        }
+    </script>
+  <script src="js/api-config.js"></script>
+  <script src="load-header.js"></script>
+</body>
+
+</html>

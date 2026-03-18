@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TechSkillio</title>
+    <meta name="description" content="Login to your TechSkillio account">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            padding: 50px 40px;
+            position: relative;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            font-size: 15px;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            font-size: 14px;
+            color: #86c540;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #86c540 0%, #6ea832 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, #6ea832 0%, #5a8c28 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(134, 197, 64, 0.3);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            display: none;
+            padding: 12px;
+            background: #fee;
+            border: 1px solid #fcc;
+            border-radius: 8px;
+            color: #c33;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .register-link a {
+            color: #86c540;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-home:hover {
+            color: #86c540;
+        }
+
+        /* Registration Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .modal-header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px;
+            color: #999;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .registration-options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .registration-category {
+            margin-bottom: 20px;
+        }
+
+        .registration-category h3 {
+            font-size: 18px;
+            color: #86c540;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #86c540;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 18px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .option-btn:hover {
+            border-color: #86c540;
+            background: #f8fdf4;
+            transform: translateX(5px);
+        }
+
+        .option-btn i {
+            font-size: 24px;
+            color: #86c540;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .login-box {
+                padding: 40px 30px;
+            }
+
+            .login-title {
+                font-size: 24px;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+
+            .option-btn {
+                padding: 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="back-home">← Back to Home</a>
+
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <img src="tech.png" alt="TechSkillio Logo" class="login-logo">
+                <h1 class="login-title">Welcome Back!</h1>
+                <p class="login-subtitle">Login to access your dashboard</p>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="teacher-password-reset.html" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span id="btnText">Login</span>
+                    <span id="btnLoader" style="display: none;">Logging in...</span>
+                </button>
+
+                <div class="register-link">
+                    Don't have an account? <a href="#" id="registerLink">Register here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Registration Type Selection Modal -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content" style="position: relative;">
+            <button class="modal-close" onclick="closeRegistrationModal()">×</button>
+
+            <div class="modal-header">
+                <h2>Choose Registration Type</h2>
+                <p>Select the category that best describes you</p>
+            </div>
+
+            <div class="registration-options">
+                <!-- IT Category -->
+                <div class="registration-category">
+                    <h3>💼 IT Professionals</h3>
+                    <button class="option-btn" onclick="navigateToRegister('it-candidate-register.html')">
+                        <i class="fas fa-user-tie"></i>
+                        <span>IT Candidate</span>
+                    </button>
+                    <button class="option-btn" onclick="navigateToRegister('it-vendor-register.html')">
+                        <i class="fas fa-building"></i>
+                        <span>IT Vendor/Company</span>
+                    </button>
+                </div>
+
+                <!-- Teaching Category -->
+                <div class="registration-category">
+                    <h3>🎓 Teaching Professionals</h3>
+                    <button class="option-btn" onclick="navigateToRegister('teacher-candidate-register.html')">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Teacher (Teaching)</span>
+                    </button>
+                    <button class="option-btn"
+                        onclick="navigateToRegister('teacher-candidate-nonteaching-register.html')">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Teacher (Non-Teaching)</span>
+                    </button>
+                </div>
+
+                <!-- Employer Category -->
+                <div class="registration-category">
+                    <h3>🏫 Educational Institutions</h3>
+                    <button class="option-btn" onclick="navigateToRegister('teacher-employer-register.html')">
+                        <i class="fas fa-school"></i>
+                        <span>School/Institute (Teaching)</span>
+                    </button>
+                    <button class="option-btn"
+                        onclick="navigateToRegister('teacher-employer-nonteaching-register.html')">
+                        <i class="fas fa-university"></i>
+                        <span>School/Institute (Non-Teaching)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Auth Manager -->
+    <script src="js/api-config.js"></script>
+    <script src="js/auth-manager.js"></script>
+
+    <script>
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // Validation
+            if (!email || !password) {
+                showError('Please fill in all required fields');
+                return;
+            }
+
+            // Show loading state
+            const loginBtn = document.getElementById('loginBtn');
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+
+            loginBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline';
+            hideError();
+
+            try {
+                // Use AuthManager to login
+                const result = await authManager.login(email, password);
+
+
+                if (result.success) {
+                    console.log('Login successful, fetching user profile...');
+
+                    // Now fetch user profile to get user_type
+                    try {
+                        const profileResult = await authManager.getUserProfile();
+
+                        if (profileResult.success && profileResult.data) {
+                            const userType = profileResult.data.user_type;
+                            const profile = profileResult.data.profile;
+
+                            // Determine dashboard type based on profile flag for teachers
+                            let dashboardType = userType;
+                            if (userType === 'teacher_candidate' || userType === 'teacher-candidate') {
+                                if (profile && profile.is_teaching_candidate === false) {
+                                    dashboardType = 'teacher-candidate-nonteaching';
+                                } else {
+                                    dashboardType = 'teacher-candidate';
+                                }
+                            } else if (userType === 'teacher_employer' || userType === 'teacher-employer') {
+                                if (profile && profile.is_teaching_employer === false) {
+                                    dashboardType = 'teacher-employer-nonteaching';
+                                } else {
+                                    dashboardType = 'teacher-employer';
+                                }
+                            }
+
+                            console.log('User type:', userType);
+                            console.log('Redirecting to dashboard type:', dashboardType);
+
+                            // Show success message
+                            showSuccess('Login successful! Redirecting...');
+
+                            // Redirect to correct dashboard after short delay
+                            setTimeout(() => {
+                                window.location.href = getDashboardUrl(dashboardType);
+                            }, 1000);
+                        } else {
+                            // Profile fetch failed, but login succeeded
+                            console.error('Failed to fetch profile:', profileResult.error);
+                            showError('Login successful but failed to load profile. Please try again.');
+
+                            // Clear tokens since we can't determine user type
+                            authManager.clearAuth();
+                        }
+                    } catch (profileError) {
+                        console.error('Error fetching profile:', profileError);
+                        showError('Login successful but failed to load profile. Please try again.');
+
+                        // Clear tokens since we can't determine user type
+                        authManager.clearAuth();
+                    }
+                } else {
+                    // Handle error response
+                    let errorMessage = '';
+
+                    // Check for specific HTTP status codes
+                    if (result.status === 423) {
+                        errorMessage = 'Your account has been blocked or suspended. Please contact support.';
+                    } else if (result.status === 403) {
+                        if (result.error && result.error.toLowerCase().includes('verify')) {
+                            errorMessage = 'Please verify your email address before logging in. Check your inbox for the verification link.';
+                        } else {
+                            errorMessage = result.error || 'Access denied. Please check your credentials and try again.';
+                        }
+                    } else if (result.status === 404) {
+                        errorMessage = 'User not found. Please check your email address or register first.';
+                    } else if (result.status === 401 || result.status === 400) {
+                        errorMessage = 'Invalid email or password. Please try again.';
+                    } else if (result.networkError) {
+                        errorMessage = 'Unable to connect to server. Please check your internet connection.';
+                    } else {
+                        errorMessage = result.error || 'Login failed. Please try again.';
+                    }
+
+                    showError(errorMessage);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('An unexpected error occurred. Please try again.');
+            } finally {
+                // Reset button state
+                loginBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+            }
+        });
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+            errorDiv.style.background = '#fee';
+            errorDiv.style.borderColor = '#fcc';
+            errorDiv.style.color = '#c33';
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+            errorDiv.style.background = '#f0fdf4';
+            errorDiv.style.borderColor = '#86c540';
+            errorDiv.style.color = '#166534';
+        }
+
+        // Hide error message
+        function hideError() {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.classList.remove('show');
+        }
+
+        // Get dashboard URL based on user type
+        function getDashboardUrl(userType) {
+            console.log('Routing user with type:', userType);
+
+            // Map API user types to dashboard URLs
+            const dashboardMapping = {
+                // IT user types
+                'it_candidate': 'it-candidate-dashboard.html',
+                'it-candidate': 'it-candidate-dashboard.html',
+                'itcandidate': 'it-candidate-dashboard.html',
+
+                'it_vendor': 'it-vendor-dashboard.html',
+                'it-vendor': 'it-vendor-dashboard.html',
+                'itvendor': 'it-vendor-dashboard.html',
+
+                // Teacher candidate types
+                'teacher_candidate': 'teacher-candidate-dashboard.html',
+                'teacher-candidate': 'teacher-candidate-dashboard.html',
+                'teachercandidate': 'teacher-candidate-dashboard.html',
+
+                'teacher_candidate_nonteaching': 'teacher-candidate-nonteaching-dashboard.html',
+                'teacher-candidate-nonteaching': 'teacher-candidate-nonteaching-dashboard.html',
+                'teachercandidate_nonteaching': 'teacher-candidate-nonteaching-dashboard.html',
+
+                // Teacher employer types
+                'teacher_employer': 'teacher-employer-dashboard.html',
+                'teacher-employer': 'teacher-employer-dashboard.html',
+                'teacheremployer': 'teacher-employer-dashboard.html',
+
+                'teacher_employer_nonteaching': 'teacher-employer-nonteaching-dashboard.html',
+                'teacher-employer-nonteaching': 'teacher-employer-nonteaching-dashboard.html',
+                'teacheremployer_nonteaching': 'teacher-employer-nonteaching-dashboard.html',
+
+                // Admin
+                'admin': 'admin-dashboard.html'
+            };
+
+            // Get dashboard URL from mapping
+            const dashboardUrl = dashboardMapping[userType];
+
+            if (dashboardUrl) {
+                console.log('Redirecting to:', dashboardUrl);
+                return dashboardUrl;
+            } else {
+                // Fallback: log error and redirect to generic dashboard
+                console.error('Unknown user type:', userType);
+                console.log('Falling back to it-candidate-dashboard.html');
+                return 'it-candidate-dashboard.html'; // Default fallback
+            }
+        }
+
+        // ============================================
+        // REGISTRATION MODAL FUNCTIONS
+        // ============================================
+
+        // Show registration modal
+        function showRegistrationModal() {
+            document.getElementById('registrationModal').classList.add('show');
+        }
+
+        // Close registration modal
+        function closeRegistrationModal() {
+            document.getElementById('registrationModal').classList.remove('show');
+        }
+
+        // Navigate to registration page
+        function navigateToRegister(page) {
+            window.location.href = page;
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('registrationModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeRegistrationModal();
+            }
+        });
+
+        // Handle register link click
+        document.getElementById('registerLink').addEventListener('click', function (e) {
+            e.preventDefault();
+            showRegistrationModal();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Candidates - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .dashboard-section { padding: 40px 0 60px; background: #f5f7fa; min-height: calc(100vh - 80px); }
+        .dashboard-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 300px; gap: 30px; }
+        @media (max-width: 992px) { .dashboard-container { grid-template-columns: 1fr; } .sidebar { margin-top: 30px; } }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+        .page-header h1 { font-size: 24px; color: #2c3e50; margin: 0; }
+        .page-header .credits-badge { font-size: 14px; color: #6b7280; font-weight: 600; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; color: #86c540; text-decoration: none; font-weight: 600; border: 2px solid #86c540; border-radius: 8px; }
+        .back-link:hover { background: #86c540; color: white; }
+        .candidates-feed {
+            border: 1px solid #e8e8e8; border-radius: 12px; overflow: hidden;
+            background: #fff; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        }
+        .candidate-row {
+            display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
+            gap: 16px 20px; padding: 18px 22px; border-bottom: 1px solid #ebebeb;
+            background: #fff; transition: background 0.15s ease;
+        }
+        .candidate-row:last-child { border-bottom: none; }
+        .candidate-row:hover { background: #f9fafb; }
+        .candidate-row-main { flex: 1; min-width: 200px; }
+        .candidate-li-name {
+            font-size: 1.125rem; font-weight: 700; color: #5a8f2a; line-height: 1.35;
+            margin: 0 0 12px 0; letter-spacing: -0.02em;
+        }
+        .candidate-li-meta { display: flex; flex-direction: column; gap: 8px; font-size: 0.875rem; line-height: 1.5; }
+        .candidate-li-row { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+        .candidate-li-row .li-label {
+            flex-shrink: 0; color: rgba(0,0,0,0.6); font-weight: 600; min-width: 118px; font-size: 0.8125rem;
+        }
+        .candidate-li-row .li-value { color: #38434f; flex: 1; min-width: 0; }
+        .candidate-card-actions { flex-shrink: 0; align-self: center; }
+        .btn-view-details {
+            display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; background: #86c540; color: white;
+            border: none; border-radius: 8px; font-weight: 600; font-size: 0.875rem; cursor: pointer;
+        }
+        .btn-view-details:hover { background: #75b035; box-shadow: 0 4px 12px rgba(134, 197, 64, 0.35); }
+        .sidebar-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); margin-bottom: 30px; }
+        .sidebar-card h3 { font-size: 18px; margin-bottom: 20px; color: #2c3e50; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .sidebar-card ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar-card li { margin-bottom: 10px; }
+        .sidebar-card a { text-decoration: none; color: #2c3e50; }
+        .sidebar-card a:hover { color: #86c540; }
+        .sidebar-card a i { margin-right: 8px; color: #86c540; }
+        .empty-state { text-align: center; padding: 40px 20px; color: #64748b; background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); }
+        .empty-state i { font-size: 3rem; color: #ddd; margin-bottom: 15px; }
+        .loading-spinner { text-align: center; padding: 40px; color: #86c540; }
+        .error-state { text-align: center; padding: 40px 20px; color: #ef4444; background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); }
+        .error-state .retry-btn { margin-top: 16px; padding: 10px 20px; background: #86c540; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .error-state .retry-btn:hover { background: #75b035; }
+        .detail-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; }
+        .detail-modal-overlay.show { opacity: 1; visibility: visible; }
+        .detail-modal { background: white; border-radius: 12px; max-width: 480px; width: 92%; max-height: 85vh; overflow: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border-left: 5px solid #86c540; }
+        .detail-modal-header { padding: 20px 24px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .detail-modal-header h3 { margin: 0; font-size: 1.2rem; color: #2c3e50; }
+        .detail-modal-close { background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .detail-modal-close:hover { color: #86c540; }
+        .detail-modal-body { padding: 24px; }
+        .detail-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-row strong { color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; min-width: 120px; }
+        .detail-row span { color: #2c3e50; text-align: right; }
+    </style>
+</head>
+
+<body>
+    <script src="js/route-guard.js" data-required-role="user"></script>
+    <div id="header-placeholder"></div>
+    <div style="height: 100px;"></div>
+
+    <section class="dashboard-section">
+        <div class="dashboard-container">
+
+            <div class="main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="fas fa-users" style="color:#86c540;margin-right:8px;"></i> All Candidates</h1>
+                        <span class="credits-badge" id="creditsDisplay">Credits: —</span>
+                    </div>
+                    <a href="#" id="backLink" class="back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+                </div>
+
+                <!-- Filters -->
+                <div id="candidatesFilters" class="filters-container" style="display: none; background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid #e8e8e8; gap: 15px; flex-wrap: wrap; align-items: flex-end;">
+                    <div class="filter-group" style="flex: 1; min-width: 180px;">
+                        <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #333;">Skills</label>
+                        <input type="text" id="filterSkills" placeholder="e.g. Java, Python" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; box-sizing: border-box;">
+                    </div>
+                    <div class="filter-group" style="flex: 1; min-width: 180px;">
+                        <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #333;">Qualification</label>
+                        <input type="text" id="filterQualification" placeholder="e.g. B.Tech, MCA" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; box-sizing: border-box;">
+                    </div>
+                    <div class="filter-group" style="flex: 1; min-width: 180px;">
+                        <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #333;">Min Expected Salary</label>
+                        <input type="number" id="filterSalary" placeholder="Min LPA. e.g. 5" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; box-sizing: border-box;">
+                    </div>
+                    <div class="filter-actions" style="display: flex; gap: 8px;">
+                        <button id="applyFiltersBtn" style="padding: 10px 20px; background: #86c540; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Apply</button>
+                        <button id="clearFiltersBtn" style="padding: 10px 20px; background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Clear</button>
+                    </div>
+                </div>
+
+                <div id="candidatesList">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p style="margin-top: 10px;">Loading candidates…</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>Quick Links</h3>
+                    <ul id="sidebarLinks">
+                        <li><a href="teacher-employer-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                        <li><a href="teacher-my-subscriptions.html"><i class="fas fa-credit-card"></i> View Subscriptions</a></li>
+                        <li><a href="teacher-subscription-plans.html"><i class="fas fa-box-open"></i> Subscription Plans</a></li>
+                        <li><a href="my-posted-jobs.html"><i class="fas fa-briefcase"></i> My Posted Jobs</a></li>
+                        <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="detail-modal-overlay" id="detailModal" aria-hidden="true">
+        <div class="detail-modal">
+            <div class="detail-modal-header">
+                <h3><i class="fas fa-user" style="color:#86c540;margin-right:8px;"></i> Candidate details</h3>
+                <button type="button" class="detail-modal-close" id="detailModalClose" aria-label="Close">&times;</button>
+            </div>
+            <div class="detail-modal-body" id="detailModalBody"></div>
+        </div>
+    </div>
+
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            function escapeHtml(text) {
+                if (text == null || text === '') return '';
+                var div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            var params = new URLSearchParams(window.location.search);
+            var fromNonTeaching = params.get('from') === 'nonteaching';
+            var userType = localStorage.getItem('userType') || sessionStorage.getItem('userType') || '';
+            var container = document.getElementById('candidatesList');
+            var creditsEl = document.getElementById('creditsDisplay');
+            var backLink = document.getElementById('backLink');
+            var sidebarLinks = document.getElementById('sidebarLinks');
+
+            if (backLink) {
+                if (userType === 'it_vendor') backLink.href = 'it-vendor-dashboard.html';
+                else if (userType === 'teacher_employer_nonteaching' || fromNonTeaching) backLink.href = 'teacher-employer-nonteaching-dashboard.html';
+                else backLink.href = 'teacher-employer-dashboard.html';
+            }
+            if (creditsEl) creditsEl.textContent = 'Credits: —';
+            window._browseSubscriptionId = null;
+            window._browseCreditsCache = null;
+
+            function getNoCreditsMessage() {
+                if (userType === 'it_vendor') {
+                    return 'No credits left. Please upgrade your plan to continue viewing candidate profiles.';
+                }
+                return 'No credits left. Please buy credits to continue viewing candidate profiles.';
+            }
+
+            function getBuyCreditsHref() {
+                if (userType === 'it_vendor') return 'it-vendor-plans.html';
+                return 'teacher-credit-packs.html' + (fromNonTeaching ? '?from=nonteaching' : '');
+            }
+
+            function promptBuyCredits() {
+                var msg = getNoCreditsMessage();
+                var goNow = window.confirm(msg + ' Click OK to open purchase page.');
+                if (goNow) window.location.href = getBuyCreditsHref();
+            }
+
+            function getAvailableCreditsFromResponse(data) {
+                if (data == null) return null;
+                if (typeof data.available_credits === 'number') return data.available_credits;
+                if (typeof data.balance === 'number') return data.balance;
+                if (typeof data.total_credits === 'number') return data.total_credits;
+                if (typeof data.remaining_credits === 'number') return data.remaining_credits;
+                if (typeof data.credits === 'number') return data.credits;
+                var payload = (data.data && typeof data.data === 'object') ? data.data : data;
+                if (typeof payload.balance === 'number') return payload.balance;
+                if (typeof payload.available_credits === 'number') return payload.available_credits;
+                if (typeof payload.credits === 'number') return payload.credits;
+                return null;
+            }
+
+            async function refreshCreditsDisplay() {
+                if (!creditsEl) return null;
+                try {
+                    var res = await authManager.apiRequest('/api/v1/finance/credits/me/');
+                    if (res.ok) {
+                        var data = await res.json().catch(function () { return null; });
+                        var credits = getAvailableCreditsFromResponse(data);
+                        window._browseCreditsCache = credits;
+                        creditsEl.textContent = 'Credits: ' + (credits != null ? Number(credits).toLocaleString() : '—');
+                        return credits;
+                    }
+                } catch (e) { /* ignore */ }
+                creditsEl.textContent = 'Credits: —';
+                return null;
+            }
+
+            if (sidebarLinks) {
+                if (userType === 'it_vendor') {
+                    sidebarLinks.innerHTML = '<li><a href="it-vendor-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>' +
+                        '<li><a href="my-subscriptions.html"><i class="fas fa-credit-card"></i> View Subscriptions</a></li>' +
+                        '<li><a href="it-vendor-plans.html"><i class="fas fa-box-open"></i> Subscription Plans</a></li>' +
+                        '<li><a href="my-posted-jobs.html"><i class="fas fa-briefcase"></i> My Posted Jobs</a></li>' +
+                        '<li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>';
+                } else {
+                    sidebarLinks.innerHTML = '<li><a href="' + (fromNonTeaching ? 'teacher-employer-nonteaching-dashboard.html' : 'teacher-employer-dashboard.html') + '"><i class="fas fa-home"></i> Dashboard</a></li>' +
+                        '<li><a href="teacher-my-subscriptions.html' + (fromNonTeaching ? '?from=nonteaching' : '') + '"><i class="fas fa-credit-card"></i> View Subscriptions</a></li>' +
+                        '<li><a href="teacher-subscription-plans.html"><i class="fas fa-box-open"></i> Subscription Plans</a></li>' +
+                        '<li><a href="my-posted-jobs.html' + (fromNonTeaching ? '?from=nonteaching' : '') + '"><i class="fas fa-briefcase"></i> My Posted Jobs</a></li>' +
+                        '<li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>';
+                }
+            }
+
+            try {
+                if (typeof authManager === 'undefined') throw new Error('Please log in again.');
+
+                var subscriptionId = params.get('subscription_id') || '';
+                if (!subscriptionId) {
+                    container.innerHTML = '<div class="loading-spinner" style="padding:24px;"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:10px;">Loading your subscription…</p></div>';
+                    var subsPromise = authManager.apiRequest('/api/v1/plans/my-subscriptions/');
+                    var subsTimeout = 12000;
+                    var subsRes = await Promise.race([
+                        subsPromise,
+                        new Promise(function (_, reject) { setTimeout(function () { reject(new Error('Subscription request timed out.')); }, subsTimeout); })
+                    ]).catch(function (e) { console.warn('My-subscriptions failed:', e); return null; });
+                    if (subsRes && subsRes.ok) {
+                        var subsData = await subsRes.json().catch(function () { return {}; });
+                        var subs = Array.isArray(subsData) ? subsData : (subsData.results || subsData.data || subsData.subscriptions || []);
+                        var active = subs.filter(function (s) { return (s.status || '').toLowerCase() === 'active'; });
+                        var first = active[0] || subs[0];
+                        if (first && (first.id != null || first.order_id != null)) {
+                            subscriptionId = String(first.id != null ? first.id : first.order_id);
+                            var newUrl = window.location.pathname + '?subscription_id=' + encodeURIComponent(subscriptionId) + (fromNonTeaching ? '&from=nonteaching' : '');
+                            window.history.replaceState({}, '', newUrl);
+                        }
+                    }
+                }
+                if (!subscriptionId) {
+                    var subsHref = userType === 'it_vendor' ? 'my-subscriptions.html' : ('teacher-my-subscriptions.html' + (fromNonTeaching ? '?from=nonteaching' : ''));
+                    var dashHref = userType === 'it_vendor' ? 'it-vendor-dashboard.html' : (fromNonTeaching ? 'teacher-employer-nonteaching-dashboard.html' : 'teacher-employer-dashboard.html');
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><h3>Select a subscription</h3><p>You need an active subscription to view assigned candidates.</p><a href="' + subsHref + '" class="back-link" style="margin-top: 16px; display: inline-flex;"><i class="fas fa-credit-card"></i> My Subscriptions</a><br><a href="' + dashHref + '" class="back-link" style="margin-top: 12px; display: inline-flex;"><i class="fas fa-arrow-left"></i> Back to Dashboard</a></div>';
+                    return;
+                }
+
+                container.innerHTML = '<div class="loading-spinner" style="padding:24px;"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:10px;">Loading candidates…</p></div>';
+
+                var assignedUrl = userType === 'it_vendor'
+                    ? '/api/v1/plans/it/subscriptions/assigned-candidates/?subscription_id=' + encodeURIComponent(subscriptionId)
+                    : '/api/v1/plans/subscriptions/assigned-candidates/?subscription_id=' + encodeURIComponent(subscriptionId);
+                var timeoutMs = 25000;
+                var response = await Promise.race([
+                    authManager.apiRequest(assignedUrl),
+                    new Promise(function (_, reject) {
+                        setTimeout(function () { reject(new Error('Request timed out. Please check your connection and try again.')); }, timeoutMs);
+                    })
+                ]);
+
+                if (!response.ok) {
+                    var errData = await response.json().catch(function () { return {}; });
+                    throw new Error(errData.detail || errData.message || 'Failed to load assigned candidates');
+                }
+
+                var data = await response.json();
+                var list = Array.isArray(data) ? data : (data.results || data.data || data.candidates || data.assigned_candidates || data.list || []);
+
+                window._browseSubscriptionId = subscriptionId;
+                await refreshCreditsDisplay();
+
+                if (list.length === 0) {
+                    // Fallback: if no assigned candidates, load general candidate pool
+                    var typeParam = userType === 'it_vendor' ? 'it' : 'teacher';
+                    try {
+                        var fallbackResp = await authManager.apiRequest('/api/v1/auth/candidates/?type=' + encodeURIComponent(typeParam));
+                        if (fallbackResp.ok) {
+                            var fallbackData = await fallbackResp.json();
+                            list = Array.isArray(fallbackData) ? fallbackData : (fallbackData.results || fallbackData.data || fallbackData.candidates || fallbackData.list || []);
+                        }
+                    } catch (e) {
+                        // ignore and show empty state below if still no data
+                    }
+                    if (!list || list.length === 0) {
+                        var dashHref = userType === 'it_vendor' ? 'it-vendor-dashboard.html' : (fromNonTeaching ? 'teacher-employer-nonteaching-dashboard.html' : 'teacher-employer-dashboard.html');
+                        var subsHref = userType === 'it_vendor' ? 'my-subscriptions.html' : ('teacher-my-subscriptions.html' + (fromNonTeaching ? '?from=nonteaching' : ''));
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><h3>No candidates available</h3><p>No assigned candidates were found for this subscription, and no general candidates are currently available.</p><a href="' + subsHref + '" class="back-link" style="margin-top: 16px; display: inline-flex;"><i class="fas fa-credit-card"></i> My Subscriptions</a><br><a href="' + dashHref + '" class="back-link" style="margin-top: 12px; display: inline-flex;"><i class="fas fa-arrow-left"></i> Back to Dashboard</a></div>';
+                        return;
+                    }
+                }
+
+                function getPreviewVal(c, keys) {
+                    var p = c.profile || c;
+                    for (var i = 0; i < keys.length; i++) {
+                        var v = (p[keys[i]] != null ? p[keys[i]] : c[keys[i]]);
+                        if (v != null && v !== '') return Array.isArray(v) ? v.slice(0, 8).join(', ') : String(v);
+                    }
+                    return '—';
+                }
+
+                function formatExpectedCtc(val) {
+                    if (val == null || val === '') return null;
+                    if (typeof val === 'number') return String(val);
+                    if (typeof val === 'string') return val;
+                    if (typeof val === 'object') {
+                        if (val.min != null && val.max != null) return val.min + ' – ' + val.max + (val.unit ? ' ' + val.unit : '');
+                        if (val.amount != null) return String(val.amount) + (val.unit ? ' ' + val.unit : '');
+                        if (val.expected_ctc != null) return formatExpectedCtc(val.expected_ctc);
+                        if (val.expected_salary != null) return formatExpectedCtc(val.expected_salary);
+                    }
+                    return null;
+                }
+                function getExpectedCtcFromDetail(d) {
+                    var user = d.user || d;
+                    var profile = d.profile || user.profile || {};
+                    var raw = user.expected_salary != null ? user.expected_salary : (user.expected_ctc != null ? user.expected_ctc : (user.expected_ctc_lakhs != null ? user.expected_ctc_lakhs : (user.ctc != null ? user.ctc : (profile.expected_salary != null ? profile.expected_salary : (profile.expected_ctc != null ? profile.expected_ctc : (profile.expected_ctc_lakhs != null ? profile.expected_ctc_lakhs : (profile.ctc != null ? profile.ctc : (d.expected_salary != null ? d.expected_salary : (d.expected_ctc != null ? d.expected_ctc : (d.expected_ctc_lakhs != null ? d.expected_ctc_lakhs : (d.ctc != null ? d.ctc : null)))))))))));
+                    if (raw != null && raw !== '') return formatExpectedCtc(raw);
+                    var min = user.salary_min != null ? user.salary_min : (profile.salary_min != null ? profile.salary_min : d.salary_min);
+                    var max = user.salary_max != null ? user.salary_max : (profile.salary_max != null ? profile.salary_max : d.salary_max);
+                    if (min != null || max != null) return (min != null ? min : '') + (min != null && max != null ? ' – ' : '') + (max != null ? max : '');
+                    return null;
+                }
+                function getFromDetail(d, keys) {
+                    var user = d.user || d;
+                    var profile = d.profile || user.profile || {};
+                    for (var i = 0; i < keys.length; i++) {
+                        var v = (user[keys[i]] != null ? user[keys[i]] : (profile[keys[i]] != null ? profile[keys[i]] : d[keys[i]]));
+                        if (v != null && v !== '') return Array.isArray(v) ? v.slice(0, 8).join(', ') : String(v);
+                    }
+                    return null;
+                }
+                function getFromDetailDeep(d, keys, keySubstr) {
+                    var sources = [d, d.user, d.profile];
+                    if (d.profile && typeof d.profile === 'object') {
+                        Object.keys(d.profile).forEach(function (k) {
+                            if (d.profile[k] && typeof d.profile[k] === 'object' && d.profile[k] !== d.profile) sources.push(d.profile[k]);
+                        });
+                    }
+                    if (d.user && d.user.profile) sources.push(d.user.profile);
+                    for (var ki = 0; ki < keys.length; ki++) {
+                        for (var si = 0; si < sources.length; si++) {
+                            var obj = sources[si];
+                            if (!obj || typeof obj !== 'object') continue;
+                            var v = obj[keys[ki]];
+                            if (v == null || v === '') continue;
+                            if (typeof v === 'number') return String(v);
+                            if (typeof v === 'string') return v;
+                            if (Array.isArray(v)) {
+                                var parts = v.slice(0, 8).map(function (x) { return x && (typeof x === 'object' ? (x.name || x.title || x) : x); }).filter(Boolean);
+                                return parts.length ? parts.join(', ') : null;
+                            }
+                        }
+                    }
+                    if (keySubstr) {
+                        for (var si = 0; si < sources.length; si++) {
+                            var obj = sources[si];
+                            if (!obj || typeof obj !== 'object') continue;
+                            for (var k in obj) {
+                                if (obj.hasOwnProperty(k) && k.toLowerCase().indexOf(keySubstr) !== -1) {
+                                    var v = obj[k];
+                                    if (v == null || v === '') continue;
+                                    if (typeof v === 'string' || typeof v === 'number') return String(v);
+                                    if (typeof v === 'object' && (v.name || v.title)) return String(v.name || v.title);
+                                }
+                            }
+                        }
+                    }
+                    return null;
+                }
+
+                function getIdFromCandidate(c) {
+                    if (!c) return null;
+                    var candidates = [
+                        c.candidate_user_id,
+                        c.user_id,
+                        c.user && c.user.id,
+                        c.id,
+                        c.userId,
+                        c.profile && c.profile.user_id,
+                        c.profile && c.profile.id,
+                        c.pk,
+                        c.candidate_id
+                    ];
+                    var raw = null;
+                    for (var i = 0; i < candidates.length; i++) {
+                        if (candidates[i] != null && candidates[i] !== '') {
+                            raw = candidates[i];
+                            break;
+                        }
+                    }
+                    if (raw == null || raw === '') return null;
+                    var num = parseInt(raw, 10);
+                    return isNaN(num) ? raw : num;
+                }
+                // Ensure each list item has id/user_id for detail modal; use list as-is so UI shows immediately
+                var listWithIds = list.map(function (c) {
+                    var id = getIdFromCandidate(c);
+                    var out = Object.assign({}, c);
+                    if (id != null) { out.id = out.id != null ? out.id : id; out.user_id = out.user_id != null ? out.user_id : id; }
+                    return out;
+                });
+
+                container.innerHTML = '<div class="loading-spinner" style="padding:32px;"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:10px;">Loading profile previews…</p></div>';
+
+                var enriched = listWithIds;
+                try {
+                    enriched = await Promise.all(listWithIds.map(async function (c) {
+                        var id = c.user_id != null ? c.user_id : c.id;
+                        if (!id) return c;
+                        try {
+                            var r = await authManager.apiRequest('/api/v1/auth/candidates/' + id + '/');
+                            if (!r.ok) return c;
+                            var d = await r.json().catch(function () { return {}; });
+                            var merged = Object.assign({}, c);
+                            var keySkills = getFromDetail(d, ['key_skills', 'skills', 'subjects']);
+                            if (keySkills) merged.key_skills = keySkills;
+                            var expectedCtcVal = getExpectedCtcFromDetail(d);
+                            if (expectedCtcVal) merged.expected_salary = expectedCtcVal;
+                            var qual = getFromDetail(d, ['qualification', 'education', 'degree', 'college']);
+                            if (qual) merged.qualification = qual;
+                            return merged;
+                        } catch (err) { return c; }
+                    }));
+                } catch (enrichErr) {
+                    console.warn('Candidate preview enrichment', enrichErr);
+                    enriched = listWithIds;
+                }
+
+                function formatSalaryDisplay(s) {
+                    if (s == null || s === '' || s === '—') return '—';
+                    var str = String(s).trim();
+                    var n = parseFloat(str.replace(/[^0-9.\-–]/g, '').split(/[–-]/)[0]);
+                    if (!isNaN(n) && n >= 100000) {
+                        var lpa = n / 100000;
+                        return '₹' + (lpa % 1 < 0.01 ? lpa.toFixed(0) : lpa.toFixed(1)) + ' LPA';
+                    }
+                    if (!isNaN(n) && n >= 1000) return '₹' + Math.round(n).toLocaleString('en-IN');
+                    return str;
+                }
+                function dashOr(s) { return (s == null || s === '' || s === '—') ? '—' : s; }
+
+                window._allCandidatesRaw = enriched;
+                
+                function renderCandidates(listToRender) {
+                    window._browseCandidatesList = listToRender;
+                    if (listToRender.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-filter"></i><h3>No matches found</h3><p>No candidates match your current filters.</p></div>';
+                        return;
+                    }
+                    container.innerHTML = '<div class="candidates-feed">' + listToRender.map(function (c, idx) {
+                        var name = getPreviewVal(c, ['full_name', 'candidate_name', 'name']) || 'Candidate';
+                        var qualification = dashOr(getPreviewVal(c, ['qualification', 'education', 'degree', 'college']));
+                        var keySkills = dashOr(getPreviewVal(c, ['key_skills', 'skills', 'subjects']));
+                        var expectedCtc = getPreviewVal(c, ['expected_salary', 'expected_ctc', 'expected_ctc_lakhs', 'ctc', 'salary_expectation']);
+                        var salDisplay = (expectedCtc === '—' || !expectedCtc) ? '—' : formatSalaryDisplay(expectedCtc);
+                        return '<div class="candidate-row" role="article">' +
+                            '<div class="candidate-row-main">' +
+                            '<div class="candidate-li-name">' + escapeHtml(name) + '</div>' +
+                            '<div class="candidate-li-meta">' +
+                            '<div class="candidate-li-row"><span class="li-label">Qualification</span><span class="li-value">' + escapeHtml(qualification) + '</span></div>' +
+                            '<div class="candidate-li-row"><span class="li-label">Skills</span><span class="li-value">' + escapeHtml(keySkills) + '</span></div>' +
+                            '<div class="candidate-li-row"><span class="li-label">Expected salary</span><span class="li-value">' + escapeHtml(salDisplay) + '</span></div>' +
+                            '</div></div>' +
+                            '<div class="candidate-card-actions"><button type="button" class="btn-view-details" data-idx="' + idx + '"><i class="fas fa-eye"></i> View Details</button></div>' +
+                            '</div>';
+                    }).join('') + '</div>';
+
+                    container.querySelectorAll('.btn-view-details').forEach(function (btn) {
+                        btn.addEventListener('click', function () {
+                            var idx = parseInt(this.getAttribute('data-idx'), 10);
+                            if (!isNaN(idx)) openDetailModal(idx);
+                        });
+                    });
+                }
+
+                // Initial render
+                renderCandidates(window._allCandidatesRaw);
+                
+                // Show filters now that candidates have loaded
+                var filtersContainer = document.getElementById('candidatesFilters');
+                if (filtersContainer) filtersContainer.style.display = 'flex';
+
+                function applyCandidateFilters() {
+                    if (!window._allCandidatesRaw) return;
+                    
+                    var skillQ = document.getElementById('filterSkills').value.toLowerCase().trim();
+                    var qualQ = document.getElementById('filterQualification').value.toLowerCase().trim();
+                    var salVal = document.getElementById('filterSalary').value;
+                    var salQ = salVal !== '' ? parseFloat(salVal) : NaN;
+
+                    var filtered = window._allCandidatesRaw.filter(function(c) {
+                        var qualification = dashOr(getPreviewVal(c, ['qualification', 'education', 'degree', 'college'])).toLowerCase();
+                        var keySkills = dashOr(getPreviewVal(c, ['key_skills', 'skills', 'subjects'])).toLowerCase();
+                        var expectedCtc = getPreviewVal(c, ['expected_salary', 'expected_ctc', 'expected_ctc_lakhs', 'ctc', 'salary_expectation']);
+                        
+                        var matchesSkill = !skillQ || keySkills.indexOf(skillQ) !== -1;
+                        var matchesQual = !qualQ || qualification.indexOf(qualQ) !== -1;
+                        var matchesSal = true;
+                        
+                        if (!isNaN(salQ)) {
+                            if (!expectedCtc || expectedCtc === '—') {
+                                matchesSal = false; // No salary specified by candidate
+                            } else {
+                                var n = parseFloat(String(expectedCtc).replace(/[^0-9.\-–]/g, '').split(/[–-]/)[0]);
+                                if (!isNaN(n)) {
+                                    var lpa = n >= 100000 ? n / 100000 : n;
+                                    if (lpa < salQ) matchesSal = false;
+                                } else {
+                                    matchesSal = false;
+                                }
+                            }
+                        }
+
+                        return matchesSkill && matchesQual && matchesSal;
+                    });
+                    
+                    renderCandidates(filtered);
+                }
+
+                document.getElementById('applyFiltersBtn').addEventListener('click', applyCandidateFilters);
+                document.getElementById('clearFiltersBtn').addEventListener('click', function() {
+                    document.getElementById('filterSkills').value = '';
+                    document.getElementById('filterQualification').value = '';
+                    document.getElementById('filterSalary').value = '';
+                    applyCandidateFilters();
+                });
+
+                // Trigger on 'Enter' key
+                ['filterSkills', 'filterQualification', 'filterSalary'].forEach(function(id) {
+                    var el = document.getElementById(id);
+                    if (el) el.addEventListener('keyup', function(e) {
+                        if (e.key === 'Enter') applyCandidateFilters();
+                    });
+                });
+
+                function getCandidateId(c) {
+                    return getIdFromCandidate(c);
+                }
+                function renderDetailFromData(data, body) {
+                    var rows = [];
+                    function addRow(label, value) {
+                        if (value == null || value === '') return;
+                        if (Array.isArray(value)) value = value.join(', ');
+                        if (typeof value === 'object') return;
+                        rows.push('<div class="detail-row"><strong>' + escapeHtml(String(label).replace(/_/g, ' ')) + '</strong><span>' + escapeHtml(String(value)) + '</span></div>');
+                    }
+                    function addRowLink(label, url, text) {
+                        if (!url) return;
+                        rows.push('<div class="detail-row"><strong>' + escapeHtml(String(label).replace(/_/g, ' ')) + '</strong><span><a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(text || 'View') + '</a></span></div>');
+                    }
+                    var user = data.user || data;
+                    var profile = data.profile || user.profile || {};
+                    addRow('Name', user.full_name || user.name || profile.full_name || profile.name || user.email);
+                    addRow('Email', user.email || profile.email);
+                    if (user.id != null) addRow('User ID', user.id);
+                    addRow('Phone', user.phone || profile.phone || profile.mobile);
+                    addRow('User type', user.user_type || data.user_type || profile.user_type);
+                    addRowLink('Resume', user.resume_url || profile.resume_url || data.resume_url, 'View resume');
+                    ['experience', 'current_company', 'current_designation', 'expected_salary', 'notice_period', 'education', 'degree', 'college', 'location', 'city', 'state', 'country', 'date_of_birth', 'gender', 'summary', 'bio', 'skills', 'subjects', 'certifications', 'languages'].forEach(function (k) {
+                        var v = user[k] || profile[k] || data[k];
+                        if (v != null && v !== '') addRow(k, v);
+                    });
+                    if (profile && typeof profile === 'object') {
+                        Object.keys(profile).forEach(function (k) {
+                            if (['name', 'full_name', 'email', 'phone', 'mobile', 'user_type', 'resume_url'].indexOf(k) !== -1) return;
+                            var v = profile[k];
+                            if (v != null && v !== '') addRow(k, v);
+                        });
+                    }
+                    Object.keys(data).forEach(function (k) {
+                        if (['user', 'profile'].indexOf(k) !== -1) return;
+                        var v = data[k];
+                        if (v != null && v !== '' && typeof v !== 'object') addRow(k, v);
+                    });
+                    body.innerHTML = rows.length ? rows.join('') : '<p style="color:#64748b;">No details available.</p>';
+                }
+
+                function hasEnoughToShowDetail(c) {
+                    if (!c) return false;
+                    var userLike = c.user || c;
+                    return !!(userLike.full_name || userLike.name || userLike.email || (c.profile && (c.profile.full_name || c.profile.name)));
+                }
+
+                window.openDetailModal = async function (candidateIndex) {
+                    var modal = document.getElementById('detailModal');
+                    var body = document.getElementById('detailModalBody');
+                    if (!modal || !body) return;
+                    var list = window._browseCandidatesList || [];
+                    var c = list[candidateIndex];
+                    var candidateId = getCandidateId(c);
+                    if (!candidateId) {
+                        if (hasEnoughToShowDetail(c)) {
+                            renderDetailFromData({ user: c.user || c, profile: c.profile || c || {} }, body);
+                            modal.classList.add('show');
+                            modal.setAttribute('aria-hidden', 'false');
+                            return;
+                        }
+                        body.innerHTML = '<p style="color:#ef4444;">Candidate ID not available.</p>';
+                        modal.classList.add('show');
+                        modal.setAttribute('aria-hidden', 'false');
+                        return;
+                    }
+                    var idForApi = (typeof candidateId === 'number' && !isNaN(candidateId)) ? candidateId : (parseInt(candidateId, 10) || candidateId);
+
+                    var credits = window._browseCreditsCache;
+                    if (credits == null) {
+                        credits = await refreshCreditsDisplay();
+                    }
+                    if (credits == null || Number(credits) < 1) {
+                        promptBuyCredits();
+                        return;
+                    }
+
+                    try {
+                        var deductRes = await authManager.apiRequest('/api/v1/finance/credits/deduct/', {
+                            method: 'POST',
+                            body: JSON.stringify({ candidate_user_id: idForApi })
+                        });
+                        var deductData = await deductRes.json().catch(function () { return {}; });
+                        if (!deductRes.ok) {
+                            var msg = deductData.detail || deductData.message || deductData.error || '';
+                            if (Array.isArray(msg)) msg = msg[0];
+                            if (msg && typeof msg !== 'string') msg = JSON.stringify(msg);
+                            var m = String(msg || '').toLowerCase();
+                            if (!msg || m.indexOf('credit') !== -1 || deductRes.status === 402 || deductRes.status === 400) {
+                                promptBuyCredits();
+                            } else {
+                                alert(msg || ('Could not deduct credits. HTTP ' + deductRes.status));
+                            }
+                            await refreshCreditsDisplay();
+                            return;
+                        }
+                        var newBalance = deductData.balance != null ? deductData.balance : (deductData.remaining_credits != null ? deductData.remaining_credits : null);
+                        window._browseCreditsCache = newBalance != null ? newBalance : (Number(credits) - 1);
+                        if (creditsEl) creditsEl.textContent = 'Credits: ' + Number(window._browseCreditsCache).toLocaleString();
+                    } catch (deductErr) {
+                        promptBuyCredits();
+                        await refreshCreditsDisplay();
+                        return;
+                    }
+
+                    body.innerHTML = '<div class="loading-spinner" style="padding:24px;"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:10px;">Loading details…</p></div>';
+                    modal.classList.add('show');
+                    modal.setAttribute('aria-hidden', 'false');
+                    try {
+                        var res = await authManager.apiRequest('/api/v1/auth/candidates/' + idForApi + '/');
+                        var data = await res.json().catch(function () { return {}; });
+                        if (!res.ok) {
+                            if (res.status === 404 && hasEnoughToShowDetail(c)) {
+                                renderDetailFromData({ user: c.user || c, profile: c.profile || c || {} }, body);
+                                return;
+                            }
+                            var errMsg = data.detail || data.message;
+                            if (!errMsg) {
+                                if (res.status === 404) errMsg = 'Candidate not found.';
+                                else if (res.status === 403) errMsg = 'You don\'t have access to view this candidate.';
+                                else errMsg = 'Failed to load details (HTTP ' + res.status + ').';
+                            }
+                            body.innerHTML = '<p style="color:#ef4444;">' + escapeHtml(errMsg) + '</p>';
+                            return;
+                        }
+                        renderDetailFromData(data, body);
+                    } catch (e) {
+                        if (hasEnoughToShowDetail(c)) {
+                            renderDetailFromData({ user: c.user || c, profile: c.profile || c || {} }, body);
+                            return;
+                        }
+                        var msg = e.message || 'Failed to load details.';
+                        if (msg === 'Failed to fetch' || (e.name && e.name === 'TypeError')) {
+                            msg = 'Cannot reach the server. Check your connection and that the API is running.';
+                        }
+                        body.innerHTML = '<p style="color:#ef4444;">' + escapeHtml(msg) + '</p>';
+                    }
+                };
+
+                var closeBtn = document.getElementById('detailModalClose');
+                var modalEl = document.getElementById('detailModal');
+                if (closeBtn) closeBtn.addEventListener('click', function () {
+                    if (modalEl) { modalEl.classList.remove('show'); modalEl.setAttribute('aria-hidden', 'true'); }
+                });
+                if (modalEl) modalEl.addEventListener('click', function (e) {
+                    if (e.target === this) { this.classList.remove('show'); this.setAttribute('aria-hidden', 'true'); }
+                });
+
+            } catch (err) {
+                console.error('Error loading candidates:', err);
+                var dashHref = userType === 'it_vendor' ? 'it-vendor-dashboard.html' : (fromNonTeaching ? 'teacher-employer-nonteaching-dashboard.html' : 'teacher-employer-dashboard.html');
+                container.innerHTML = '<div class="error-state"><i class="fas fa-exclamation-circle"></i><h3>Error loading candidates</h3><p>' + escapeHtml(err.message || 'Please check your connection and try again.') + '</p><button type="button" class="retry-btn" onclick="window.location.reload()"><i class="fas fa-redo"></i> Try again</button><br><a href="' + dashHref + '" class="back-link" style="margin-top: 12px; display: inline-flex;"><i class="fas fa-arrow-left"></i> Back to Dashboard</a></div>';
+            }
+        });
+    </script>
+</body>
+
+</html>

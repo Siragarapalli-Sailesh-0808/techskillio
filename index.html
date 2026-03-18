@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechSkillio - Transforming Education Through Innovation</title>
+  <meta name="description"
+    content="TechSkillio - Where Learning Meets Innovation. Discover Career Catalyst, Upskill Academy, Teachers Training, and JEE/NEET coaching programs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <link rel="icon" href="favicon.jpg" type="image/png">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .slider-container {
+      position: relative;
+      width: 100%;
+      height: 460px;
+      overflow: hidden;
+    }
+
+    .slider-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .slider-img.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .services-wrapper {
+      display: flex;
+      align-items: stretch;
+      gap: 30px;
+      flex-wrap: nowrap;
+    }
+
+    @media (max-width: 767px) {
+      .services-wrapper {
+        display: block;
+      }
+    }
+
+    .services-image {
+      flex: 1;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .services-image img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .services-slider {
+      flex: 2;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .additional-service-card {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .slider-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 10px;
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+
+    .slider-controls button {
+      background-color: transparent;
+      color: black;
+      border: none;
+      padding: 12px 16px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 18px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      pointer-events: all;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .slider-controls button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+      transform: scale(1.1);
+    }
+
+    .slider-controls button:active {
+      transform: scale(0.95);
+    }
+
+    @media screen and (max-width: 768px) {
+      .slider-container {
+        position: relative;
+        width: 100%;
+        height: 274px;
+        overflow: hidden;
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #86c540;
+        margin-top: 10px;
+        border: 2px solid #86c540;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER PLACEHOLDER -->
+  <div id="header-placeholder"></div>
+
+  <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+  <div style="height: 120px;"></div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg-animation"></div>
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">🌟 Innovation Meets Education</div>
+        <h1 class="hero-title">
+          <span class="gradient-text">Transforming</span>
+          <span class="typewriter">Futures</span>
+        </h1>
+        <p class="hero-subtitle">
+          Empowering careers with cutting-edge training, global education, and skills in Cloud, AI, Cybersecurity,
+          Digital Transformation, and more — shaping tomorrow’s tech leaders.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="career-hub.html" class="btn btn-primary">
+            <span>Explore Career Catalyst</span>
+            <div class="btn-glow"></div>
+          </a>
+          <a href="study-abroad.html" class="btn btn-secondary">
+            <span>Discover Global Paths</span>
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">10K+</div>
+            <div class="stat-label">Careers Launched</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Countries Connected</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">95%</div>
+            <div class="stat-label">Success Stories</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="slider-container">
+          <img src="public/techskillio-ban2.png" class="slider-img active" alt="Slide 1">
+          <img src="public/techskillio-ban.png" class="slider-img" alt="Slide 2">
+          <img src="public/techskillio-ban1.png" class="slider-img" alt="Slide 3">
+          <img src="public/kids-k12.png" class="slider-img" alt="Slide 4">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- dsfsdfsServices Showcase -->
+  <section class="services-showcase">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="title-accent">Six Pillars of</span>
+          <span class="gradient-text">Excellence</span>
+        </h2>
+        <p class="section-subtitle">Comprehensive programs designed to accelerate your professional journey</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <div class="icon-wrapper">
+              <span class="icon-emoji">🚀</span>
+              <div class="icon-glow"></div>
+            </div>
+          </div>
+          <h3 class="service-title">Career Catalyst</h3>
+          <p class="service-description">Revolutionary IT recruitment & staffing services connecting talent with
+            opportunity through innovative matching technology</p>
+          <div class="service-features">
+            <span class="feature-tag">IT Recruitment</span>
+            <span class="feature-tag">Talent Matching</span>
+            <span class="feature-tag">Career Acceleration</span>
+          </div>
+          <a href="career-hub.html" class="service-link">
+            <span>Launch Your Career</span>
+            <div class="link-arrow">→</div>
+          </a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <div class="icon-wrapper">
+              <span class="icon-emoji">⚡</span>
+              <div class="icon-glow"></div>
+            </div>
+          </div>
+          <h3 class="service-title">Upskill Academy</h3>
+          <p class="service-description">Cutting-edge skill-based training programs designed for job readiness and
+            professional advancement in today's competitive market</p>
+          <div class="service-features">
+            <span class="feature-tag">Skill Development</span>
+            <span class="feature-tag">Job Readiness</span>
+            <span class="feature-tag">Industry Aligned</span>
+          </div>
+          <a href="k12-learning.html" class="service-link">
+            <span>Upskill Now</span>
+            <div class="link-arrow">→</div>
+          </a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <div class="icon-wrapper">
+              <span class="icon-emoji">👨‍🏫</span>
+              <div class="icon-glow"></div>
+            </div>
+          </div>
+          <h3 class="service-title">Teachers Training Academy</h3>
+          <p class="service-description">Comprehensive certified programs for educators, empowering teachers with modern
+            pedagogical methods and educational technology</p>
+          <div class="service-features">
+            <span class="feature-tag">Certified Programs</span>
+            <span class="feature-tag">Modern Pedagogy</span>
+            <span class="feature-tag">EdTech Integration</span>
+          </div>
+          <a href="contact-us.html" class="service-link">
+            <span>Train Educators</span>
+            <div class="link-arrow">→</div>
+          </a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <div class="icon-wrapper">
+              <span class="icon-emoji">📚</span>
+              <div class="icon-glow"></div>
+            </div>
+          </div>
+          <h3 class="service-title">K12 Universe</h3>
+          <p class="service-description">
+            Engaging digital learning for Grades 1–12, focused on concept clarity, real-world skills, and interactive
+            experiences.
+          </p>
+
+          <div class="service-features">
+            <span class="feature-tag">JEE or NEET</span>
+            <span class="feature-tag">Interactive Content</span>
+            <span class="feature-tag">Personalized Learning</span>
+          </div>
+          <a href="contact-us.html" class="service-link">
+            <span>Explore the K12 Advantage</span>
+            <div class="link-arrow">→</div>
+          </a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <div class="icon-wrapper">
+              <span class="icon-emoji">🌐</span>
+              <div class="icon-glow"></div>
+            </div>
+          </div>
+          <h3 class="service-title">Digital Transformation</h3>
+          <p class="service-description">
+            Empowering businesses with end-to-end digital solutions — from strategy to implementation — to drive
+            innovation and operational excellence.
+          </p>
+          <div class="service-features">
+            <span class="feature-tag">Tech Consulting</span>
+            <span class="feature-tag">Automation</span>
+            <span class="feature-tag">Innovation</span>
+          </div>
+          <a href="https://techskillio.com/digital-transformation.php" class="service-link">
+            <span>Transform Your Business</span>
+            <div class="link-arrow">→</div>
+          </a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <div class="icon-wrapper">
+              <span class="icon-emoji">🛡️</span>
+              <div class="icon-glow"></div>
+            </div>
+          </div>
+          <h3 class="service-title">Cybersecurity Solutions</h3>
+          <p class="service-description">
+            Comprehensive cybersecurity services protecting your digital assets — including risk assessments, secure
+            infrastructure, and proactive threat monitoring.
+          </p>
+          <div class="service-features">
+            <span class="feature-tag">Risk Assessment</span>
+            <span class="feature-tag">Threat Monitoring</span>
+            <span class="feature-tag">Secure Infrastructure</span>
+
+          </div>
+          <a href="https://techskillio.com/cybersecurity.php" class="service-link">
+            <span>Secure Your Future</span>
+            <div class="link-arrow">→</div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="additional-services-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="gradient-text">Additional</span> Support Services
+        </h2>
+        <p class="section-subtitle">Comprehensive support ecosystem for your educational and career journey</p>
+      </div>
+
+      <div class="services-wrapper">
+        <!-- Image (left side) -->
+        <div class="services-image">
+          <img src="public/techskillio-support11.png" alt="Support Services" />
+        </div>
+
+        <!-- Rotating Card Slider (right side) -->
+        <div class="services-slider">
+          <div class="additional-service-card" id="serviceCard">
+            <!-- Dynamic content inserted here by JavaScript -->
+          </div>
+
+          <!-- Arrow Controls - Now positioned left and right of the card -->
+          <div class="slider-controls">
+            <button onclick="prevService()" aria-label="Previous service">
+              << /button>
+                <button onclick="nextService()" aria-label="Next service">></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Success Stories Slider -->
+  <section class="success-stories">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="gradient-text">Success</span> Chronicles
+        </h2>
+        <p class="section-subtitle">Real stories from our community of achievers</p>
+      </div>
+
+      <!-- Swiper Slider -->
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <!-- Testimonial 1 -->
+          <div class="swiper-slide story-card">
+            <div class="story-quote">"TechSkillio's Career Catalyst program transformed my career trajectory. The
+              personalized guidance and industry connections helped me land my dream job in just 3 months."</div>
+            <div class="story-author">
+              <img src="public/sneha.png" alt="Sneha Ramesh" class="author-img">
+              <div class="author-info">
+                <h4>Sneha Ramesh</h4>
+                <p>Software Engineer, TCS</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="swiper-slide story-card">
+            <div class="story-quote">"The Upskill Academy program gave me the exact skills I needed for the job market.
+              The training was practical, industry-relevant, and career-focused."</div>
+            <div class="story-author">
+              <img src="public/ravi.png" alt="Ravi Teja" class="author-img">
+              <div class="author-info">
+                <h4>Ravi Teja</h4>
+                <p>Data Analyst, Infosys</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="swiper-slide story-card">
+            <div class="story-quote">"Thanks to TechSkillio's JEE coaching, I cracked the exam with flying colors. The
+              intensive training and expert guidance made all the difference."</div>
+            <div class="story-author">
+              <img src="public/aarav.png" alt="Aarav Mehta" class="author-img">
+              <div class="author-info">
+                <h4>Aarav Mehta</h4>
+                <p>Engineering Student, IIT Bombay</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 4 -->
+          <div class="swiper-slide story-card">
+            <div class="story-quote">"I enrolled in TechSkillio’s Data Science bootcamp and it was a game-changer. I
+              secured an internship within two months!"</div>
+            <div class="story-author">
+              <img src="public/meghana.png" alt="Meghana Reddy" class="author-img">
+              <div class="author-info">
+                <h4>Meghana Reddy</h4>
+                <p>Data Intern, Cognizant</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 5 -->
+          <div class="swiper-slide story-card">
+            <div class="story-quote">"My IELTS score improved drastically with their prep course. I highly recommend
+              TechSkillio for test prep."</div>
+            <div class="story-author">
+              <img src="public/divya.png" alt="Divya Nair" class="author-img">
+              <div class="author-info">
+                <h4>Divya Nair</h4>
+                <p>Study Abroad Aspirant</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 6 -->
+          <div class="swiper-slide story-card">
+            <div class="story-quote">"The interview preparation support was outstanding. I walked into interviews
+              confident and ready."</div>
+            <div class="story-author">
+              <img src="public/manish.png" alt="Manish Kulkarni" class="author-img">
+              <div class="author-info">
+                <h4>Manish Kulkarni</h4>
+                <p>Product Manager, HCL Tech</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Ready to <span class="gradient-text">Transform</span> Your Future?</h2>
+        <p class="cta-subtitle">Join thousands of professionals who've already accelerated their careers with
+          TechSkillio</p>
+        <div class="cta-buttons">
+          <a href="contact-us.html" class="btn btn-primary btn-large">
+            <span>Start Your Journey</span>
+            <div class="btn-glow"></div>
+          </a>
+          <a href="about-us.html" class="btn btn-secondary btn-large">
+            <span>Learn More</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--  Footer -->
+  <style>
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-section {
+      flex: 1 1 18%;
+      /* Ensures roughly 5 items per row */
+      min-width: 200px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img">
+          </div>
+          <p class="footer-description">
+            Transforming education through
+            innovation, career-focused training,
+            and global opportunities that shape tomorrow's leaders.
+          </p>
+          <h4>Connect With Us</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/techskillioUpskillingTraining" class="social-link" aria-label="Facebook"
+              target="_blank">
+              <span class="social-icon" style="color: #1877f2;"><i class="fab fa-facebook-f"></i></span>
+            </a>
+            <a href="https://www.instagram.com/techskillio/" class="social-link" aria-label="Instagram" target="_blank">
+              <span class="social-icon" style="color: #e4405f;"><i class="fab fa-instagram"></i></span>
+            </a>
+            <a href="https://www.linkedin.com/company/techskillio/" class="social-link" aria-label="LinkedIn"
+              target="_blank">
+              <span class="social-icon" style="color: #0077b5;"><i class="fab fa-linkedin-in"></i></span>
+            </a>
+            <a href="https://x.com/TechSkillio" class="social-link" aria-label="X (Twitter)" target="_blank">
+              <span class="social-icon" style="color: black; font-weight: bold; font-size: 20px;">X</span>
+            </a>
+
+            <a href="https://t.me/TechSkillio" class="social-link" aria-label="Telegram" target="_blank">
+              <span class="social-icon" style="color: #0088cc;"><i class="fab fa-telegram-plane"></i></span>
+            </a>
+          </div>
+
+        </div>
+
+        <div class="footer-section">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="career-hub.html">IT Staffing</a></li>
+            <li><a href="upskill.html">Corporate Training</a></li>
+            <li><a href="upskill.html">E-Learning Support</a></li>
+            <li><a href="career-guidance.html">Career Pulse</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Learning Solutions</h4>
+          <ul>
+            <li><a href="k12-learning.html">K12 Universe</a></li>
+            <li><a href="upskill.html">Up Skill</a></li>
+            <li><a href="teacher-training.html">Teacher Trainings</a></li>
+            <li><a href="contact-us.html">Pre-Training Process</a></li>
+            <li><a href="contact-us.html">Consultation</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Global Services</h4>
+          <ul>
+
+            <li><a href="https://iflyabroad.com/" target="_blank">IFly Abroad</a></li>
+            <li><a href="https://settleineurope.eu/" target="_blank">Settle in Europe</a></li>
+            <li><a href="contact-us.html">Immigration</a></li>
+            <li><a href="contact-us.html">Visa Support</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Contact Us</h4>
+          <div class="footer-contact">
+            <p><strong>📍 Address:</strong><br>Chandra Mouleswara Chambers, 3rd Floor,SR Nagar Circle, Hyderabad, TG,
+              India-500038</p>
+            <p><strong>📞 Phone:</strong><a href="tel:9100626283"> +91-9100626283</a> </p>
+            <p><strong>✉️ Email:</strong><a href="mailto:Info@techskillio.com"> Info@techskillio.com</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 TechSkillio. All rights reserved. | Designed & Developed With
+          <span>&#x2764;</span>
+          <a href="https://webbingprotechnologies.com/" style="color:#FBAE18;" target="_blank">Webbing Pro Technologies
+            -</a><a href="tel: +91 9059329297" style="color:#FBAE18;">9059329297</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+  <!-- WhatsApp Float -->
+  <div class="whatsapp-float">
+    <a href="https://wa.me/+919100626283" target="_blank" aria-label="Contact us on WhatsApp">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"
+        class="whatsapp-icon-img">
+      <div class="whatsapp-pulse"></div>
+    </a>
+  </div>
+
+  <script src="script.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+  <!-- Swiper Init -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      loop: true,
+      autoplay: {
+        delay: 4500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      breakpoints: {
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      }
+    });
+  </script>
+  <script>
+    const services = [
+      {
+        emoji: "🧭",
+        title: "Career Guidance",
+        desc: "Personalized career counseling and guidance for students and professionals to make informed decisions about their future",
+        tags: ["Personal Counseling", "Career Mapping", "Future Planning"]
+      },
+      {
+        emoji: "🌍",
+        title: "USA/Ireland Job Assistance",
+        desc: "Specialized support in finding employment opportunities abroad after education or training completion",
+        tags: ["International Jobs", "Visa Support", "Global Placement"]
+      },
+      {
+        emoji: "🎯",
+        title: "Pre-Training Process",
+        desc: "Get ready with orientation and 1:1 tutor support before starting your course.",
+        tags: ["Orientation", "Assessment", "Foundation"]
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function renderService(index) {
+      const service = services[index];
+      const card = document.getElementById("serviceCard");
+      card.innerHTML = `
+      <div class="additional-service-icon"><span class="icon-emoji">${service.emoji}</span></div>
+      <h3 class="additional-service-title">${service.title}</h3>
+      <p class="additional-service-description">${service.desc}</p>
+      <div class="additional-service-highlights">
+        ${service.tags.map(tag => `<span class="highlight-tag">${tag}</span>`).join('')}
+      </div>
+    `;
+    }
+
+    function prevService() {
+      currentIndex = (currentIndex - 1 + services.length) % services.length;
+      renderService(currentIndex);
+    }
+
+    function nextService() {
+      currentIndex = (currentIndex + 1) % services.length;
+      renderService(currentIndex);
+    }
+
+    // Initial render
+    renderService(currentIndex);
+  </script>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let currentSlide = 0;
+      const slides = document.querySelectorAll(".slider-img");
+      const totalSlides = slides.length;
+
+      setInterval(() => {
+        slides[currentSlide].classList.remove("active");
+        currentSlide = (currentSlide + 1) % totalSlides;
+        slides[currentSlide].classList.add("active");
+      }, 2000);
+    });
+  </script>
+
+
+
+  <script src="js/api-config.js"></script>
+  <script src="load-header.js"></script>
+</body>
+
+</html>

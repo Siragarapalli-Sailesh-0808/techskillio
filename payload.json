@@ -1,0 +1,8 @@
+{
+    "name": "Debug User",
+    "email": "debug_user@example.com",
+    "phone_number": "9876543210",
+    "institution_name": "Debug Institute",
+    "board": "cbse",
+    "subject": "Mathematics"
+}

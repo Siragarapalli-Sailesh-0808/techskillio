@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Applications - Admin Panel</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-shared.css">
+    <link rel="stylesheet" href="css/admin-responsive.css">
+    <style>
+        /* Action Bar */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .action-bar .page-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--admin-text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .count-badge {
+            background: var(--admin-primary);
+            color: #fff;
+            padding: 0.15rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Job Applications specific styles */
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .job-card {
+            background: var(--admin-white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .job-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--admin-primary);
+            border-radius: 12px 0 0 12px;
+        }
+
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-color: var(--admin-primary);
+        }
+
+        .job-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .job-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--admin-text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .job-company {
+            color: var(--admin-text-light);
+            font-size: 0.9rem;
+        }
+
+        .job-company i {
+            color: var(--admin-primary);
+            margin-right: 0.25rem;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--admin-text-light);
+            font-size: 0.85rem;
+        }
+
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .job-meta i {
+            color: var(--admin-primary);
+        }
+
+        .view-applicants-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-primary-dark));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .view-applicants-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(134, 197, 64, 0.3);
+        }
+
+        /* Modal adjustments */
+        .modal-content {
+            max-width: 900px;
+        }
+
+        /* Applicants Table */
+        .applicants-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .applicants-table th,
+        .applicants-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--admin-border);
+        }
+
+        .applicants-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: var(--admin-text-dark);
+            font-size: 0.85rem;
+        }
+
+        .applicant-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .applicant-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-primary-dark));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .applicant-name {
+            font-weight: 600;
+            color: var(--admin-text-dark);
+        }
+
+        .applicant-email {
+            font-size: 0.85rem;
+            color: var(--admin-text-light);
+        }
+
+        /* Mobile Applicant Cards */
+        .mobile-applicant-cards {
+            display: none;
+        }
+
+        .mobile-applicant-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--admin-primary);
+        }
+
+        .mobile-applicant-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .mobile-applicant-details {
+            display: grid;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .mobile-applicant-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .mobile-applicant-label {
+            color: var(--admin-text-light);
+        }
+
+        .mobile-applicant-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .status-applied,
+        .status-new { background: #eff6ff; color: #1d4ed8; padding: 0.2rem 0.5rem; border-radius: 8px; font-size: 0.75rem; font-weight: 600; }
+        .status-shortlisted { background: #ecfdf5; color: #059669; padding: 0.2rem 0.5rem; border-radius: 8px; font-size: 0.75rem; font-weight: 600; }
+        .status-rejected { background: #fef2f2; color: #dc2626; padding: 0.2rem 0.5rem; border-radius: 8px; font-size: 0.75rem; font-weight: 600; }
+        .status-reviewed { background: #fffbeb; color: #d97706; padding: 0.2rem 0.5rem; border-radius: 8px; font-size: 0.75rem; font-weight: 600; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--admin-text-light);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .jobs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .applicants-table {
+                display: none;
+            }
+
+            .mobile-applicant-cards {
+                display: block;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 95vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-container">
+        <!-- Sidebar Container (loaded dynamically) -->
+        <div id="sidebarContainer"></div>
+
+        <main class="main-content">
+            <!-- Header Container (loaded dynamically) -->
+            <div id="headerContainer"></div>
+
+            <!-- Action Bar (title + count) -->
+            <div class="action-bar">
+                <h1 class="page-title">
+                    <i class="fas fa-users"></i>
+                    Job Applications
+                    <span class="count-badge" id="jobCount">0</span>
+                </h1>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-filter-bar">
+                <div class="search-filter-grid">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search jobs by title, location..."
+                            onkeyup="searchJobs()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jobs Grid -->
+            <div class="jobs-grid" id="jobsGrid">
+                <div style="text-align:center; padding:3rem; color: var(--admin-text-light);">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                    <p style="margin-top:1rem;">Loading jobs...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Applicants Modal -->
+    <div class="modal-overlay" id="applicantsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalJobTitle">Applicants for Job Title</h2>
+                <button class="modal-close" onclick="hideModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="applicants-table" id="applicantsTable">
+                    <thead>
+                        <tr>
+                            <th>Applicant</th>
+                            <th>Phone</th>
+                            <th>Experience</th>
+                            <th>Applied On</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicantsBody"></tbody>
+                </table>
+                <div class="mobile-applicant-cards" id="mobileApplicantsView"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Applicant Details Modal -->
+    <div class="modal-overlay" id="applicantDetailsModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Applicant Details</h2>
+                <button class="modal-close" onclick="hideApplicantDetails()">&times;</button>
+            </div>
+            <div class="modal-body" id="applicantDetailsContent"></div>
+        </div>
+    </div>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/job-display-helpers.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script src="js/admin-ui-helpers.js"></script>
+    <script>
+        currentPage = 'job-applications';
+
+        var API_BASE_URL = window.API_BASE_URL || '';
+
+        var allJobs = [];
+        var filteredJobs = [];
+        var currentJobApplicants = [];
+        var currentJobId = null;
+
+        function getToken() {
+            if (typeof authManager !== 'undefined' && authManager.getAccessToken()) return authManager.getAccessToken();
+            return localStorage.getItem('access_token');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            try { return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
+            catch (e) { return dateStr; }
+        }
+
+        function getInitials(name) {
+            if (!name) return '—';
+            return String(name).split(' ').map(function (n) { return n[0]; }).join('').toUpperCase().substring(0, 2);
+        }
+
+        function getName(c) {
+            var p = c.profile || c.candidate_profile || c.candidate || {};
+            return c.name || c.full_name || c.candidate_name || p.name || p.full_name || c.email || p.email || 'Candidate';
+        }
+
+        function getVal(obj, keys) {
+            for (var i = 0; i < keys.length; i++) {
+                var v = obj[keys[i]];
+                if (v != null && v !== '') return v;
+            }
+            return null;
+        }
+
+        function getPostedByDisplayName(job) {
+            return (typeof getCompanyOrInstitutionName === 'function' ? getCompanyOrInstitutionName(job) : '—');
+        }
+
+        async function loadJobs() {
+            var grid = document.getElementById('jobsGrid');
+            try {
+                var token = getToken();
+                var headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = 'TSK ' + token;
+
+                var res = await fetch(API_BASE_URL + '/api/v1/jobs/jobs/admin-list/', { headers });
+                if (!res.ok) {
+                    var errData = await res.json().catch(function () { return {}; });
+                    throw new Error(errData.detail || errData.message || 'Failed to load jobs');
+                }
+                var data = await res.json();
+                var raw = Array.isArray(data) ? data : (data.results || []);
+                allJobs = raw.filter(function (job) {
+                    var s = (job.status || '').toLowerCase();
+                    return s === 'active' || s === 'approved' || s === 'published';
+                });
+                filteredJobs = allJobs.slice();
+                renderJobCards();
+            } catch (err) {
+                console.error('Failed to load jobs:', err);
+                grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><i class="fas fa-exclamation-triangle"></i><h3>Could not load jobs</h3><p>' + (err.message || 'Please try again.') + '</p></div>';
+            }
+        }
+
+        function renderJobCards() {
+            var grid = document.getElementById('jobsGrid');
+            document.getElementById('jobCount').textContent = filteredJobs.length;
+
+            if (filteredJobs.length === 0) {
+                grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><i class="fas fa-briefcase"></i><h3>No Jobs Found</h3><p>No job postings match your search.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = filteredJobs.map(function (job) {
+                var id = job.id;
+                var title = job.title || 'Untitled';
+                var loc = job.location || '—';
+                var company = getPostedByDisplayName(job);
+                var posted = job.created_at || job.posted_date;
+                return '<div class="job-card" onclick="viewApplicants(' + id + ')">' +
+                    '<div class="job-card-header">' +
+                    '<div><h3 class="job-title">' + escapeHtml(title) + '</h3><p class="job-company"><i class="fas fa-building"></i> ' + escapeHtml(company) + '</p></div>' +
+                    '</div>' +
+                    '<div class="job-meta">' +
+                    '<span><i class="fas fa-map-marker-alt"></i> ' + escapeHtml(loc) + '</span>' +
+                    '<span><i class="fas fa-calendar"></i> ' + formatDate(posted) + '</span>' +
+                    '</div>' +
+                    '<button class="view-applicants-btn" onclick="event.stopPropagation(); viewApplicants(' + id + ')"><i class="fas fa-eye"></i> View Applicants</button>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function escapeHtml(text) {
+            if (text == null || text === '') return '—';
+            var div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function searchJobs() {
+            var query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+            filteredJobs = allJobs.filter(function (job) {
+                if (!query) return true;
+                var title = (job.title || '').toLowerCase();
+                var loc = (job.location || '').toLowerCase();
+                var company = (getPostedByDisplayName(job) || '').toLowerCase();
+                return title.indexOf(query) !== -1 || loc.indexOf(query) !== -1 || company.indexOf(query) !== -1;
+            });
+            renderJobCards();
+        }
+
+        async function viewApplicants(jobId) {
+            var job = allJobs.find(function (j) { return j.id === jobId; });
+            if (!job) return;
+
+            document.getElementById('modalJobTitle').textContent = 'Applicants: ' + (job.title || 'Job');
+            var tbody = document.getElementById('applicantsBody');
+            var mobileView = document.getElementById('mobileApplicantsView');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Loading candidates...</td></tr>';
+            mobileView.innerHTML = '<div style="text-align:center; padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+            document.getElementById('applicantsModal').classList.add('show');
+
+            try {
+                var token = getToken();
+                var headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = 'TSK ' + token;
+                var res = await fetch(API_BASE_URL + '/api/v1/jobs/jobs/' + jobId + '/candidates/', { headers });
+                var data = await res.json().catch(function () { return {}; });
+                if (!res.ok) {
+                    var errMsg = (data.detail || data.message || 'Failed to load candidates') || ('Request failed: ' + res.status);
+                    throw new Error(errMsg);
+                }
+                var rawList = Array.isArray(data) ? data : (data.results || data.candidates || data.applications || []);
+                currentJobApplicants = rawList.map(function (item) {
+                    if (item.candidate) return Object.assign({}, item.candidate, { applied_at: item.applied_at || item.created_at, status: item.status });
+                    if (item.applicant) return Object.assign({}, item.applicant, { applied_at: item.applied_at || item.created_at, status: item.status });
+                    return item;
+                });
+                currentJobId = jobId;
+
+                if (currentJobApplicants.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 3rem;"><i class="fas fa-inbox" style="font-size: 3rem; color: #cbd5e1; display: block; margin-bottom: 1rem;"></i>No applications yet</td></tr>';
+                    mobileView.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>No applications yet</p></div>';
+                } else {
+                    tbody.innerHTML = currentJobApplicants.map(function (a, idx) {
+                        var name = getName(a);
+                        var profile = a.profile || a.candidate_profile || {};
+                        var email = getVal(a, ['email', 'candidate_email']) || getVal(profile, ['email']) || '—';
+                        var phone = getVal(a, ['phone', 'mobile', 'contact_number']) || getVal(profile, ['phone', 'mobile', 'contact_number']) || '—';
+                        var exp = a.experience != null ? a.experience + ' yrs' : (getVal(a, ['experience']) || getVal(profile, ['experience']) || '—');
+                        var applied = a.applied_at || a.created_at || a.application_date;
+                        var status = getVal(a, ['status', 'application_status']) || 'applied';
+                        return '<tr>' +
+                            '<td><div class="applicant-info"><div class="applicant-avatar">' + getInitials(name) + '</div><div><div class="applicant-name">' + escapeHtml(name) + '</div><div class="applicant-email">' + escapeHtml(email) + '</div></div></div></td>' +
+                            '<td>' + escapeHtml(phone) + '</td><td>' + escapeHtml(String(exp)) + '</td>' +
+                            '<td>' + formatDate(applied) + '</td><td><span class="status-' + String(status).toLowerCase().replace(/\s/g, '') + '">' + escapeHtml(String(status)) + '</span></td>' +
+                            '<td><button class="action-btn btn-view" onclick="viewApplicantDetails(' + idx + ')">View</button></td></tr>';
+                    }).join('');
+
+                    mobileView.innerHTML = currentJobApplicants.map(function (a, idx) {
+                        var name = getName(a);
+                        var email = getVal(a, ['email', 'candidate_email']) || '—';
+                        var phone = getVal(a, ['phone', 'mobile', 'contact_number']) || '—';
+                        var applied = a.applied_at || a.created_at;
+                        var status = getVal(a, ['status', 'application_status']) || 'applied';
+                        return '<div class="mobile-applicant-card">' +
+                            '<div class="mobile-applicant-header"><div class="applicant-avatar">' + getInitials(name) + '</div><div><div class="applicant-name">' + escapeHtml(name) + '</div><div class="applicant-email">' + escapeHtml(email) + '</div></div></div>' +
+                            '<div class="mobile-applicant-details">' +
+                            '<div class="mobile-applicant-row"><span class="mobile-applicant-label">Phone:</span><span>' + escapeHtml(phone) + '</span></div>' +
+                            '<div class="mobile-applicant-row"><span class="mobile-applicant-label">Applied:</span><span>' + formatDate(applied) + '</span></div>' +
+                            '<div class="mobile-applicant-row"><span class="mobile-applicant-label">Status:</span><span>' + escapeHtml(String(status)) + '</span></div></div>' +
+                            '<div class="mobile-applicant-actions"><button class="action-btn btn-view" onclick="viewApplicantDetails(' + idx + ')">View</button></div></div>';
+                    }).join('');
+                }
+            } catch (err) {
+                console.error('Failed to load candidates:', err);
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:2rem; color: var(--admin-danger);">Failed to load candidates. Try again.</td></tr>';
+                mobileView.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Failed to load candidates.</p></div>';
+            }
+        }
+
+        function hideModal() { document.getElementById('applicantsModal').classList.remove('show'); }
+
+        function viewApplicantDetails(idx) {
+            var c = currentJobApplicants[idx];
+            if (!c) return;
+            var name = getName(c);
+            var profile = c.profile || c.candidate_profile || c;
+            var row = function (label, value) {
+                if (value == null || value === '') return '';
+                return '<div style="display:flex; justify-content: space-between; padding: 0.75rem; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem;"><span style="color: var(--admin-text-light);"><i class="fas fa-circle" style="font-size: 4px; vertical-align: middle; color: var(--admin-primary);"></i> ' + escapeHtml(label) + '</span><strong>' + escapeHtml(String(value)) + '</strong></div>';
+            };
+            var parts = [];
+            parts.push(row('Name', name));
+            parts.push(row('Email', getVal(c, ['email', 'candidate_email'])));
+            parts.push(row('Phone', getVal(c, ['phone', 'mobile', 'contact_number']) || getVal(profile, ['phone', 'mobile'])));
+            parts.push(row('Applied date', c.applied_at || c.created_at ? formatDate(c.applied_at || c.created_at) : ''));
+            parts.push(row('Status', getVal(c, ['status', 'application_status'])));
+            parts.push(row('Experience', c.experience != null ? c.experience + ' yrs' : getVal(profile, ['experience'])));
+            parts.push(row('Current company', getVal(c, ['current_company', 'company']) || getVal(profile, ['current_company'])));
+            parts.push(row('Skills', [].concat(c.skills || c.skills_required || profile.skills || []).filter(Boolean).join(', ') || null));
+            parts.push(row('Location', getVal(c, ['location', 'city']) || getVal(profile, ['location', 'city'])));
+            if (c.resume_url || c.resume || profile.resume_url)
+                parts.push('<div style="display:flex; justify-content: space-between; padding: 0.75rem; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem;"><span style="color: var(--admin-text-light);">Resume</span><a href="' + escapeHtml(c.resume_url || c.resume || profile.resume_url) + '" target="_blank" rel="noopener" style="color: var(--admin-primary); font-weight: 600;">View</a></div>');
+
+            document.getElementById('applicantDetailsContent').innerHTML = '<div style="text-align: center; margin-bottom: 1.5rem;"><div class="applicant-avatar" style="width: 70px; height: 70px; font-size: 1.5rem; margin: 0 auto 0.75rem;">' + getInitials(name) + '</div><h2 style="color: var(--admin-text-dark); font-size: 1.1rem; margin-bottom: 0.25rem;">' + escapeHtml(name) + '</h2><p style="color: var(--admin-text-light); font-size: 0.9rem;">' + escapeHtml(getVal(c, ['email', 'candidate_email']) || '') + '</p></div>' + parts.filter(Boolean).join('');
+            document.getElementById('applicantDetailsModal').classList.add('show');
+        }
+
+        function hideApplicantDetails() { document.getElementById('applicantDetailsModal').classList.remove('show'); }
+
+        document.addEventListener('DOMContentLoaded', function () { loadJobs(); });
+        document.getElementById('applicantsModal').addEventListener('click', function (e) { if (e.target === this) hideModal(); });
+        document.getElementById('applicantDetailsModal').addEventListener('click', function (e) { if (e.target === this) hideApplicantDetails(); });
+    </script>
+    <script src="js/admin-components.js"></script>
+</body>
+
+</html>

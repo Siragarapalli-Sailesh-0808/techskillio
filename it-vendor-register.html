@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Vendor Registration - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+    <style>
+        .registration-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .registration-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .registration-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .bonus-badge {
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+        }
+
+        .form-section h3 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-section h3 i {
+            color: #86c540;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group label .required {
+            color: #ef4444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.25rem;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .conditional-field {
+            display: none;
+        }
+
+        .conditional-field.show {
+            display: block;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(134, 197, 64, 0.3);
+        }
+
+        .signin-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #64748b;
+        }
+
+        .signin-link a {
+            color: #86c540;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .registration-container {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+    <div style="height: 120px;"></div>
+
+    <section class="registration-section">
+        <div class="container">
+            <div class="registration-container">
+                <div class="registration-header">
+                    <h1><span class="gradient-text">IT Vendor</span> Registration</h1>
+                    <p style="color: #64748b;">Register your company to hire top IT talent</p>
+                    <div class="bonus-badge">
+                        <i class="fas fa-gift"></i> Get ₹1,000 Registration Bonus Credits!
+                    </div>
+                </div>
+
+                <div class="signin-link">
+                    Already registered? <a href="login.html">Sign In</a>
+                </div>
+
+                <form id="itVendorRegistrationForm">
+                    <!-- Section A: Company Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-building"></i> Company Information</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Company Name <span class="required">*</span></label>
+                                <input type="text" name="companyName" required placeholder="Enter company name">
+                            </div>
+                            <div class="form-group">
+                                <label>Size of Company <span class="required">*</span></label>
+                                <select name="companySize" required>
+                                    <option value="">Select Size</option>
+                                    <option value="1-10">1-10 employees</option>
+                                    <option value="11-50">11-50 employees</option>
+                                    <option value="51-200">51-200 employees</option>
+                                    <option value="201-500">201-500 employees</option>
+                                    <option value="500+">500+ employees</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Company Type <span class="required">*</span></label>
+                                <select name="companyType" id="companyType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="Product">Product Company</option>
+                                    <option value="Service">Service Company</option>
+                                </select>
+                            </div>
+                            <div class="form-group conditional-field" id="serviceTypeField">
+                                <label>Service Type <span class="required">*</span></label>
+                                <select name="serviceType">
+                                    <option value="">Select Service Type</option>
+                                    <option value="Fintech">Fintech</option>
+                                    <option value="Edtech">Edtech</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="E-commerce">E-commerce</option>
+                                    <option value="Consulting">Consulting</option>
+                                    <option value="Digital Marketing">Digital Marketing</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group conditional-field" id="productTypeField">
+                                <label>Product Type <span class="required">*</span></label>
+                                <input type="text" name="productType" placeholder="Describe your product">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Company Location <span class="required">*</span></label>
+                                <select name="companyLocation" required>
+                                    <option value="">Select Location</option>
+                                    <option value="Mumbai">Mumbai</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Bangalore">Bangalore</option>
+                                    <option value="Hyderabad">Hyderabad</option>
+                                    <option value="Chennai">Chennai</option>
+                                    <option value="Pune">Pune</option>
+                                    <option value="Kolkata">Kolkata</option>
+                                    <option value="Ahmedabad">Ahmedabad</option>
+                                    <option value="Jaipur">Jaipur</option>
+                                    <option value="Noida">Noida</option>
+                                    <option value="Gurgaon">Gurgaon</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Company Email <span class="required">*</span></label>
+                                <input type="email" name="companyEmail" required placeholder="company@example.com">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Company Contact Number <span class="required">*</span></label>
+                            <input type="tel" name="companyContact" required pattern="[0-9]{10}"
+                                placeholder="10-digit contact number">
+                        </div>
+                    </div>
+
+                    <!-- Section B: Hiring Requirements -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-users"></i> Hiring Requirements</h3>
+
+                        <div class="form-group">
+                            <label>Roles You Are Looking For <span class="required">*</span></label>
+                            <input type="text" name="rolesLookingFor" id="rolesLookingFor" required
+                                placeholder="Type and press Enter">
+                            <small>Add roles like Full Stack Developer, Data Scientist, etc.</small>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Required Experience Min (Years) <span class="required">*</span></label>
+                                <input type="number" name="requiredExpMin" id="requiredExpMin" required min="0" max="20"
+                                    oninput="document.getElementById('requiredExpMax').min = this.value;"
+                                    placeholder="e.g., 2">
+                            </div>
+                            <div class="form-group">
+                                <label>Required Experience Max (Years) <span class="required">*</span></label>
+                                <input type="number" name="requiredExpMax" id="requiredExpMax" required min="0" max="20"
+                                    placeholder="e.g., 5">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Package Min (LPA) <span class="required">*</span></label>
+                                <input type="number" name="packageMin" id="packageMin" required step="0.1" min="0"
+                                    oninput="document.getElementById('packageMax').min = this.value;"
+                                    placeholder="e.g., 5">
+                            </div>
+                            <div class="form-group">
+                                <label>Package Max (LPA) <span class="required">*</span></label>
+                                <input type="number" name="packageMax" id="packageMax" required step="0.1" min="0"
+                                    placeholder="e.g., 10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section C: Company Links -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-link"></i> Company Links</h3>
+
+                        <div class="form-group">
+                            <label>Company Website URL <span class="required">*</span></label>
+                            <input type="url" name="companyURL" required placeholder="https://www.yourcompany.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>LinkedIn URL <span class="required">*</span></label>
+                            <input type="url" name="linkedinURL"
+                                placeholder="https://www.linkedin.com/company/yourcompany">
+                            <small>Optional - helps candidates learn more about your company</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Other Social Media <span class="required">*</span></label>
+                            <input type="text" name="socialMedia" placeholder="Twitter, Facebook, Instagram handles">
+                            <small>Optional - comma separated</small>
+                        </div>
+                    </div>
+
+                    <!-- Section D: Password Setup -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-lock"></i> Password Setup</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Password <span class="required">*</span></label>
+                                <input type="password" name="password" id="password" required minlength="8"
+                                    placeholder="Minimum 8 characters">
+                                <small>Must include uppercase, lowercase, number, and special character</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password <span class="required">*</span></label>
+                                <input type="password" name="confirmPassword" id="confirmPassword" required
+                                    minlength="8" placeholder="Re-enter password">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        <i class="fas fa-building"></i> Complete Registration & Get ₹1,000 Credits
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo"><img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img"></div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="js/api-config.js"></script>
+    <script src="js/registration-manager.js"></script>
+    <script>
+        // Initialize Tagify for roles
+        const rolesInput = document.querySelector('#rolesLookingFor');
+        const rolesTagify = new Tagify(rolesInput, {
+            whitelist: ['Full Stack Developer', 'Frontend Developer', 'Backend Developer', 'Mobile Developer',
+                'DevOps Engineer', 'Data Scientist', 'Data Analyst', 'Machine Learning Engineer',
+                'QA Engineer', 'UI/UX Designer', 'Product Manager', 'Business Analyst',
+                'Cloud Architect', 'Security Engineer', 'Database Administrator', 'System Administrator',
+                'AI Engineer', 'Blockchain Developer', 'Game Developer', 'Embedded Systems Engineer'],
+            dropdown: {
+                maxItems: 20,
+                classname: "tags-look",
+                enabled: 0,
+                closeOnSelect: false
+            }
+        });
+
+        // Show/hide conditional fields based on company type
+        document.getElementById('companyType').addEventListener('change', function () {
+            const serviceField = document.getElementById('serviceTypeField');
+            const productField = document.getElementById('productTypeField');
+
+            if (this.value === 'Service') {
+                serviceField.classList.add('show');
+                serviceField.querySelector('select').required = true;
+                productField.classList.remove('show');
+                productField.querySelector('input').required = false;
+            } else if (this.value === 'Product') {
+                productField.classList.add('show');
+                productField.querySelector('input').required = true;
+                serviceField.classList.remove('show');
+                serviceField.querySelector('select').required = false;
+            } else {
+                serviceField.classList.remove('show');
+                productField.classList.remove('show');
+                serviceField.querySelector('select').required = false;
+                productField.querySelector('input').required = false;
+            }
+        });
+
+        // Form submission
+        document.getElementById('itVendorRegistrationForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Validate passwords match
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Validate password complexity
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(password)) {
+                alert('Password must contain at least 8 characters with uppercase, lowercase, number, and special character');
+                return;
+            }
+
+            // Validate experience range
+            const minExp = parseInt(document.querySelector('[name="requiredExpMin"]').value);
+            const maxExp = parseInt(document.querySelector('[name="requiredExpMax"]').value);
+            if (maxExp < minExp) {
+                alert('Required Experience Max must be greater than or equal to Min');
+                return;
+            }
+
+            // Validate package range
+            const minPackage = parseFloat(document.querySelector('[name="packageMin"]').value);
+            const maxPackage = parseFloat(document.querySelector('[name="packageMax"]').value);
+            if (maxPackage < minPackage) {
+                alert('Package Max must be greater than or equal to Min');
+                return;
+            }
+
+            // Transform data to match API schema
+            const companyType = document.querySelector('[name="companyType"]').value.toLowerCase();
+            const companyTypeFormatted = companyType === 'service' ? 'service-based' : 'product-based';
+
+            // Get service_type or product_type based on company type
+            let serviceType = null;
+            let productType = null;
+            if (companyType === 'service') {
+                const serviceValue = document.querySelector('[name="serviceType"]').value;
+                serviceType = serviceValue ? [serviceValue.toLowerCase()] : null;
+            } else if (companyType === 'product') {
+                productType = document.querySelector('[name="productType"]').value || null;
+            }
+
+            const apiData = {
+                company_name: document.querySelector('[name="companyName"]').value,
+                company_size: document.querySelector('[name="companySize"]').value,
+                company_type: companyTypeFormatted,
+
+                product_type: productType,
+                service_type: serviceType,
+
+                company_location: document.querySelector('[name="companyLocation"]').value,
+
+                company_email: document.querySelector('[name="companyEmail"]').value,
+                company_contact_number: '+91-' + document.querySelector('[name="companyContact"]').value,
+
+                roles: rolesTagify.value.map(tag => tag.value),
+
+                experience_required: {
+                    min_years: minExp,
+                    max_years: maxExp
+                },
+
+                package_offered: {
+                    min_ctc: minPackage * 100000, // Convert LPA to rupees
+                    max_ctc: maxPackage * 100000
+                },
+
+                company_website_url: document.querySelector('[name="companyURL"]').value,
+                linkedin_url: document.querySelector('[name="linkedinURL"]').value || null,
+                other_social_media_url: document.querySelector('[name="socialMedia"]').value || null,
+
+                password: password,
+                confirm_password: confirmPassword
+            };
+
+            // Show loading state
+            const submitBtn = this.querySelector('.submit-button');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+            submitBtn.disabled = true;
+
+            try {
+                const result = await registrationManager.registerITVendor(apiData);
+
+                if (result.success) {
+                    alert('Registration successful! You have received ₹1,000 bonus credits! Please check your email to verify your account.');
+                    // Redirect to login page
+                    window.location.href = 'login.html';
+                } else {
+                    // Handle error response
+                    let errorMessage = result.error || 'Registration failed. Please try again.';
+                    if (result.errors) {
+                        errorMessage += '\n\n' + Object.entries(result.errors)
+                            .map(([field, msg]) => `${field}: ${msg}`)
+                            .join('\n');
+                    }
+                    alert(errorMessage);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Unable to connect to server. Please check your internet connection.');
+            } finally {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+</body>
+
+</html>

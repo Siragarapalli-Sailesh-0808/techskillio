@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments - TechSkillio Admin</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-shared.css">
+    <link rel="stylesheet" href="css/admin-responsive.css">
+</head>
+
+<body>
+
+    <div class="admin-container">
+        <!-- Sidebar Container (loaded dynamically) -->
+        <div id="sidebarContainer"></div>
+
+        <main class="main-content">
+            <!-- Header Container (loaded dynamically) -->
+            <div id="headerContainer"></div>
+
+            <!-- Payments Content -->
+            <div class="table-container">
+                <h2 style="margin-bottom: 1.5rem; color: #2c3e50;">
+                    <i class="fas fa-credit-card"></i> Payments List
+                </h2>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>User</th>
+                            <th>Vendor Type</th>
+                            <th>Plan</th>
+                            <th>Amount</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTableBody">
+                        <tr>
+                            <td colspan="8" style="text-align:center; padding:2rem; color:#888;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading transactions...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Mobile Card View -->
+                <div class="mobile-card-view" id="paymentsMobileCards">
+                    <div style="text-align:center; padding:2rem; color:#888;">
+                        <i class="fas fa-spinner fa-spin"></i> Loading transactions...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Admin Components Script -->
+    <script>
+        currentPage = 'payments';
+    </script>
+    <script src="js/api-config.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script src="js/admin-components.js"></script>
+    <script>
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            try {
+                return new Date(dateStr).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            } catch {
+                return dateStr;
+            }
+        }
+
+        function formatPrice(val) {
+            if (!val && val !== 0) return '—';
+            return '₹' + Number(val).toLocaleString('en-IN');
+        }
+
+        function formatStatus(status) {
+            const s = (status || '').toLowerCase();
+            if (s === 'active') return '<span class="status-completed">Active</span>';
+            if (s === 'expired') return '<span class="status-pending">Expired</span>';
+            if (s === 'cancelled') return '<span class="status-pending">Cancelled</span>';
+            return `<span>${status || 'Unknown'}</span>`;
+        }
+
+        async function loadPayments() {
+            const tbody = document.getElementById('paymentsTableBody');
+            const mobile = document.getElementById('paymentsMobileCards');
+
+            try {
+                const res = await authManager.apiRequest('/api/v1/plans/subscriptions/');
+                const data = await res.json();
+                const subs = Array.isArray(data) ? data : (data.results || []);
+
+                if (!subs.length) {
+                    const emptyMsg = 'No subscription transactions found.';
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:#94a3b8;">${emptyMsg}</td></tr>`;
+                    mobile.innerHTML = `<div style="text-align:center; padding:2rem; color:#94a3b8;">${emptyMsg}</div>`;
+                    return;
+                }
+
+                tbody.innerHTML = subs.map(s => `
+                    <tr>
+                        <td>#SUB${s.id}</td>
+                        <td>${s.email || '—'}</td>
+                        <td>${(s.vendor_type || '').toUpperCase()}</td>
+                        <td>${s.plan_name || '—'}</td>
+                        <td>${formatPrice(s.plan_price)}</td>
+                        <td>${formatDate(s.start_date)}</td>
+                        <td>${formatDate(s.end_date)}</td>
+                        <td>${formatStatus(s.status)}</td>
+                    </tr>
+                `).join('');
+
+                mobile.innerHTML = subs.map(s => `
+                    <div class="mobile-card">
+                        <div class="mobile-card-header">
+                            <span class="mobile-card-title">#SUB${s.id}</span>
+                            ${formatStatus(s.status)}
+                        </div>
+                        <div class="mobile-card-body">
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">User:</span>
+                                <span class="mobile-card-value">${s.email || '—'}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Vendor:</span>
+                                <span class="mobile-card-value">${(s.vendor_type || '').toUpperCase()}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Plan:</span>
+                                <span class="mobile-card-value">${s.plan_name || '—'}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Amount:</span>
+                                <span class="mobile-card-value">${formatPrice(s.plan_price)}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Start:</span>
+                                <span class="mobile-card-value">${formatDate(s.start_date)}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">End:</span>
+                                <span class="mobile-card-value">${formatDate(s.end_date)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Failed to load payments/subscriptions:', err);
+                const msg = 'Failed to load subscription transactions.';
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:#e74c3c;">${msg}</td></tr>`;
+                mobile.innerHTML = `<div style="text-align:center; padding:2rem; color:#e74c3c;">${msg}</div>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPayments);
+    </script>
+</body>
+
+</html>

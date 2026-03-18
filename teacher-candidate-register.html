@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teaching Candidate Registration - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .registration-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .registration-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .registration-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .signin-link {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #64748b;
+        }
+
+        .signin-link a {
+            color: #86c540;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-section-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #86c540;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group label .required {
+            color: #ef4444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .tags-input-container {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 0.5rem;
+            min-height: 45px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            cursor: text;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .tag-remove {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .tags-input-container input {
+            border: none;
+            outline: none;
+            flex: 1;
+            min-width: 150px;
+            padding: 0.25rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #ef4444;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .registration-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+    <div style="height: 120px;"></div>
+
+    <section class="registration-section">
+        <div class="container">
+            <div class="registration-container">
+                <div class="registration-header">
+                    <h1><span class="gradient-text">Teaching Candidate</span> Registration</h1>
+                    <p>Join TechSkillio's network of educators and find your ideal teaching position</p>
+                </div>
+
+                <div class="signin-link">
+                    Already registered? <a href="login.html">Sign In</a>
+                </div>
+
+                <form id="teacherRegistrationForm">
+                    <!-- Section A: Personal Information -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-user"></i> Personal Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name <span class="required">*</span></label>
+                                <input type="text" name="fullName" required placeholder="Enter your full name">
+                                <div class="error-message">Please enter your full name</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address <span class="required">*</span></label>
+                                <input type="email" name="email" required placeholder="your.email@example.com">
+                                <div class="error-message">Please enter a valid email address</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Contact Number <span class="required">*</span></label>
+                                <input type="tel" name="phone" required pattern="[0-9]{10}"
+                                    placeholder="10-digit mobile number">
+                                <div class="error-message">Please enter a valid 10-digit phone number</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Gender <span class="required">*</span></label>
+                                <select name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <div class="error-message">Please select your gender</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section B: Availability -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-calendar-check"></i> Availability</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Available for Interview? <span class="required">*</span></label>
+                                <select name="availableInterview" id="availableInterview" required>
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>When can you join? <span class="required">*</span></label>
+                                <input type="date" name="joinDate" required min="<?php echo date('Y-m-d'); ?>">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Interview Slot From <span class="required">*</span></label>
+                                <input type="time" name="interviewSlotFrom" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Interview Slot To <span class="required">*</span></label>
+                                <input type="time" name="interviewSlotTo" required>
+                                <div class="error-message">End time must be at least 30 minutes after start time</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section C: Professional Details -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-graduation-cap"></i> Professional Details</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Current Profile <span class="required">*</span></label>
+                                <select name="currentProfile" required>
+                                    <option value="">Select Current Profile</option>
+                                    <option value="Academic Coordinator">Academic Coordinator</option>
+                                    <option value="Account/Finance Officer">Account/Finance Officer</option>
+                                    <option value="Administrative Officer">Administrative Officer</option>
+                                    <option value="Admission Counsellor">Admission Counsellor</option>
+                                    <option value="Associate Professor">Associate Professor</option>
+                                    <option value="Asst Professor">Asst Professor</option>
+                                    <option value="Clerk/Data Entry Operations">Clerk/Data Entry Operations</option>
+                                    <option value="Controller of Examinations">Controller of Examinations</option>
+                                    <option value="Dean">Dean</option>
+                                    <option value="Fresher">Fresher</option>
+                                    <option value="Guest Faculty/Visiting Faculty">Guest Faculty/Visiting Faculty
+                                    </option>
+                                    <option value="HOD">HOD</option>
+                                    <option value="Hostel Warden">Hostel Warden</option>
+                                    <option value="Lab Assistant">Lab Assistant</option>
+                                    <option value="Lecturer">Lecturer</option>
+                                    <option value="Librarian">Librarian</option>
+                                    <option value="Manager">Manager</option>
+                                    <option value="Marketing/Event Manager">Marketing/Event Manager</option>
+                                    <option value="PET (Sports and Physical Education)">PET (Sports and Physical
+                                        Education)</option>
+                                    <option value="PGT (Classes 11 & 12)">PGT (Classes 11 & 12)</option>
+                                    <option value="PPRT (Pre.Nur. to KG2)">PPRT (Pre.Nur. to KG2)</option>
+                                    <option value="PRT (Classes 1 to 5)">PRT (Classes 1 to 5)</option>
+                                    <option value="Placement Officer">Placement Officer</option>
+                                    <option value="Principal">Principal</option>
+                                    <option value="Principal/Vice Principal">Principal/Vice Principal</option>
+                                    <option value="Professor">Professor</option>
+                                    <option value="Receptionist">Receptionist</option>
+                                    <option value="Registrar">Registrar</option>
+                                    <option value="Support Teacher">Support Teacher</option>
+                                    <option value="TGT (Class 6 to 10)">TGT (Class 6 to 10)</option>
+                                    <option value="Transport In-charge">Transport In-charge</option>
+                                    <option value="Vice Principal">Vice Principal</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Profile Experience <span class="required">*</span></label>
+                                <select name="currentProfileExp" required>
+                                    <option value="">Select Experience</option>
+                                    <option value="0">0 Years</option>
+                                    <option value="1">1 Year</option>
+                                    <option value="2">2 Years</option>
+                                    <option value="3">3 Years</option>
+                                    <option value="4">4 Years</option>
+                                    <option value="5">5 Years</option>
+                                    <option value="6">6 Years</option>
+                                    <option value="7">7 Years</option>
+                                    <option value="8">8 Years</option>
+                                    <option value="9">9 Years</option>
+                                    <option value="10">10 Years</option>
+                                    <option value="11">11 Years</option>
+                                    <option value="12">12 Years</option>
+                                    <option value="13">13 Years</option>
+                                    <option value="14">14 Years</option>
+                                    <option value="15">15 Years</option>
+                                    <option value="16">16 Years</option>
+                                    <option value="17">17 Years</option>
+                                    <option value="18">18 Years</option>
+                                    <option value="19">19 Years</option>
+                                    <option value="20">20 Years</option>
+                                    <option value="20+">More than 20 Years</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Applying For Profile <span class="required">*</span></label>
+                                <select name="applyingProfile" required>
+                                    <option value="">Select Applying Profile</option>
+                                    <option value="Academic Coordinator">Academic Coordinator</option>
+                                    <option value="Account/Finance Officer">Account/Finance Officer</option>
+                                    <option value="Administrative Officer">Administrative Officer</option>
+                                    <option value="Admission Counsellor">Admission Counsellor</option>
+                                    <option value="Associate Professor">Associate Professor</option>
+                                    <option value="Asst Professor">Asst Professor</option>
+                                    <option value="Clerk/Data Entry Operations">Clerk/Data Entry Operations</option>
+                                    <option value="Controller of Examinations">Controller of Examinations</option>
+                                    <option value="Dean">Dean</option>
+                                    <option value="Fresher">Fresher</option>
+                                    <option value="Guest Faculty/Visiting Faculty">Guest Faculty/Visiting Faculty
+                                    </option>
+                                    <option value="HOD">HOD</option>
+                                    <option value="Hostel Warden">Hostel Warden</option>
+                                    <option value="Lab Assistant">Lab Assistant</option>
+                                    <option value="Lecturer">Lecturer</option>
+                                    <option value="Librarian">Librarian</option>
+                                    <option value="Manager">Manager</option>
+                                    <option value="Marketing/Event Manager">Marketing/Event Manager</option>
+                                    <option value="PET (Sports and Physical Education)">PET (Sports and Physical
+                                        Education)</option>
+                                    <option value="PGT (Classes 11 & 12)">PGT (Classes 11 & 12)</option>
+                                    <option value="PPRT (Pre.Nur. to KG2)">PPRT (Pre.Nur. to KG2)</option>
+                                    <option value="PRT (Classes 1 to 5)">PRT (Classes 1 to 5)</option>
+                                    <option value="Placement Officer">Placement Officer</option>
+                                    <option value="Principal">Principal</option>
+                                    <option value="Principal/Vice Principal">Principal/Vice Principal</option>
+                                    <option value="Professor">Professor</option>
+                                    <option value="Receptionist">Receptionist</option>
+                                    <option value="Registrar">Registrar</option>
+                                    <option value="Support Teacher">Support Teacher</option>
+                                    <option value="TGT (Class 6 to 10)">TGT (Class 6 to 10)</option>
+                                    <option value="Transport In-charge">Transport In-charge</option>
+                                    <option value="Vice Principal">Vice Principal</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Total Experience <span class="required">*</span></label>
+                                <select name="totalExperience" required>
+                                    <option value="">Select Total Experience</option>
+                                    <option value="0">0 Years</option>
+                                    <option value="1">1 Year</option>
+                                    <option value="2">2 Years</option>
+                                    <option value="3">3 Years</option>
+                                    <option value="4">4 Years</option>
+                                    <option value="5">5 Years</option>
+                                    <option value="6">6 Years</option>
+                                    <option value="7">7 Years</option>
+                                    <option value="8">8 Years</option>
+                                    <option value="9">9 Years</option>
+                                    <option value="10">10 Years</option>
+                                    <option value="11">11 Years</option>
+                                    <option value="12">12 Years</option>
+                                    <option value="13">13 Years</option>
+                                    <option value="14">14 Years</option>
+                                    <option value="15">15 Years</option>
+                                    <option value="16">16 Years</option>
+                                    <option value="17">17 Years</option>
+                                    <option value="18">18 Years</option>
+                                    <option value="19">19 Years</option>
+                                    <option value="20">20 Years</option>
+                                    <option value="20+">More than 20 Years</option>
+                                </select>
+                                <div class="error-message">Total experience must be >= Current profile experience</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Experience in <span class="required">*</span></label>
+                                <select name="experienceIn" required>
+                                    <option value="">Select Board</option>
+                                    <option value="ICSE">ICSE</option>
+                                    <option value="CBSE">CBSE</option>
+                                    <option value="State Board">State Board</option>
+                                    <option value="IB">IB</option>
+                                    <option value="IGCSE">IGCSE</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Teaching <span class="required">*</span></label>
+                                <select name="teaching" required id="teachingMethod">
+                                    <option value="">Select Teaching Method</option>
+                                    <option value="Objective">Objective</option>
+                                    <option value="Descriptive">Descriptive</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group hidden" id="objectiveSubGroup">
+                                <label>Objective Type <span class="required">*</span></label>
+                                <select name="objectiveType" id="objectiveType">
+                                    <option value="">Select Type</option>
+                                    <option value="Mains">Mains</option>
+                                    <option value="NEET">NEET</option>
+                                    <option value="Advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Qualification <span class="required">*</span></label>
+                                <select name="qualification" required>
+                                    <option value="">Select Qualification</option>
+                                    <option value="PG+MED">PG+MED</option>
+                                    <option value="PG+BED">PG+BED</option>
+                                    <option value="PG+TTC">PG+TTC</option>
+                                    <option value="Degree+BED">Degree+BED</option>
+                                    <option value="Degree+MED">Degree+MED</option>
+                                    <option value="Degree+TTC">Degree+TTC</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Subjects <span class="required">*</span></label>
+                                <div class="tags-input-container" id="subjectsContainer">
+                                    <input type="text" id="subjectsInput" placeholder="Type subject and press Enter">
+                                </div>
+                                <input type="hidden" name="subjects" id="subjectsHidden" required>
+                                <small style="color: #64748b;">Type a subject and press Enter to add</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Teaching Level <span class="required">*</span></label>
+                                <select name="teachingLevel" required>
+                                    <option value="">Select Level</option>
+                                    <option value="Primary">Primary (1-5)</option>
+                                    <option value="Middle">Middle School (6-8)</option>
+                                    <option value="Secondary">Secondary (9-10)</option>
+                                    <option value="Senior Secondary">Senior Secondary (11-12)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Boards <span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="boards[]" value="CBSE" id="cbse">
+                                    <label for="cbse">CBSE</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="boards[]" value="ICSE" id="icse">
+                                    <label for="icse">ICSE</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="boards[]" value="State Board" id="state">
+                                    <label for="state">State Board</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="boards[]" value="IB" id="ib">
+                                    <label for="ib">IB</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="boards[]" value="IGCSE" id="igcse">
+                                    <label for="igcse">IGCSE</label>
+                                </div>
+                            </div>
+                            <div class="error-message">Please select at least one board</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Can Teach in English? <span class="required">*</span></label>
+                                <select name="teachEnglish" required>
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                    <option value="Bilingual">Bilingual</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Other Languages Known</label>
+                                <textarea name="otherLanguages" placeholder="e.g., Hindi, Tamil, Telugu"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>YouTube Link URL <span class="required">*</span></label>
+                            <input type="url" name="youtubeLink" required placeholder="https://youtube.com/watch?v=...">
+                            <small style="color: #64748b;">Upload a small demo teaching clip to YouTube and paste the
+                                link here</small>
+                            <div class="error-message">Please enter a valid YouTube URL</div>
+                        </div>
+                    </div>
+
+                    <!-- Section D: Current Location & Relocation -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-map-marker-alt"></i> Location & Relocation</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Type and Select City <span class="required">*</span></label>
+                                <input type="text" name="currentCity" required placeholder="Search city..."
+                                    list="indianCities">
+                                <datalist id="indianCities">
+                                    <option value="Mumbai, Maharashtra">
+                                    <option value="Delhi, Delhi">
+                                    <option value="Bangalore, Karnataka">
+                                    <option value="Hyderabad, Telangana">
+                                    <option value="Chennai, Tamil Nadu">
+                                    <option value="Kolkata, West Bengal">
+                                    <option value="Pune, Maharashtra">
+                                    <option value="Ahmedabad, Gujarat">
+                                    <option value="Jaipur, Rajasthan">
+                                    <option value="Lucknow, Uttar Pradesh">
+                                        <!-- Add more cities as needed -->
+                                </datalist>
+                            </div>
+                            <div class="form-group">
+                                <label>Relocation Preference <span class="required">*</span></label>
+                                <select name="relocationPref" required>
+                                    <option value="">Select Preference</option>
+                                    <option value="Within my city">Within my city</option>
+                                    <option value="Within my state">Within my state</option>
+                                    <option value="Within my country">Within my country</option>
+                                    <option value="Anywhere">Anywhere</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Native Place <span class="required">*</span></label>
+                                <input type="text" name="nativePlace" required placeholder="Your hometown">
+                            </div>
+                            <div class="form-group">
+                                <label>Type Preferred Cities</label>
+                                <div class="tags-input-container" id="citiesContainer">
+                                    <input type="text" id="citiesInput" placeholder="Type city and press Enter">
+                                </div>
+                                <input type="hidden" name="preferredCities" id="citiesHidden">
+                                <small style="color: #64748b;">Type a city and press Enter to add</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section E: Salary Expectations -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-rupee-sign"></i> Salary Expectations</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Current Salary (LPA)</label>
+                                <input type="number" name="currentSalary" placeholder="e.g., 4" step="0.1" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Expected Salary (LPA) <span class="required">*</span></label>
+                                <input type="number" name="expectedSalary" required placeholder="e.g., 5" step="0.1"
+                                    min="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section F: Attachments -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-file-upload"></i> Attachments</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Photo <span class="required">*</span></label>
+                                <input type="file" name="photo" accept=".jpg,.jpeg,.png,.webp" required
+                                    id="photoUpload">
+                                <small style="color: #64748b;">JPG/PNG/WEBP, Max 1 MB</small>
+                                <div class="error-message">Please upload a photo (max 1 MB)</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Resume Upload <span class="required">*</span></label>
+                                <input type="file" name="resume" accept=".pdf,.doc,.docx" required id="resumeUpload">
+                                <small style="color: #64748b;">PDF/Word, Max 2 MB</small>
+                                <div class="error-message">Please upload a resume (max 2 MB)</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Certificates (Optional)</label>
+                            <input type="file" name="certificates" accept=".pdf,.doc,.docx" multiple>
+                            <small style="color: #64748b;">PDF/Word, Multiple files allowed</small>
+                        </div>
+                    </div>
+
+                    <!-- Section G: Password Setup -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-lock"></i> Password Setup</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Password <span class="required">*</span></label>
+                                <input type="password" name="password" required minlength="8" id="password"
+                                    placeholder="Minimum 8 characters">
+                                <small style="color: #64748b;">Must include uppercase, lowercase, number, and special
+                                    character</small>
+                                <div class="error-message">Password must be at least 8 characters with uppercase,
+                                    lowercase, number, and special character</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password <span class="required">*</span></label>
+                                <input type="password" name="confirmPassword" required minlength="8"
+                                    id="confirmPassword" placeholder="Re-enter password">
+                                <div class="error-message">Passwords do not match</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 3rem;">
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <span>Submit Registration</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                        <p style="margin-top: 1rem; color: #64748b; font-size: 0.9rem;">
+                            By submitting, you agree to our Terms & Conditions
+                        </p>
+                    </div>
+
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                        <h3>Registration Successful!</h3>
+                        <p>Thank you for registering. Our team will review your profile and contact you soon.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo"><img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img"></div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="js/api-config.js"></script>
+    <script src="js/registration-manager.js"></script>
+    <script>
+        // Tags input functionality for Subjects
+        const subjectsContainer = document.getElementById('subjectsContainer');
+        const subjectsInput = document.getElementById('subjectsInput');
+        const subjectsHidden = document.getElementById('subjectsHidden');
+        let subjects = [];
+
+        subjectsInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const value = this.value.trim();
+                if (value && !subjects.includes(value)) {
+                    subjects.push(value);
+                    addTag(value, subjectsContainer, subjects, subjectsHidden, subjectsInput);
+                    this.value = '';
+                }
+            }
+        });
+
+        // Tags input functionality for Preferred Cities
+        const citiesContainer = document.getElementById('citiesContainer');
+        const citiesInput = document.getElementById('citiesInput');
+        const citiesHidden = document.getElementById('citiesHidden');
+        let cities = [];
+
+        citiesInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const value = this.value.trim();
+                if (value && !cities.includes(value)) {
+                    cities.push(value);
+                    addTag(value, citiesContainer, cities, citiesHidden, citiesInput);
+                    this.value = '';
+                }
+            }
+        });
+
+        function addTag(value, container, array, hiddenInput, textInput) {
+            const tag = document.createElement('span');
+            tag.className = 'tag';
+            tag.innerHTML = `${value} <span class="tag-remove" onclick="removeTag(this, '${value}', '${container.id}')">&times;</span>`;
+            container.insertBefore(tag, textInput);
+            hiddenInput.value = array.join(',');
+        }
+
+        function removeTag(element, value, containerId) {
+            if (containerId === 'subjectsContainer') {
+                subjects = subjects.filter(s => s !== value);
+                subjectsHidden.value = subjects.join(',');
+            } else {
+                cities = cities.filter(c => c !== value);
+                citiesHidden.value = cities.join(',');
+            }
+            element.parentElement.remove();
+        }
+
+        // Show/hide objective type based on teaching method
+        document.getElementById('teachingMethod').addEventListener('change', function () {
+            const objectiveGroup = document.getElementById('objectiveSubGroup');
+            const objectiveType = document.getElementById('objectiveType');
+
+            if (this.value === 'Objective') {
+                objectiveGroup.classList.remove('hidden');
+                objectiveType.required = true;
+            } else {
+                objectiveGroup.classList.add('hidden');
+                objectiveType.required = false;
+                objectiveType.value = '';
+            }
+        });
+
+        document.getElementById('availableInterview').addEventListener('change', function () {
+            const joinDate = document.querySelector('[name="joinDate"]');
+            const slotFrom = document.querySelector('[name="interviewSlotFrom"]');
+            const slotTo = document.querySelector('[name="interviewSlotTo"]');
+
+            if (this.value === 'No') {
+                joinDate.required = false;
+                slotFrom.required = false;
+                slotTo.required = false;
+                joinDate.disabled = true;
+                slotFrom.disabled = true;
+                slotTo.disabled = true;
+            } else {
+                joinDate.required = true;
+                slotFrom.required = true;
+                slotTo.required = true;
+                joinDate.disabled = false;
+                slotFrom.disabled = false;
+                slotTo.disabled = false;
+            }
+        });
+
+        // Form validation and submission
+        document.getElementById('teacherRegistrationForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+
+            // Validate passwords
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!passwordRegex.test(password)) {
+                alert('Password must contain at least 8 characters with uppercase, lowercase, number, and special character');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Loading State
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Processing...</span><div class="btn-glow"></div>';
+
+            try {
+                // Get form reference for reliable field access
+                const form = document.getElementById('teacherRegistrationForm');
+
+                // Validate critical fields first
+                const fullName = (form.elements['fullName']?.value || '').trim();
+                const email = (form.elements['email']?.value || '').trim();
+                const phone = (form.elements['phone']?.value || '').trim();
+
+                if (!fullName || !email || !phone) {
+                    alert('Please fill in all required fields (Name, Email, Phone)');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
+                // Validate phone number (10 digits)
+                if (phone.length !== 10 || !/^\d{10}$/.test(phone)) {
+                    alert('Please enter a valid 10-digit phone number');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
+                // Get form values and validate interview slots
+                const availableInterview = document.querySelector('[name="availableInterview"]').value === 'Yes';
+                let joinDate = null;
+                let interviewSlot = null;
+
+                if (availableInterview) {
+                    joinDate = document.querySelector('[name="joinDate"]').value;
+                    const interviewSlotFrom = document.querySelector('[name="interviewSlotFrom"]').value;
+                    const interviewSlotTo = document.querySelector('[name="interviewSlotTo"]').value;
+
+                    if (interviewSlotFrom && interviewSlotTo) {
+                        const fromTime = new Date(`2000-01-01T${interviewSlotFrom}`);
+                        const toTime = new Date(`2000-01-01T${interviewSlotTo}`);
+                        const diffMins = (toTime - fromTime) / 60000;
+                        if (diffMins <= 0) {
+                            alert('Interview Slot To must be after Interview Slot From');
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalBtnText;
+                            return;
+                        }
+                    }
+
+                    interviewSlot = {
+                        from: `${joinDate}T${interviewSlotFrom}:00`,
+                        to: `${joinDate}T${interviewSlotTo}:00`
+                    };
+                }
+
+                // Get experience values and validate
+                const totalExperienceStr = document.querySelector('[name="totalExperience"]').value;
+                const currentProfileExpStr = document.querySelector('[name="currentProfileExp"]').value;
+
+                const totalExp = parseInt(totalExperienceStr.replace('+', '')) || 0;
+                const currentExp = parseInt(currentProfileExpStr.replace('+', '')) || 0;
+
+                if (totalExp < currentExp) {
+                    alert('Total experience must be greater than or equal to current profile experience');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
+                // Get boards handled
+                const boardsHandled = [];
+                document.querySelectorAll('input[name="boards[]"]:checked').forEach(cb => {
+                    boardsHandled.push(cb.value);
+                });
+
+                // Get experience in boards (same as boards handled for this form)
+                const experienceInBoards = [...boardsHandled];
+
+                // Get subjects array
+                const subjectsArray = subjects.length > 0 ? subjects : ['General'];
+
+                // Get teaching levels array
+                const teachingLevelValue = document.querySelector('[name="teachingLevel"]').value;
+                const teachingLevels = teachingLevelValue ? [teachingLevelValue.toLowerCase().replace(' ', '_')] : ['secondary'];
+
+                // Get objective type array if applicable
+                let objectiveType = null;
+                const teachingMethod = document.querySelector('[name="teaching"]').value;
+                if (teachingMethod === 'Objective') {
+                    const objectiveValue = document.getElementById('objectiveType').value;
+                    objectiveType = objectiveValue ? [objectiveValue] : null;
+                }
+
+                // Get other languages
+                const otherLangsText = document.querySelector('[name="otherLanguages"]').value;
+                const otherLanguages = otherLangsText ? otherLangsText.split(',').map(l => l.trim()) : ['Hindi'];
+
+                // Get preferred cities
+                const preferredCities = cities.length > 0 ? cities : ['Bangalore'];
+
+                // Map relocation preference
+                const relocationPrefValue = document.querySelector('[name="relocationPref"]').value;
+                let relocationPreference = 'within_country';
+                if (relocationPrefValue === 'Within my city') relocationPreference = 'within_city';
+                else if (relocationPrefValue === 'Within my state') relocationPreference = 'within_state';
+                else if (relocationPrefValue === 'Within my country') relocationPreference = 'within_country';
+                else if (relocationPrefValue === 'Anywhere') relocationPreference = 'anywhere';
+
+                // Get can teach in English
+                const teachEnglishValue = document.querySelector('[name="teachEnglish"]').value;
+                const canTeachEnglish = teachEnglishValue === 'Yes' || teachEnglishValue === 'Bilingual';
+
+                // Get current and expected salary (convert LPA to rupees)
+                const currentSalaryLPA = parseFloat(document.querySelector('[name="currentSalary"]').value) || 0;
+                const expectedSalaryLPA = parseFloat(document.querySelector('[name="expectedSalary"]').value) || 0;
+
+                // Transform data to match exact API schema
+                const apiData = {
+                    is_teaching_candidate: true,
+
+                    full_name: fullName,
+                    email: email,
+                    contact_number: '+91-' + phone,
+                    gender: (form.elements['gender']?.value || 'male').toLowerCase(),
+
+                    available_for_interview: availableInterview,
+                    joining_date: joinDate,
+
+                    interview_slot: interviewSlot,
+
+                    current_profile: document.querySelector('[name="currentProfile"]').value,
+                    current_profile_experience_years: currentExp,
+                    applied_profile: document.querySelector('[name="applyingProfile"]').value,
+                    total_experience_years: totalExp,
+
+                    experience_in_boards: experienceInBoards,
+
+                    teaching_method: teachingMethod.toLowerCase(),
+                    objective_type: objectiveType,
+
+                    qualification: document.querySelector('[name="qualification"]').value,
+                    subjects: subjectsArray,
+
+                    teaching_levels: teachingLevels,
+                    boards_handled: boardsHandled,
+
+                    can_teach_english: canTeachEnglish,
+                    other_languages: otherLanguages,
+
+                    youtube_link: document.querySelector('[name="youtubeLink"]').value,
+
+                    current_city: document.querySelector('[name="currentCity"]').value,
+                    relocation_preference: relocationPreference,
+                    native_place: document.querySelector('[name="nativePlace"]').value,
+
+                    preferred_cities: preferredCities,
+
+                    current_salary: currentSalaryLPA * 100000, // Convert LPA to rupees
+                    expected_salary: expectedSalaryLPA * 100000,
+
+                    photo_url: "https://example.com/uploads/photo.jpg", // Placeholder
+                    resume_url: "https://example.com/uploads/resume.pdf", // Placeholder
+                    certificates_urls: ["https://example.com/uploads/certificate1.pdf"], // Placeholder
+
+                    position_type: null,
+                    non_teaching_experience_years: null,
+
+                    password: password,
+                    confirm_password: confirmPassword
+                };
+
+                const result = await registrationManager.registerTeacherCandidate(apiData);
+
+                if (result.success) {
+                    // Success
+                    document.getElementById('successMessage').classList.add('show');
+                    window.scrollTo(0, document.body.scrollHeight);
+
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    throw new Error(result.error || 'Registration failed');
+                }
+
+            } catch (error) {
+                console.error('Registration Error:', error);
+                alert(error.message || 'An error occurred during registration. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+    </script>
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Candidate Registration - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+    <style>
+        .registration-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .registration-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .registration-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+        }
+
+        .form-section h3 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-section h3 i {
+            color: #86c540;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group label .required {
+            color: #ef4444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.25rem;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .conditional-field {
+            display: none;
+        }
+
+        .conditional-field.show {
+            display: block;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(134, 197, 64, 0.3);
+        }
+
+        .signin-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #64748b;
+        }
+
+        .signin-link a {
+            color: #86c540;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .registration-container {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        .tagify__dropdown__wrapper {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+    <div style="height: 120px;"></div>
+
+    <section class="registration-section">
+        <div class="container">
+            <div class="registration-container">
+                <div class="registration-header">
+                    <h1><span class="gradient-text">IT Candidate</span> Registration</h1>
+                    <p style="color: #64748b;">Join our platform to find your dream IT job</p>
+                </div>
+
+                <div class="signin-link">
+                    Already registered? <a href="login.html">Sign In</a>
+                </div>
+
+                <form id="itCandidateRegistrationForm">
+                    <!-- Section A: Personal Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-user"></i> Personal Information</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name <span class="required">*</span></label>
+                                <input type="text" name="fullName" required placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address <span class="required">*</span></label>
+                                <input type="email" id="candidateEmail" name="email" required
+                                    placeholder="your.email@example.com">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Contact Number <span class="required">*</span></label>
+                                <input type="tel" name="contactNumber" required pattern="[0-9]{10}" maxlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
+                                    placeholder="10-digit mobile number">
+                                <small>Enter 10-digit mobile number</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Location <span class="required">*</span></label>
+                                <select name="currentLocation" required>
+                                    <option value="">Select Location</option>
+                                    <option value="Mumbai">Mumbai</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Bangalore">Bangalore</option>
+                                    <option value="Hyderabad">Hyderabad</option>
+                                    <option value="Chennai">Chennai</option>
+                                    <option value="Pune">Pune</option>
+                                    <option value="Kolkata">Kolkata</option>
+                                    <option value="Ahmedabad">Ahmedabad</option>
+                                    <option value="Jaipur">Jaipur</option>
+                                    <option value="Lucknow">Lucknow</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section B: Education Details -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-graduation-cap"></i> Education Details</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Qualification <span class="required">*</span></label>
+                                <select name="qualification" id="qualification" required>
+                                    <option value="">Select Qualification</option>
+                                    <option value="B.Tech">B.Tech</option>
+                                    <option value="B.E.">B.E.</option>
+                                    <option value="BSC">BSC (Computer Science)</option>
+                                    <option value="BCA">BCA</option>
+                                    <option value="MCA">MCA</option>
+                                    <option value="M.Tech">M.Tech</option>
+                                    <option value="MBA">MBA</option>
+                                    <option value="BCom">BCom</option>
+                                    <option value="Diploma">Diploma</option>
+                                    <option value="Other">Other (Please specify)</option>
+                                </select>
+                            </div>
+                            <div class="form-group conditional-field" id="otherQualificationField">
+                                <label>Specify Qualification <span class="required">*</span></label>
+                                <input type="text" name="otherQualification" placeholder="Enter your qualification">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Education Status <span class="required">*</span></label>
+                                <select name="educationStatus" id="educationStatus" required>
+                                    <option value="">Select Status</option>
+                                    <option value="Graduate">Graduate</option>
+                                    <option value="Pursuing">Pursuing</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="graduationYearField">
+                                <label>Year of Graduation <span class="required">*</span></label>
+                                <select name="graduationYear" required>
+                                    <option value="">Select Year</option>
+                                    <script>
+                                        let currentYear = new Date().getFullYear();
+                                        for (let i = currentYear - 20; i <= currentYear + 5; i++) {
+                                            document.write(`<option value="${i}">${i}</option>`);
+                                        }
+                                    </script>
+                                </select>
+                                <small>Enter your year of graduation (completed or expected)</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Current Role <span class="required">*</span></label>
+                            <input type="text" name="currentRole" required
+                                placeholder="e.g., Software Developer, Student, etc.">
+                            <small>If not working, mention your previous role or "Student"</small>
+                        </div>
+                    </div>
+
+                    <!-- Section C: Job Preferences -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-briefcase"></i> Job Preferences</h3>
+
+                        <div class="form-group">
+                            <label>Desired Job Role</label>
+                            <input type="text" name="desiredJobRole"
+                                placeholder="e.g., Full Stack Developer, Data Scientist">
+                            <small>Optional - helps us match you with relevant opportunities</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Key Skills and Technologies <span class="required">*</span></label>
+                            <input type="text" name="keySkills" id="keySkills" required
+                                placeholder="Type and press Enter">
+                            <small>Add skills like Python, Java, React, AWS, etc.</small>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Years of Experience <span class="required">*</span></label>
+                                <select name="yearsOfExperience" id="yearsOfExperience" required>
+                                    <option value="">Select Experience</option>
+                                    <option value="0">Fresher (0 years)</option>
+                                    <option value="1">1 year</option>
+                                    <option value="2">2 years</option>
+                                    <option value="3">3 years</option>
+                                    <option value="4">4 years</option>
+                                    <option value="5">5 years</option>
+                                    <option value="6">6 years</option>
+                                    <option value="7">7 years</option>
+                                    <option value="8">8 years</option>
+                                    <option value="9">9 years</option>
+                                    <option value="10">10 years</option>
+                                    <option value="15">15 years</option>
+                                    <option value="20">20+ years</option>
+                                </select>
+                            </div>
+                            <div class="form-group conditional-field" id="currentCTCField">
+                                <label>Current CTC (LPA) <span class="required">*</span></label>
+                                <input type="number" name="currentCTC" step="0.1" min="0" placeholder="e.g., 5.5">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expected CTC Min (LPA) <span class="required">*</span></label>
+                                <input type="number" name="expectedCTCMin" required step="0.1" min="0"
+                                    placeholder="e.g., 6">
+                            </div>
+                            <div class="form-group">
+                                <label>Expected CTC Max (LPA) <span class="required">*</span></label>
+                                <input type="number" name="expectedCTCMax" required step="0.1" min="0"
+                                    placeholder="e.g., 8">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Preferred Mode of Work <span class="required">*</span></label>
+                                <select name="preferredMode" required>
+                                    <option value="">Select Mode</option>
+                                    <option value="on-site">On-site</option>
+                                    <option value="remote">Remote</option>
+                                    <option value="hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Employment Type <span class="required">*</span></label>
+                                <select name="employmentType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="full-time">Full-time</option>
+                                    <option value="part-time">Part-time</option>
+                                    <option value="contract">Contract</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Preferred Work Locations <span class="required">*</span></label>
+                            <input type="text" name="preferredLocations" id="preferredLocations" required
+                                placeholder="Type and press Enter">
+                            <small>Select at least 3 preferred cities</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Availability / Notice Period (in days) <span class="required">*</span></label>
+                            <input type="number" name="availability" required min="0" step="1"
+                                placeholder="e.g., 0 for Immediate, 30, 60">
+                        </div>
+                    </div>
+
+                    <!-- Section D: Documents -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-file-upload"></i> Documents</h3>
+
+                        <div class="form-group">
+                            <label>Resume <span class="required">*</span></label>
+                            <input type="file" name="resume" id="resume" required accept=".pdf,.doc,.docx">
+                            <small>Upload PDF or Word document (Max 2MB)</small>
+                        </div>
+                    </div>
+
+                    <!-- Section E: Password Setup -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-lock"></i> Password Setup</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Password <span class="required">*</span></label>
+                                <input type="password" name="password" id="password" required minlength="8"
+                                    placeholder="Minimum 8 characters">
+                                <small>Must include uppercase, lowercase, number, and special character</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password <span class="required">*</span></label>
+                                <input type="password" name="confirmPassword" id="confirmPassword" required
+                                    minlength="8" placeholder="Re-enter password">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        <i class="fas fa-user-plus"></i> Complete Registration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo"><img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img"></div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="js/api-config.js"></script>
+    <script src="js/registration-manager.js"></script>
+    <script>
+        // Initialize Tagify for skills
+        const skillsInput = document.querySelector('#keySkills');
+        const skillsTagify = new Tagify(skillsInput, {
+            whitelist: ['Python', 'Java', 'JavaScript', 'React', 'Angular', 'Vue.js', 'Node.js', 'Express',
+                'Django', 'Flask', 'Spring Boot', 'AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes',
+                'MongoDB', 'MySQL', 'PostgreSQL', 'Redis', 'Git', 'CI/CD', 'DevOps', 'Machine Learning',
+                'Data Science', 'AI', 'TensorFlow', 'PyTorch', 'HTML', 'CSS', 'TypeScript', 'PHP',
+                'Ruby', 'Go', 'Rust', 'C++', 'C#', '.NET', 'Android', 'iOS', 'Flutter', 'React Native'],
+            dropdown: {
+                maxItems: 20,
+                classname: "tags-look",
+                enabled: 0,
+                closeOnSelect: false
+            }
+        });
+
+        // Initialize Tagify for preferred locations
+        const locationsInput = document.querySelector('#preferredLocations');
+        const locationsTagify = new Tagify(locationsInput, {
+            whitelist: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Pune', 'Kolkata',
+                'Ahmedabad', 'Jaipur', 'Lucknow', 'Chandigarh', 'Noida', 'Gurgaon', 'Indore',
+                'Kochi', 'Coimbatore', 'Visakhapatnam', 'Nagpur', 'Bhopal', 'Surat'],
+            dropdown: {
+                maxItems: 20,
+                classname: "tags-look",
+                enabled: 0,
+                closeOnSelect: false
+            }
+        });
+
+        // Show/hide conditional fields
+        document.getElementById('qualification').addEventListener('change', function () {
+            const otherField = document.getElementById('otherQualificationField');
+            if (this.value === 'Other') {
+                otherField.classList.add('show');
+                otherField.querySelector('input').required = true;
+            } else {
+                otherField.classList.remove('show');
+                otherField.querySelector('input').required = false;
+            }
+        });
+
+        // removed educationStatus change listener since graduationYear is always shown
+
+        document.getElementById('yearsOfExperience').addEventListener('change', function () {
+            const ctcField = document.getElementById('currentCTCField');
+            if (parseInt(this.value) > 0) {
+                ctcField.classList.add('show');
+                ctcField.querySelector('input').required = true;
+            } else {
+                ctcField.classList.remove('show');
+                ctcField.querySelector('input').required = false;
+            }
+        });
+
+        // Form submission
+        document.getElementById('itCandidateRegistrationForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Validate passwords match
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Validate password complexity
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(password)) {
+                alert('Password must contain at least 8 characters with uppercase, lowercase, number, and special character');
+                return;
+            }
+
+            // Validate expected CTC range
+            const minCTC = parseFloat(document.querySelector('[name="expectedCTCMin"]').value);
+            const maxCTC = parseFloat(document.querySelector('[name="expectedCTCMax"]').value);
+            if (maxCTC < minCTC) {
+                alert('Expected CTC Max must be greater than or equal to Min');
+                return;
+            }
+
+            // Validate preferred locations (minimum 1)
+            const locations = locationsTagify.value;
+            if (locations.length < 1) {
+                alert('Please select at least 1 preferred work location');
+                return;
+            }
+
+            // Validate resume file size
+            const resumeFile = document.getElementById('resume').files[0];
+            if (resumeFile && resumeFile.size > 2 * 1024 * 1024) {
+                alert('Resume file size must be less than 2MB');
+                return;
+            }
+
+            // Prepare FormData for API
+            const formData = new FormData();
+
+            // Personal Information
+            formData.append('fullName', document.querySelector('[name="fullName"]').value);
+            formData.append('email', document.getElementById('candidateEmail').value);
+            formData.append('contact', document.querySelector('[name="contactNumber"]').value);
+            formData.append('currentLocation', document.querySelector('[name="currentLocation"]').value);
+
+            // Education Details
+            const qualification = document.querySelector('[name="qualification"]').value;
+            formData.append('qualification', qualification === 'Other' ?
+                document.querySelector('[name="otherQualification"]').value : qualification);
+
+            const educationStatusVal = document.querySelector('[name="educationStatus"]').value;
+            formData.append('educationStatus', educationStatusVal === 'Graduate' ? 'completed' : 'pursuing');
+
+            const yearInput = document.querySelector('[name="graduationYear"]');
+            if (yearInput && yearInput.value) {
+                formData.append('educationYear', yearInput.value);
+            }
+
+            formData.append('currentRole', document.querySelector('[name="currentRole"]').value);
+
+            // Job Preferences
+            const desiredRole = document.querySelector('[name="desiredJobRole"]').value;
+            if (desiredRole) {
+                formData.append('desiredJobRole', desiredRole);
+            }
+
+            // Skills array
+            const skills = skillsTagify.value.map(tag => tag.value);
+            skills.forEach(skill => {
+                formData.append('skills', skill);
+            });
+
+            const yearsExp = document.querySelector('[name="yearsOfExperience"]').value;
+            formData.append('yearsOfExperience', yearsExp);
+
+            // Current CTC (only if experienced)
+            if (parseInt(yearsExp) > 0) {
+                const currentCTC = document.querySelector('[name="currentCTC"]').value;
+                if (currentCTC) {
+                    formData.append('currentCTC', currentCTC + ' LPA');
+                }
+            }
+
+            // Expected CTC
+            formData.append('expectedCTC', minCTC + '-' + maxCTC + ' LPA');
+
+            // Work preferences
+            const preferredMode = document.querySelector('[name="preferredMode"]').value;
+            formData.append('preferredModeOfWork', preferredMode);
+
+            formData.append('employmentType', document.querySelector('[name="employmentType"]').value);
+
+            // Preferred locations array
+            locations.forEach(loc => {
+                formData.append('preferredWorkLocations', loc.value);
+            });
+
+            formData.append('availabilityOrNoticePeriod', document.querySelector('[name="availability"]').value);
+
+            // Resume file
+            if (resumeFile) {
+                formData.append('resume', resumeFile);
+            }
+
+            // Password
+            formData.append('password', password);
+            formData.append('confirmPassword', confirmPassword);
+
+            // Show loading state
+            const submitBtn = this.querySelector('.submit-button');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+            submitBtn.disabled = true;
+
+            // Debug: Log FormData contents
+            console.log('=== FormData Contents ===');
+            for (let [key, value] of formData.entries()) {
+                console.log(key + ':', value);
+            }
+            console.log('========================');
+
+            // Transform data to match API schema
+            const apiData = {
+                full_name: document.querySelector('[name="fullName"]').value,
+                email: document.getElementById('candidateEmail').value,
+                contact_number: '+91-' + document.querySelector('[name="contactNumber"]').value,
+                current_location: document.querySelector('[name="currentLocation"]').value,
+
+                qualification: document.querySelector('[name="qualification"]').value === 'Other' ?
+                    document.querySelector('[name="otherQualification"]').value :
+                    document.querySelector('[name="qualification"]').value,
+                education_status: document.querySelector('[name="educationStatus"]').value.toLowerCase(),
+                pass_out_year: parseInt(document.querySelector('[name="graduationYear"]').value),
+
+                current_role: document.querySelector('[name="currentRole"]').value,
+                desired_role: document.querySelector('[name="desiredJobRole"]').value || document.querySelector('[name="currentRole"]').value,
+
+                key_skills: skillsTagify.value.map(tag => tag.value),
+
+                years_of_experience: parseInt(document.querySelector('[name="yearsOfExperience"]').value),
+
+                expected_ctc: {
+                    min: parseFloat(document.querySelector('[name="expectedCTCMin"]').value) * 100000, // Convert LPA to rupees
+                    max: parseFloat(document.querySelector('[name="expectedCTCMax"]').value) * 100000
+                },
+
+                preferred_mode_of_work: document.querySelector('[name="preferredMode"]').value,
+                employment_type: document.querySelector('[name="employmentType"]').value,
+
+                preferred_work_locations: locationsTagify.value.map(tag => tag.value),
+
+                notice_period_days: parseInt(document.querySelector('[name="availability"]').value) || 0,
+
+                resume_url: "https://example.com/uploads/resume.pdf", // Placeholder - file upload to be implemented
+
+                password: password,
+                confirm_password: confirmPassword
+            };
+
+            try {
+                const result = await registrationManager.registerITCandidate(apiData);
+
+                if (result.success) {
+                    alert('Registration successful! Please check your email to verify your account.');
+                    // Redirect to login page
+                    window.location.href = 'login.html';
+                } else {
+                    // Handle error response
+                    let errorMessage = result.error || 'Registration failed. Please try again.';
+                    if (result.errors) {
+                        errorMessage += '\n\n' + Object.entries(result.errors)
+                            .map(([field, msg]) => `${field}: ${msg}`)
+                            .join('\n');
+                    }
+                    alert(errorMessage);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Unable to connect to server. Please check your internet connection.');
+            } finally {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Expiring Soon</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .content {
+            padding: 30px;
+            color: #333;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .subscription-details {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .subscription-details h3 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .plan-comparison {
+            margin: 20px 0;
+        }
+
+        .plan-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px 0;
+        }
+
+        .plan-card.recommended {
+            border-color: #86c540;
+            background: #f0fdf4;
+        }
+
+        .plan-card h4 {
+            margin: 0 0 10px 0;
+            color: #1f2937;
+        }
+
+        .plan-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #86c540;
+            margin: 10px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>⏰ Subscription Expiring Soon</h1>
+        </div>
+
+        <div class="content">
+            <h2>Hi {{employerName}},</h2>
+
+            <div class="warning-box">
+                <p style="margin: 0;"><strong>⚠️ Your subscription will expire in {{daysRemaining}} days!</strong></p>
+                <p style="margin: 10px 0 0 0;">Don't miss out on connecting with qualified candidates. Renew now to
+                    continue accessing our platform.</p>
+            </div>
+
+            <div class="subscription-details">
+                <h3>Current Subscription Details</h3>
+                <div class="detail-row">
+                    <span>Plan:</span>
+                    <strong>{{currentPlan}}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Profiles Accessed:</span>
+                    <strong>{{profilesAccessed}} / {{totalProfiles}}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Expiry Date:</span>
+                    <strong>{{expiryDate}}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Days Remaining:</span>
+                    <strong style="color: #f59e0b;">{{daysRemaining}} days</strong>
+                </div>
+            </div>
+
+            <h3>Renew Your Subscription</h3>
+            <p>Choose a plan that fits your hiring needs:</p>
+
+            <div class="plan-comparison">
+                <div class="plan-card">
+                    <h4>Basic Plan</h4>
+                    <div class="plan-price">₹25,000</div>
+                    <p>Access to 5 candidate profiles</p>
+                </div>
+
+                <div class="plan-card recommended">
+                    <h4>Standard Plan ⭐ Recommended</h4>
+                    <div class="plan-price">₹50,000</div>
+                    <p>Access to 10 candidate profiles</p>
+                </div>
+
+                <div class="plan-card">
+                    <h4>Premium Plan</h4>
+                    <div class="plan-price">₹75,000</div>
+                    <p>Access to 15 candidate profiles</p>
+                </div>
+            </div>
+
+            <center>
+                <a href="{{renewalUrl}}" class="cta-button">Renew Subscription Now →</a>
+            </center>
+
+            <p style="margin-top: 30px;"><strong>💡 Why Renew?</strong></p>
+            <ul>
+                <li>Continue accessing qualified teaching professionals</li>
+                <li>Schedule interviews with shortlisted candidates</li>
+                <li>Direct communication with applicants</li>
+                <li>Priority support from our team</li>
+            </ul>
+
+            <p>If you have any questions about renewal or need assistance choosing a plan, our support team is here to
+                help.</p>
+
+            <p>Best regards,<br>
+                <strong>The TechSkillio Team</strong>
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+
+</html>

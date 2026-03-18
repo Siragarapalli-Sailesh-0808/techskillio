@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Scheduled</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .content {
+            padding: 30px;
+            color: #333;
+        }
+
+        .interview-card {
+            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+            border: 2px solid #8b5cf6;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .interview-card h3 {
+            margin-top: 0;
+            color: #6b21a8;
+        }
+
+        .detail-row {
+            display: flex;
+            margin: 12px 0;
+            align-items: center;
+        }
+
+        .detail-icon {
+            width: 40px;
+            font-size: 20px;
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-content strong {
+            display: block;
+            color: #6b21a8;
+            margin-bottom: 3px;
+        }
+
+        .preparation-tips {
+            background: #f0fdf4;
+            border-left: 4px solid #86c540;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .preparation-tips h3 {
+            margin-top: 0;
+            color: #166534;
+        }
+
+        .preparation-tips ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .preparation-tips li {
+            margin: 8px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .add-to-calendar {
+            display: inline-block;
+            background: white;
+            color: #8b5cf6;
+            border: 2px solid #8b5cf6;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px 5px;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>📅 Interview Scheduled!</h1>
+        </div>
+
+        <div class="content">
+            <h2>Hi {{candidateName}},</h2>
+
+            <p>Congratulations! You've been shortlisted for an interview.</p>
+
+            <div class="interview-card">
+                <h3>Interview Details</h3>
+
+                <div class="detail-row">
+                    <div class="detail-icon">🏫</div>
+                    <div class="detail-content">
+                        <strong>Institution</strong>
+                        {{institutionName}}
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon">💼</div>
+                    <div class="detail-content">
+                        <strong>Position</strong>
+                        {{jobTitle}}
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon">📅</div>
+                    <div class="detail-content">
+                        <strong>Date</strong>
+                        {{interviewDate}}
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon">🕐</div>
+                    <div class="detail-content">
+                        <strong>Time</strong>
+                        {{interviewTime}}
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon">{{modeIcon}}</div>
+                    <div class="detail-content">
+                        <strong>Mode</strong>
+                        {{interviewMode}}
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon">📍</div>
+                    <div class="detail-content">
+                        <strong>{{venueLabel}}</strong>
+                        {{venueOrLink}}
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon">👤</div>
+                    <div class="detail-content">
+                        <strong>Interviewer</strong>
+                        {{interviewerName}}
+                    </div>
+                </div>
+            </div>
+
+            <center>
+                <a href="{{calendarLink}}" class="add-to-calendar">📆 Add to Calendar</a>
+                <a href="{{confirmationLink}}" class="cta-button">Confirm Attendance →</a>
+            </center>
+
+            <div class="preparation-tips">
+                <h3>📚 Interview Preparation Tips</h3>
+                <ul>
+                    <li><strong>Review the Job Description:</strong> Understand the role requirements thoroughly</li>
+                    <li><strong>Research the Institution:</strong> Learn about their values, curriculum, and culture
+                    </li>
+                    <li><strong>Prepare Your Demo:</strong> If required, prepare a sample lesson or presentation</li>
+                    <li><strong>Documents Ready:</strong> Keep your certificates and ID proof handy</li>
+                    <li><strong>Test Technology:</strong> For online interviews, test your camera, mic, and internet
+                    </li>
+                    <li><strong>Dress Professionally:</strong> First impressions matter</li>
+                    <li><strong>Arrive Early:</strong> Be ready 10-15 minutes before the scheduled time</li>
+                </ul>
+            </div>
+
+            <p><strong>⚠️ Important:</strong> Please confirm your attendance by clicking the button above. If you need
+                to reschedule, contact us at least 24 hours in advance.</p>
+
+            <p>We wish you all the best for your interview!</p>
+
+            <p>Best regards,<br>
+                <strong>The TechSkillio Team</strong>
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+
+</html>

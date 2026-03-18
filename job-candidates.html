@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidates by Job - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .dashboard-section {
+            padding: 40px 0 60px;
+            background: #f5f7fa;
+            min-height: calc(100vh - 80px);
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar { margin-top: 30px; order: 2; }
+        }
+
+        .welcome-banner {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .welcome-text h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .welcome-text p {
+            color: #666;
+            margin: 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            color: #2c3e50;
+        }
+
+        /* Job block: title + list of candidates */
+        .job-block {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 28px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #86c540;
+        }
+
+        .job-block-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0 0 20px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .candidates-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .candidate-card {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+        }
+
+        .candidate-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .candidate-card:hover {
+            border-color: #86c540;
+            box-shadow: 0 2px 12px rgba(134, 197, 64, 0.1);
+        }
+
+        .candidate-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0 0 10px 0;
+        }
+
+        .candidate-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 24px;
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        .candidate-details span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .candidate-details i {
+            color: #6b7280;
+            width: 16px;
+        }
+
+        .candidate-status {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .candidate-status.applied { background: #eff6ff; color: #1d4ed8; }
+        .candidate-status.shortlisted { background: #ecfdf5; color: #059669; }
+        .candidate-status.interview { background: #fffbeb; color: #d97706; }
+        .candidate-status.rejected { background: #fef2f2; color: #dc2626; }
+        .candidate-status.offer { background: #ecfdf5; color: #047857; }
+
+        .no-candidates-msg {
+            padding: 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 1px dashed #e5e7eb;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-card h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .profile-menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-menu-list li { margin-bottom: 10px; }
+
+        .profile-menu-list a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f9f9f9;
+            color: #555;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .profile-menu-list a:hover {
+            background: #86c540;
+            color: white;
+        }
+
+        .profile-menu-list a.active {
+            background: #86c540;
+            color: white;
+        }
+
+        .empty-state, .error-state {
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            color: #666;
+        }
+
+        .empty-state i, .error-state i {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .error-state i { color: #ef4444; }
+
+        .loading-inline {
+            text-align: center;
+            padding: 16px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/route-guard.js" data-required-role="user"></script>
+    <div id="header-placeholder"></div>
+    <div style="height: 100px;"></div>
+
+    <section class="dashboard-section">
+        <div class="dashboard-container">
+
+            <div class="main-content">
+                <div class="welcome-banner">
+                    <div class="welcome-text">
+                        <h1>Candidates by Job</h1>
+                        <p>See who applied to each of your posted jobs. View candidate details and application status.</p>
+                    </div>
+                </div>
+
+                <div id="jobCandidatesContainer">
+                    <div class="loading-inline">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p style="margin-top: 15px;">Loading your jobs and candidates...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>User Type</h3>
+                    <div id="userTypeDisplay" style="background: #eff6ff; color: #1e40af; padding: 10px; border-radius: 6px; text-align: center; font-weight: 600;">
+                        Employer
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>My Account</h3>
+                    <ul class="profile-menu-list">
+                        <li><a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a></li>
+                        <li><a href="job-candidates.html" class="active"><i class="fas fa-users"></i> Candidates by Job</a></li>
+                        <li><a href="#" id="dashboardLink"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="#" onclick="logoutUser(); return false;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var userType = localStorage.getItem('userType') || sessionStorage.getItem('userType') || '';
+            var typeEl = document.getElementById('userTypeDisplay');
+            if (typeEl) {
+                if (userType === 'teacher_employer') typeEl.textContent = 'Teacher Employer';
+                else if (userType === 'teacher_employer_nonteaching') typeEl.textContent = 'Non-Teaching Employer';
+                else if (userType === 'it_vendor') typeEl.textContent = 'IT Vendor';
+                else typeEl.textContent = 'Employer';
+            }
+
+            var dashLink = document.getElementById('dashboardLink');
+            if (dashLink) {
+                if (userType === 'teacher_employer') dashLink.href = 'teacher-employer-dashboard.html';
+                else if (userType === 'teacher_employer_nonteaching') dashLink.href = 'teacher-employer-nonteaching-dashboard.html';
+                else if (userType === 'it_vendor') dashLink.href = 'it-vendor-dashboard.html';
+                else dashLink.href = 'teacher-employer-dashboard.html';
+            }
+
+            loadJobsAndCandidates();
+        });
+
+        function escapeHtml(text) {
+            if (text == null || text === '') return '—';
+            var div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function getStatusClass(status) {
+            if (!status) return 'applied';
+            var s = (status + '').toLowerCase();
+            if (s.indexOf('shortlist') !== -1) return 'shortlisted';
+            if (s.indexOf('interview') !== -1) return 'interview';
+            if (s.indexOf('reject') !== -1) return 'rejected';
+            if (s.indexOf('offer') !== -1) return 'offer';
+            return 'applied';
+        }
+
+        async function loadJobsAndCandidates() {
+            var container = document.getElementById('jobCandidatesContainer');
+            try {
+                var jobsRes = await authManager.apiRequest('/api/v1/jobs/jobs/my-jobs/?status=active');
+                var jobsData = await jobsRes.json();
+                var jobs = Array.isArray(jobsData) ? jobsData : (jobsData.results || []);
+
+                if (jobs.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-briefcase"></i><p style="font-size: 18px; margin-bottom: 8px;">No jobs yet</p><p>Post a job to see candidates who apply here.</p></div>';
+                    return;
+                }
+
+                var html = '';
+                for (var j = 0; j < jobs.length; j++) {
+                    var job = jobs[j];
+                    var jobId = job.id;
+                    var jobTitle = job.title || 'Untitled Job';
+                    html += '<div class="job-block"><h2 class="job-block-title">' + escapeHtml(jobTitle) + '</h2><div class="candidates-list" id="candidates-' + jobId + '"><div class="loading-inline"><i class="fas fa-spinner fa-spin"></i> Loading candidates...</div></div></div>';
+                }
+                container.innerHTML = html;
+
+                for (var k = 0; k < jobs.length; k++) {
+                    (function (job) {
+                        var jobId = job.id;
+                        var listEl = document.getElementById('candidates-' + jobId);
+                        if (!listEl) return;
+                        fetchCandidatesForJob(jobId, listEl);
+                    })(jobs[k]);
+                }
+            } catch (err) {
+                console.error('Failed to load jobs:', err);
+                container.innerHTML = '<div class="error-state"><i class="fas fa-exclamation-circle"></i><p style="font-size: 18px; margin-bottom: 8px;">Could not load jobs</p><p>Please check your connection and try again.</p></div>';
+            }
+        }
+
+        async function fetchCandidatesForJob(jobId, listEl) {
+            try {
+                var res = await authManager.apiRequest('/api/v1/jobs/jobs/' + jobId + '/candidates/');
+                var data = await res.json().catch(function () { return {}; });
+                var candidates = Array.isArray(data) ? data : (data.results || data.candidates || []);
+
+                if (candidates.length === 0) {
+                    listEl.innerHTML = '<div class="no-candidates-msg"><i class="fas fa-user-friends"></i> No candidates have applied for this job yet.</div>';
+                    return;
+                }
+
+                listEl.innerHTML = candidates.map(function (c) {
+                    var name = c.name || c.full_name || c.candidate_name || c.email || 'Candidate';
+                    var email = c.email || c.candidate_email || '';
+                    var phone = c.phone || c.mobile || c.contact_number || '';
+                    var appliedAt = c.applied_at || c.created_at || c.application_date;
+                    var dateStr = appliedAt ? new Date(appliedAt).toLocaleDateString() : '';
+                    var status = c.status || c.application_status || 'applied';
+                    var statusClass = getStatusClass(status);
+
+                    var parts = [];
+                    if (email) parts.push('<span><i class="fas fa-envelope"></i> ' + escapeHtml(email) + '</span>');
+                    if (phone) parts.push('<span><i class="fas fa-phone"></i> ' + escapeHtml(phone) + '</span>');
+                    if (dateStr) parts.push('<span><i class="fas fa-calendar-alt"></i> Applied: ' + escapeHtml(dateStr) + '</span>');
+
+                    var extra = '';
+                    if (c.resume_url) extra += '<span><i class="fas fa-file-pdf"></i> <a href="' + escapeHtml(c.resume_url) + '" target="_blank" rel="noopener">Resume</a></span>';
+                    if (c.experience != null) extra += '<span><i class="fas fa-briefcase"></i> ' + escapeHtml(String(c.experience)) + ' yrs</span>';
+                    if (c.current_company) extra += '<span><i class="fas fa-building"></i> ' + escapeHtml(c.current_company) + '</span>';
+
+                    if (extra) parts.push(extra);
+
+                    return '<div class="candidate-card">' +
+                        '<div class="candidate-name">' + escapeHtml(name) + '</div>' +
+                        '<div class="candidate-details">' + parts.join('') + '</div>' +
+                        '<span class="candidate-status ' + statusClass + '">' + escapeHtml(String(status)) + '</span>' +
+                        '</div>';
+                }).join('');
+            } catch (err) {
+                console.error('Failed to load candidates for job ' + jobId, err);
+                listEl.innerHTML = '<div class="no-candidates-msg"><i class="fas fa-exclamation-triangle"></i> Unable to load candidates. Try again later.</div>';
+            }
+        }
+
+        function logoutUser() {
+            if (typeof authManager !== 'undefined') authManager.logout();
+            else window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

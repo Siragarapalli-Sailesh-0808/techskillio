@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Jobs - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .dashboard-section {
+            padding: 40px 0 60px;
+            background: #f5f7fa;
+            min-height: calc(100vh - 80px);
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar { margin-top: 30px; order: 2; }
+        }
+
+        .welcome-banner {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .welcome-text h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .welcome-text p {
+            color: #666;
+            margin: 0;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-card h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .profile-menu-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .profile-menu-list li { margin-bottom: 10px; }
+
+        .profile-menu-list a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f9f9f9;
+            color: #555;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .profile-menu-list a:hover {
+            background: #86c540;
+            color: white;
+        }
+
+        .profile-menu-list a.active {
+            background: #86c540;
+            color: white;
+        }
+
+        /* Application cards - same look as dashboard job cards */
+        .application-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border-left: 4px solid #86c540;
+            transition: all 0.2s ease;
+        }
+
+        .application-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .application-card .job-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #fa5560;
+        }
+
+        .application-card .job-meta {
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .application-card .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .application-card .status-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .empty-state, .error-state {
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            color: #666;
+        }
+
+        .empty-state i, .error-state i {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .error-state i { color: #ef4444; }
+
+        /* Job details modal - same theme */
+        .applied-job-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .applied-job-modal-overlay.show { display: flex; }
+        .applied-job-modal {
+            background: white;
+            border-radius: 12px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            border-left: 4px solid #86c540;
+        }
+        .applied-job-modal-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .applied-job-modal-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .applied-job-modal-header h3 i { color: #86c540; }
+        .applied-job-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+        .applied-job-modal-close:hover { color: #2c3e50; }
+        .applied-job-modal-body {
+            padding: 20px;
+        }
+        .applied-job-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            gap: 12px;
+        }
+        .applied-job-detail-row:last-child { border-bottom: none; }
+        .applied-job-detail-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            min-width: 100px;
+        }
+        .applied-job-detail-value {
+            font-size: 0.95rem;
+            color: #1e293b;
+            text-align: right;
+        }
+        .btn-view-details-applied {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #86c540;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s;
+        }
+        .btn-view-details-applied:hover {
+            background: #76b030;
+            box-shadow: 0 4px 12px rgba(134, 197, 64, 0.35);
+        }
+        .application-card-actions {
+            margin-top: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/route-guard.js" data-required-role="user"></script>
+    <div id="header-placeholder"></div>
+    <div style="height: 100px;"></div>
+
+    <section class="dashboard-section">
+        <div class="dashboard-container">
+
+            <div class="main-content">
+                <div class="welcome-banner">
+                    <div class="welcome-text">
+                        <h1>Applied Jobs</h1>
+                        <p>All jobs you've applied to. Track status and stay updated.</p>
+                    </div>
+                </div>
+
+                <div id="applicationsListContainer">
+                    <div style="text-align: center; padding: 40px 20px; color: #666;">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p style="margin-top: 15px;">Loading your applications...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>User Type</h3>
+                    <div id="userTypeDisplay" style="background: #eff6ff; color: #1e40af; padding: 10px; border-radius: 6px; text-align: center; font-weight: 600;">
+                        Candidate
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>My Account</h3>
+                    <ul class="profile-menu-list">
+                        <li><a href="profile.html"><i class="fas fa-user-circle"></i> View Profile</a></li>
+                        <li><a href="profile.html"><i class="fas fa-file-alt"></i> Update Resume</a></li>
+                        <li><a href="applied-jobs.html" class="active"><i class="fas fa-briefcase"></i> Applied Jobs</a></li>
+                        <li><a href="profile.html"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="#" onclick="logoutUser(); return false;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Job details modal -->
+    <div class="applied-job-modal-overlay" id="appliedJobModal" aria-hidden="true">
+        <div class="applied-job-modal">
+            <div class="applied-job-modal-header">
+                <h3><i class="fas fa-briefcase"></i> Job details</h3>
+                <button type="button" class="applied-job-modal-close" id="appliedJobModalClose" aria-label="Close">&times;</button>
+            </div>
+            <div class="applied-job-modal-body" id="appliedJobModalBody"></div>
+        </div>
+    </div>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/job-display-helpers.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const userProfile = JSON.parse(localStorage.getItem('userProfile') || sessionStorage.getItem('userProfile') || '{}');
+            const userType = localStorage.getItem('userType') || sessionStorage.getItem('userType') || '';
+
+            const typeEl = document.getElementById('userTypeDisplay');
+            if (typeEl) {
+                if (userType === 'teacher_candidate' || userProfile.is_teaching_candidate !== false && userProfile.user_type !== 'it') {
+                    typeEl.textContent = 'Teacher Candidate';
+                } else if (userType === 'it_candidate' || userProfile.user_type === 'it') {
+                    typeEl.textContent = 'IT Candidate';
+                } else {
+                    typeEl.textContent = 'Candidate';
+                }
+            }
+
+            loadApplications();
+        });
+
+        function showApplicationsError(message, showRetry) {
+            const container = document.getElementById('applicationsListContainer');
+            if (!container) return;
+            const safeMsg = message ? (function () { var d = document.createElement('div'); d.textContent = message; return d.innerHTML; })() : 'Please check your connection and try again.';
+            const retryBtn = showRetry !== false
+                ? '<button type="button" onclick="loadApplications()" style="margin-top:16px;padding:10px 20px;background:#86c540;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;"><i class="fas fa-redo"></i> Try again</button>'
+                : '';
+            container.innerHTML = `
+                <div class="error-state">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p style="font-size: 18px; margin-bottom: 8px;">Could not load applications</p>
+                    <p>${safeMsg}</p>
+                    ${retryBtn}
+                </div>`;
+        }
+
+        async function loadApplications() {
+            const container = document.getElementById('applicationsListContainer');
+            if (!container) return;
+            try {
+                const response = await authManager.apiRequest('/api/v1/jobs/applications/');
+                if (!response.ok) {
+                    let errMsg = 'Please check your connection and try again.';
+                    try {
+                        const errBody = await response.json().catch(() => null);
+                        if (errBody && (errBody.detail || errBody.message)) errMsg = errBody.detail || errBody.message;
+                    } catch (_) {
+                        try { errMsg = await response.text(); } catch (e) {}
+                        if (!errMsg || errMsg.length > 200) errMsg = 'Server returned ' + response.status + '. Please try again.';
+                    }
+                    showApplicationsError(errMsg, true);
+                    return;
+                }
+                const data = await response.json().catch(() => ({}));
+                const applications = Array.isArray(data) ? data : (data.results || data.applications || (data.data && data.data.results) || []);
+
+                if (applications.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p style="font-size: 18px; margin-bottom: 8px;">No applications yet</p>
+                            <p>You haven't applied to any jobs. Browse jobs and apply to see them here.</p>
+                        </div>`;
+                    return;
+                }
+
+                window._appliedJobsList = applications;
+
+                container.innerHTML = applications.map((app, idx) => {
+                    try {
+                        const status = (app.status || 'applied').toLowerCase();
+                        const statusColor = getStatusColor(status);
+                        const statusBg = getStatusWrapperColor(status);
+                        const appliedDate = app.applied_at || app.created_at;
+                        const dateStr = appliedDate ? new Date(appliedDate).toLocaleDateString() : '—';
+                        const title = safeStr(app.job_title || app.title) || 'Job Application';
+                        const location = safeStr(app.location || (app.job_details && app.job_details.location));
+                        const salary = safeStr(app.salary || (app.job_details && app.job_details.salary_range));
+                        const companyOrInstitution = getCompanyOrInstitutionName(app);
+                        const isTeacherRecruiter = ((app.job_details && app.job_details.job_category) || app.job_category || '').toString().toLowerCase() === 'teacher';
+                        const companyOrInstitutionLabel = isTeacherRecruiter ? 'Institution Name' : 'Company Name';
+
+                        return `
+                        <div class="application-card">
+                            <div class="job-title">${escapeHtml(title)}</div>
+                            ${companyOrInstitution ? `<div class="job-company" style="color:#64748b;font-size:0.85rem;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.03em;font-weight:600;">${companyOrInstitutionLabel}</div><div style="color:#1e293b;font-size:0.95rem;margin-bottom:6px;"><i class="fas fa-building" style="color:#86c540;"></i> ${escapeHtml(companyOrInstitution)}</div>` : ''}
+                            <div class="job-meta">
+                                <span><i class="fas fa-calendar-alt"></i> Applied: ${dateStr}</span>
+                                ${location ? `<span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(location)}</span>` : ''}
+                                ${salary ? `<span><i class="fas fa-rupee-sign"></i> ${escapeHtml(salary)}</span>` : ''}
+                            </div>
+                            <div class="application-card-actions">
+                                <span class="status-badge" style="background: ${statusBg}; color: ${statusColor};">${escapeHtml((app.status || 'Applied').toUpperCase())}</span>
+                                <button type="button" class="btn-view-details-applied" onclick="openJobDetailsModal(${idx})"><i class="fas fa-eye"></i> View Details</button>
+                            </div>
+                        </div>`;
+                    } catch (cardErr) {
+                        console.error('Error rendering application card:', cardErr);
+                        return '<div class="application-card"><div class="job-title">Job Application</div><p style="color:#64748b;">Details could not be loaded for this item.</p></div>';
+                    }
+                }).join('');
+            } catch (err) {
+                console.error('Failed to load applications:', err);
+                var msg = (err && err.message) ? err.message : 'Please check your connection and try again.';
+                if (err && err.name === 'RangeError' && (err.message || '').toLowerCase().indexOf('stack') !== -1) {
+                    msg = 'Something went wrong while loading the list. Please try again.';
+                }
+                showApplicationsError(msg, true);
+            }
+        }
+
+        function getCompanyOrInstitutionName(app) {
+            if (typeof window.getCompanyOrInstitutionName !== 'function') return '';
+            try {
+                var jd = app.job_details && typeof app.job_details === 'object' ? app.job_details : {};
+                var j = app.job && typeof app.job === 'object' && app.job !== app ? app.job : {};
+                var job = {
+                    company_name: jd.company_name || j.company_name || app.company_name,
+                    institution_name: jd.institution_name || j.institution_name || app.institution_name,
+                    school_name: jd.school_name || j.school_name || app.school_name,
+                    job_category: jd.job_category || j.job_category || app.job_category,
+                    employer_details: jd.employer_details || j.employer_details,
+                    posted_by_details: jd.posted_by_details || j.posted_by_details,
+                    user_details: jd.user_details || j.user_details,
+                    employer_profile: jd.employer_profile || j.employer_profile,
+                    posted_by: jd.posted_by || j.posted_by,
+                    employer: jd.employer || j.employer,
+                    company: jd.company || j.company,
+                    institution: jd.institution || j.institution,
+                    organization_name: jd.organization_name || j.organization_name || app.organization_name,
+                    posted_by_name: jd.posted_by_name || j.posted_by_name || app.posted_by_name,
+                    vendor_name: jd.vendor_name || j.vendor_name || app.vendor_name
+                };
+                var out = window.getCompanyOrInstitutionName(job);
+                return (out && out !== '—') ? out : '';
+            } catch (e) { return ''; }
+        }
+
+        function safeStr(val) {
+            if (val == null || val === '') return '';
+            if (typeof val === 'string') return val;
+            if (typeof val === 'number' || typeof val === 'boolean') return String(val);
+            if (typeof val === 'object') {
+                try {
+                    var v = val.title || val.name || val.label || val.job_title || '';
+                    return typeof v === 'string' ? v : (typeof v === 'number' ? String(v) : '');
+                } catch (e) { return ''; }
+            }
+            try { return String(val); } catch (e) { return ''; }
+        }
+
+        function escapeHtml(text) {
+            var s = safeStr(text);
+            if (s === '') return '';
+            try {
+                var div = document.createElement('div');
+                div.textContent = s;
+                return div.innerHTML;
+            } catch (e) { return ''; }
+        }
+
+        function getStatusColor(status) {
+            switch (status) {
+                case 'interview_scheduled': return '#f59e0b';
+                case 'rejected': return '#ef4444';
+                case 'job_offer': return '#10b981';
+                default: return '#3b82f6';
+            }
+        }
+
+        function formatModalDate(str) {
+            if (!str) return '—';
+            try { return new Date(str).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
+            catch (e) { return str; }
+        }
+
+        function formatSalaryRange(j, app) {
+            const min = j.salary_min ?? app.salary_min;
+            const max = j.salary_max ?? app.salary_max;
+            const cur = (j.salary_currency || app.salary_currency || '₹').toString().trim();
+            if (min != null && max != null) return (cur === '₹' ? '₹' : cur + ' ') + min + ' – ' + (cur === '₹' ? '₹' : '') + max;
+            if (min != null) return (cur === '₹' ? '₹' : cur + ' ') + min + '+';
+            if (max != null) return 'Up to ' + (cur === '₹' ? '₹' : cur + ' ') + max;
+            return app.salary || j.salary_range || j.salary || '';
+        }
+
+        async function openJobDetailsModal(index) {
+            const list = window._appliedJobsList;
+            if (!list || !list[index]) return;
+            const app = list[index];
+            let j = app.job_details || (typeof app.job === 'object' ? app.job : null) || {};
+            const jobIdNum = (typeof app.job === 'object' && app.job && app.job.id != null) ? app.job.id : (app.job_id != null ? app.job_id : (app.job != null && (typeof app.job === 'number' || typeof app.job === 'string') ? app.job : j.id));
+
+            document.getElementById('appliedJobModalBody').innerHTML = '<div style="text-align:center;padding:24px;color:#64748b;"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:12px;">Loading job details…</p></div>';
+            document.getElementById('appliedJobModal').classList.add('show');
+            document.getElementById('appliedJobModal').setAttribute('aria-hidden', 'false');
+
+            if (jobIdNum != null && (typeof jobIdNum === 'number' || typeof jobIdNum === 'string') && !(j.title || j.company_name || j.institution_name)) {
+                try {
+                    const apiUrl = (window.API_BASE_URL || '').replace(/\/$/, '');
+                    const res = await (typeof authManager !== 'undefined' ? authManager.apiRequest('/api/v1/jobs/jobs/' + jobIdNum + '/') : fetch(apiUrl + '/api/v1/jobs/jobs/' + jobIdNum + '/', { headers: { 'Authorization': 'TSK ' + (localStorage.getItem('access_token') || '') } }));
+                    if (res && res.ok) {
+                        const jobData = await res.json().catch(function () { return {}; });
+                        j = jobData;
+                        if (!app.job_details) app.job_details = jobData;
+                    }
+                } catch (e) { console.warn('Could not fetch full job:', e); }
+            }
+
+            const title = app.job_title || app.title || j.title || 'Job';
+            const companyOrInstitution = getCompanyOrInstitutionName(app) || (j.company_name || j.institution_name || j.school_name || j.employer_name || (j.employer_details && (j.employer_details.company_name || j.employer_details.company || j.employer_details.institution_name || j.employer_details.name)) || '');
+            const isTeacherRecruiter = ((j.job_category || app.job_category) || '').toString().toLowerCase() === 'teacher';
+            const companyLabel = isTeacherRecruiter ? 'Institution Name' : 'Company Name';
+
+            const row = function (label, value) {
+                if (value == null || value === '') return '';
+                return '<div class="applied-job-detail-row"><span class="applied-job-detail-label">' + escapeHtml(label) + '</span><span class="applied-job-detail-value">' + escapeHtml(String(value)) + '</span></div>';
+            };
+            const rowAlways = function (label, value) {
+                var v = value != null && value !== '' ? String(value) : '—';
+                return '<div class="applied-job-detail-row"><span class="applied-job-detail-label">' + escapeHtml(label) + '</span><span class="applied-job-detail-value">' + escapeHtml(v) + '</span></div>';
+            };
+            const salaryStr = formatSalaryRange(j, app) || (j.salary || app.salary || '');
+            const expMin = j.experience_min_years ?? j.min_experience ?? app.min_experience;
+            const expMax = j.experience_max_years ?? j.max_experience ?? app.max_experience;
+            const expStr = (expMin != null || expMax != null) ? (expMin ?? '0') + ' – ' + (expMax ?? '—') + ' yrs' : '';
+            const employmentType = j.employment_type || app.employment_type || '';
+            const workMode = (j.work_mode || app.work_mode || '').toString().replace(/_/g, ' ');
+            const skills = [].concat(j.skills_required || app.skills_required || []).filter(Boolean);
+            const subjects = [].concat(j.subjects_required || app.subjects_required || []).filter(Boolean);
+            const description = (j.description || app.description || '').toString().trim();
+            const location = app.location || j.location || '';
+            const category = (j.job_category || app.job_category || '').toString();
+            const teachingJob = j.is_teaching_job;
+
+            const parts = [];
+            parts.push(rowAlways('Role / Job title', title));
+            parts.push(rowAlways(companyLabel, companyOrInstitution));
+            parts.push(rowAlways('Salary range', salaryStr || 'Not disclosed'));
+            parts.push(rowAlways('Location', location));
+            parts.push(row('Employment type', employmentType || '—'));
+            parts.push(row('Work mode', workMode ? workMode.charAt(0).toUpperCase() + workMode.slice(1) : '—'));
+            if (expStr) parts.push(row('Experience', expStr));
+            if (category) parts.push(row('Job category', category));
+            if (teachingJob === true || teachingJob === false) parts.push(row('Teaching job', teachingJob ? 'Yes' : 'No'));
+            if (skills.length) parts.push(row('Skills required', skills.join(', ')));
+            if (subjects.length) parts.push(row('Subjects required', subjects.join(', ')));
+            parts.push(row('Applied date', formatModalDate(app.applied_at || app.created_at)));
+            parts.push(row('Application status', (app.status || 'Applied').toString().replace(/_/g, ' ')));
+            if (j.created_at) parts.push(row('Job posted', formatModalDate(j.created_at)));
+            if (description) parts.push('<div class="applied-job-detail-row" style="flex-direction:column;align-items:stretch;"><span class="applied-job-detail-label">Description</span><span class="applied-job-detail-value" style="text-align:left;white-space:pre-wrap;">' + escapeHtml(description) + '</span></div>');
+
+            document.getElementById('appliedJobModalBody').innerHTML = parts.filter(Boolean).join('') || '<p style="color:#64748b;">No further details available.</p>';
+        }
+
+        function closeJobDetailsModal() {
+            document.getElementById('appliedJobModal').classList.remove('show');
+            document.getElementById('appliedJobModal').setAttribute('aria-hidden', 'true');
+        }
+
+        document.getElementById('appliedJobModalClose').addEventListener('click', closeJobDetailsModal);
+        document.getElementById('appliedJobModal').addEventListener('click', function (e) {
+            if (e.target === this) closeJobDetailsModal();
+        });
+
+        function getStatusWrapperColor(status) {
+            switch (status) {
+                case 'interview_scheduled': return '#fffbeb';
+                case 'rejected': return '#fef2f2';
+                case 'job_offer': return '#ecfdf5';
+                default: return '#eff6ff';
+            }
+        }
+
+        function logoutUser() {
+            if (typeof authManager !== 'undefined') authManager.logout();
+            else window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

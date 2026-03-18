@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Services | TechSkillio</title>
+    <meta name="description"
+        content="Accelerate your career with TechSkillio's Career Catalyst. Industry partnerships, skill matching, and career opportunities in IT, Healthcare, and Engineering.">
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="icon" href="favicon.jpg" type="image/png">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .career-opportunities-section {
+    background: #f9f9f9;
+    padding: 60px 0;
+}
+.job-listings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+.job-card {
+    background: #fff;
+    padding: 25px;
+    border-left: 4px solid #ff6a00;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-radius: 6px;
+}
+.job-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.job-detail, .job-meta {
+    font-size: 15px;
+    margin-bottom: 8px;
+    color: #555;
+}
+.btn-primary {
+    background-color: #ff6a00;
+    color: white;
+    /* padding: 10px 16px; */
+    font-weight: bold;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+}
+.hero-buttons {
+    display: inline-flex
+;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+@media (max-width: 767px) {
+.job-listings {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+}
+}
+.popup-overlay {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup-content {
+  background: #fff;
+  margin: 5% auto;
+  padding: 25px 20px;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 10px;
+  position: relative;
+  animation: slideDown 0.3s ease-in-out;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+.popup-content h4 {
+  margin-top: 20px;
+  color: #2c3e50;
+}
+
+.popup-content ul {
+  padding-left: 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 480px) {
+  .popup-content {
+    margin: 20% auto;
+    padding: 15px;
+  }
+
+  .close-btn {
+    font-size: 20px;
+    top: 8px;
+    right: 10px;
+  }
+}
+
+     .job-popup-overlay {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    overflow: auto;
+    animation: jobFadeIn 0.3s ease-in-out;
+  }
+
+  .job-popup-content {
+    background: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+    position: relative;
+    animation: jobSlideDown 0.3s ease-in-out;
+  }
+
+  .job-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+  }
+
+  .job-popup-content h4 {
+    margin-top: 20px;
+    color: #333;
+  }
+
+  .job-popup-content ul {
+    padding-left: 20px;
+  }
+
+  @keyframes jobFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes jobSlideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @media (max-width: 480px) {
+    .job-popup-content {
+      margin: 20% auto;
+      padding: 15px;
+    }
+
+    .job-close-btn {
+      font-size: 20px;
+      top: 8px;
+      right: 10px;
+    }
+  }
+    .button-row {
+ 
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+.colo{
+  background: linear-gradient(to right, #8bc34a, #689f38);
+}
+.btn-custom {
+  flex: 1;
+  text-align: center;
+  
+  color: white;
+  padding: 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: background 0.3s ease;
+}
+
+.btn-custom:hover {
+  background: linear-gradient(to right, #7cb342, #558b2f);
+}
+
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.6);
+    overflow: auto;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .popup-content {
+    background: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+    position: relative;
+    animation: slideDown 0.3s ease-in-out;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+  }
+
+  .popup-content h4 {
+    margin-top: 20px;
+    color: #333;
+  }
+
+  .popup-content ul {
+    padding-left: 20px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; } 
+    to { opacity: 1; }
+  }
+
+  @keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 480px) {
+    .popup-content {
+      margin: 20% auto;
+      padding: 15px;
+    }
+
+    .close-btn {
+      font-size: 20px;
+      top: 8px;
+      right: 10px;
+    }
+  }
+  .popup-over {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    overflow: auto;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .popup-form {
+    background: #fff;
+    width: 90%;
+    max-width: 500px;
+    margin: 5% auto;
+    margin-top: 140px;
+    padding: 25px 20px;
+    border-radius: 10px;
+    position: relative;
+    animation: slideDown 0.3s ease-in-out;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+  }
+
+  .popup-form h3 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+ .services-section {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 40px 20px;
+  gap: 20px;
+}
+
+.service-box {
+  background-color: #131313;
+  border-radius: 20px;
+  padding: 30px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.service-box img {
+    width: 100px;
+        margin: auto;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.service-box h3 {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.service-box ul {
+  list-style: none;
+  padding: 0;
+    color: #bbb;
+  margin: 0;
+  text-align: left;
+}
+
+.service-box li {
+  margin-bottom: 12px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.service-box li i {
+  margin-right: 10px;
+  color: #bbb;
+  transition: color 0.3s ease;
+}
+
+.services-section {
+    display: flex
+;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 40px 20px;
+    gap: 20px;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+}
+
+.service-box {
+      background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 0 15px #FCE4EC;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.service-box img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.service-box h3 {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.service-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.service-box li {
+  margin-bottom: 12px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  color: #bbb;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.service-box li i {
+  margin-right: 10px;
+  color: #bbb;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect for individual <li> items */
+.service-box li:hover {
+  color: #ffffff; /* bright text */
+}
+
+.service-box li:hover i {
+  color: #ffffff; /* bright icon */
+}
+.quick-link {
+    color: #ffffff; /* white */
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.quick-link:hover {
+    color: #FDBA32; /* bright orange */
+}
+
+.font-semiboldd {
+    font-weight: 600;
+    color: black;
+}
+.font-semiboldd:hover  {
+    font-weight: 600;
+     background-color:#F5AF32;
+    color: white;
+}
+/* Responsive for mobile */
+@media (max-width: 768px) {
+  .services-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-box {
+    max-width: 90%;
+  }
+}
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  @keyframes slideDown {
+    from {transform: translateY(-30px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+  }
+
+  @media (max-width: 480px) {
+    .popup-form {
+      margin: 15% auto;
+      padding: 20px 15px;
+      margin-top:140px;
+    }
+  }
+
+    </style>
+</head>
+
+<body>
+  <!-- HEADER PLACEHOLDER -->
+  <div id="header-placeholder"></div>
+
+  <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+  <div style="height: 120px;"></div>
+
+    <!-- Floating Background Elements -->
+   <!-- STICKY HEADER WRAPPER -->
+
+
+<!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+
+
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Road2Edu",
+  "image": "https://www.road2edu.com/logo.png",
+  "priceRange": "₹₹",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "6-3-354/5, Mothi Nagar, Dwarakapuri, Punjagutta",
+    "addressLocality": "Hyderabad",
+    "addressRegion": "Telangana",
+    "postalCode": "500082",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "17.4239",
+    "longitude": "78.4738"
+  },
+  "telephone": "+91-91603-54567",
+  "email": "info@road2edu.com",
+  "url": "https://www.road2edu.com",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "09:00",
+      "closes": "18:00"
+    }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "200"
+  }
+}
+</script>
+
+    <!-- Hero Section -->
+   <section class="page-hero tech-services-hero" style="background-image: linear-gradient(to right bottom, rgba(239, 246, 255, 0.5), rgb(255 224 224 / 90%)), url(public/it-services-erp.png);">
+    <div class="hero-bg-animation"></div>
+    <div class="container">
+        <div class="page-hero-content">
+           
+            <h1 class="page-hero-title">
+                Empowering Businesses Through <span class="gradient-text">Digital Excellence</span>
+            </h1>
+            <p class="page-hero-subtitle">
+                Accelerate your digital transformation with our expert services in Cloud, AI & Data, Cybersecurity,
+                ERP/CRM implementation, and cutting-edge IT consulting. We build scalable, secure, and intelligent solutions
+                to drive your business forward.
+            </p>
+            <div class="hero-buttons">
+                <a href="contact-us.html" class="btn-custom" style="background-color:#6EA63B;">
+                    <span>Talk to Our Experts</span>
+                    <div class="btn-glow"></div>
+                </a>
+                <a href="it-services.html#services" class="btn btn-secondary">
+                    <span>Explore Services</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+ 
+      <!-- Immediate Job Opportunities Section -->
+       <br>
+  <section class="os" id="services">
+  <div class="section-header">
+    <h2 class="section-title"><span class="gradient-text">Our</span> Services</h2>
+  </div>
+
+  <div class="services-section">
+    <!-- Cloud Services -->
+    <div class="service-box">
+      <img src="public/cloud.png" alt="Cloud Services">
+      <h3>Cloud <br> Services</h3>
+      <ul>
+        <li><i class="fas fa-check-circle" style="color:white;"></i> Cloud migration and deployment (AWS, Azure, GCP)</li>
+        <li><i class="fas fa-check-circle"></i> DevOps & CI/CD setup</li>
+        <li><i class="fas fa-check-circle"></i> Managed cloud infrastructure</li>
+      </ul>
+    </div>
+
+    <!-- AI & Data Services -->
+    <div class="service-box">
+      <img src="public/ai.png" alt="AI Services">
+      <h3>AI & Data <br> Services</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> AI/ML development & consulting</li>
+        <li><i class="fas fa-check-circle"></i> Data engineering & data lakes</li>
+        <li><i class="fas fa-check-circle"></i> NLP, computer vision, chatbots</li>
+        <li><i class="fas fa-check-circle"></i> Predictive analytics solutions</li>
+      </ul>
+    </div>
+
+    <!-- Cybersecurity Services -->
+    <div class="service-box">
+      <img src="public/cyber-security.png" alt="Cybersecurity Services">
+      <h3>Cybersecurity <br> Services</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Security audits & risk assessments</li>
+        <li><i class="fas fa-check-circle"></i> Penetration testing</li>
+        <li><i class="fas fa-check-circle"></i> SOC & threat monitoring</li>
+      </ul>
+    </div>
+</div>
+<div class="services-section">
+    <!-- Digital Transformation Services -->
+    <div class="service-box">
+      <img src="public/digital-marketing.png" alt="Digital Transformation">
+      <h3>Digital Transformation <br> Services</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Legacy system modernization</li>
+        <li><i class="fas fa-check-circle"></i> Automation using RPA (Robotic Process Automation)</li>
+        <li><i class="fas fa-check-circle"></i> Business Intelligence dashboards (Power BI, Tableau)</li>
+      </ul>
+    </div>
+
+    <!-- ERP & CRM Implementation -->
+    <div class="service-box">
+      <img src="public/crm.png" alt="ERP & CRM">
+      <h3>ERP & CRM <br> Implementation</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> SAP, Oracle, Salesforce implementation</li>
+        <li><i class="fas fa-check-circle"></i> Custom CRM/ERP development</li>
+      </ul>
+    </div>
+
+    <!-- IT Consulting Services -->
+    <div class="service-box">
+      <img src="public/it-consulting.png" alt="IT Consulting">
+      <h3>IT Consulting <br> Services</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Project-based consulting</li>
+        <li><i class="fas fa-check-circle"></i> Technology roadmap development</li>
+        <li><i class="fas fa-check-circle"></i> Architecture consulting</li>
+      </ul>
+    </div>
+      </div>
+  </div>
+</section>
+
+
+
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to <span class="gradient-text">Accelerate</span> Your Career?</h2>
+                <p class="cta-subtitle">Join thousands of professionals who've transformed their careers with Career
+                    Catalyst</p>
+                <div class="cta-buttons">
+                    <a href="contact-us.html" class="btn btn-primary btn-large" style="width: auto;">
+                        <span>Start Career Journey</span>
+                        <div class="btn-glow"></div>
+                    </a>
+                    <a href="contact-us.html" class="btn btn-secondary btn-large">
+                        <span>Schedule Consultation</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+<!-- Read More Popup Modal 2 -->
+<div id="readMoreModal2" class="popup-overlay">
+  <div class="popup-box">
+    <span class="popup-close" onclick="closeReadMorePopup2()">&times;</span>
+   <h4>Job Description:</h4>
+<p><strong>Data Engineering Architect [AWS]</strong></p>
+<p>Welcome to Awign Expert, a division of Awign - India's largest work-as-a-service platform. At Awign Expert, we connect skilled professionals with exciting contractual or project-based work opportunities offered by top companies. Our mission is to empower professionals by matching them with projects that align with their skills, interests, and experience.</p>
+<p>At Awign Expert, we understand the challenges faced by independent professionals in finding meaningful work and managing administrative tasks. That's why we act as a dedicated HR office for our Experts, handling the entire onboarding process, providing continuous feedback, resolving conflicts, and ensuring seamless payroll management.</p>
+<p>Our goal is to create a hassle-free environment for our Experts, allowing them to focus solely on their work without the burden of administrative complexities. By partnering with Awign Expert, professionals gain access to a vast network of renowned companies and projects across various industries.</p>
+
+<h4>About the Role:</h4>
+<ul>
+  <li><strong>Duration:</strong> 6 months</li>
+  <li><strong>Location:</strong> Bengaluru</li>
+  <li><strong>Timings:</strong> Full Time (As per company timings)</li>
+  <li><strong>Notice Period:</strong> Immediate Joiner - Only</li>
+  <li><strong>Experience:</strong> 8–9 Years</li>
+</ul>
+
+<h4>JD Overview:</h4>
+<p>We are seeking a highly experienced Data Architect to design and implement robust, scalable, and high-performance data systems using modern technologies. The ideal candidate should have deep expertise in database architecture, distributed systems, data modeling, and hands-on proficiency in Python or Golang. You will be responsible for defining the architecture for structured, semi-structured, and vector-based data platforms across AWS infrastructure.</p>
+
+<h4>Mandatory Skills:</h4>
+<ul>
+  <li>PostgreSQL</li>
+  <li>Redis</li>
+  <li>Apache Iceberg</li>
+  <li>Graph/Vector Databases</li>
+  <li>AWS Cloud Platform (S3, EC2, RDS, Lambda, EKS, etc.)</li>
+  <li>Languages: Python or Golang</li>
+</ul>
+
+<h4>Responsibilities:</h4>
+<ul>
+  <li><strong>Data Architecture & Modeling:</strong>
+    <ul>
+      <li>Design normalized and denormalized data models for transactional and analytical workloads.</li>
+      <li>Define strategies for schema evolution and data versioning using Apache Iceberg or similar.</li>
+    </ul>
+  </li>
+  <li><strong>Database Systems Expertise:</strong>
+    <ul>
+      <li>Architect solutions using PostgreSQL for OLTP and analytical use cases.</li>
+      <li>Implement Redis for low-latency caching, real-time analytics, and streaming pipelines.</li>
+      <li>Design high-performance access patterns for relational, key-value, and time-series data.</li>
+    </ul>
+  </li>
+  <li><strong>Vector and Graph Data Architecture:</strong>
+    <ul>
+      <li>Integrate and manage graph/vector databases for AI/ML and recommendation engines.</li>
+      <li>Optimize vector search performance using indexes and hybrid search strategies.</li>
+    </ul>
+  </li>
+  <li><strong>Cloud Infrastructure (AWS):</strong>
+    <ul>
+      <li>Deploy and scale data systems using AWS services like S3, EC2, RDS, Lambda, and EKS.</li>
+      <li>Ensure high availability, durability, and disaster recovery of data infrastructure.</li>
+    </ul>
+  </li>
+  <li><strong>Data Governance & Security:</strong>
+    <ul>
+      <li>Implement best practices for data quality, lineage, privacy, and role-based access.</li>
+      <li>Establish backup, archival, and retention strategies for critical datasets.</li>
+    </ul>
+  </li>
+  <li><strong>Programming & Scripting:</strong>
+    <ul>
+      <li>Develop data ingestion, transformation, and orchestration workflows in Python or Golang.</li>
+      <li>Write reusable modules and APIs for data access, quality checks, and job orchestration.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4>Requirements:</h4>
+<ul>
+  <li>Bachelor’s or Master’s degree in Computer Science, Data Engineering, or a related technical field.</li>
+  <li>8–10 years of industry experience in data engineering, architecture, or backend system design.</li>
+  <li>Proven experience designing and implementing data platforms at scale on cloud infrastructure (preferably AWS).</li>
+  <li>Expertise in PostgreSQL: schema design, indexing, performance tuning.</li>
+  <li>Experience with Redis for caching, session stores, or message queues.</li>
+  <li>Practical experience with Apache Iceberg for large-scale data storage and schema evolution.</li>
+  <li>Understanding of vector databases (e.g., FAISS, Weaviate, Pinecone).</li>
+  <li>Experience with graph databases (e.g., Neo4j, Amazon Neptune).</li>
+  <li>Proficient in Python or Golang for data ingestion, scripting, and automation.</li>
+  <li>Familiarity with CI/CD pipelines, monitoring, and infrastructure-as-code (e.g., Terraform, CloudFormation).</li>
+  <li>Ability to design batch & streaming pipelines using tools like Apache Kafka, Airflow, or AWS Glue.</li>
+  <li>Implement encryption, data masking, and access control.</li>
+  <li>Familiarity with GDPR, HIPAA, or similar data compliance standards.</li>
+  <li>Proficient in query optimization, data partitioning, indexing strategies, and caching mechanisms.</li>
+</ul>
+
+  </div>
+</div>
+
+
+
+<div id="readMoreModal" class="popup-overlay">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closeReadMorePopup()">&times;</span>
+   <h4>Job Description:</h4>
+<p><strong>AWS Data Engineer</strong></p>
+<p>Welcome to Awign Expert, a division of Awign - India's largest work-as-a-service platform. At Awign Expert, we connect skilled professionals with exciting contractual or project-based work opportunities offered by top companies. Our mission is to empower professionals by matching them with projects that align with their skills, interests, and experience.</p>
+<p>At Awign Expert, we understand the challenges faced by independent professionals in finding meaningful work and managing administrative tasks. That's why we act as a dedicated HR office for our Experts, handling the entire onboarding process, providing continuous feedback, resolving conflicts, and ensuring seamless payroll management.</p>
+<p>Our goal is to create a hassle-free environment for our Experts, allowing them to focus solely on their work without the burden of administrative complexities. By partnering with Awign Expert, professionals gain access to a vast network of renowned companies and projects across various industries.</p>
+
+<h4>About the Role:</h4>
+<ul>
+  <li><strong>Duration:</strong> 6 months</li>
+  <li><strong>Location:</strong> Bangalore (Bellandur) – Hybrid</li>
+  <li><strong>Timings:</strong> Full Time (As per company timings)</li>
+  <li><strong>Notice Period:</strong> Immediate Joiner - Only</li>
+  <li><strong>Experience:</strong> 4-6 Years</li>
+  <li><strong>Role:</strong> AWS Data Engineer</li>
+</ul>
+
+<h4>Mandatory Skills:</h4>
+<ul>
+  <li>PostgreSQL</li>
+  <li>Redis</li>
+  <li>Apache Iceberg</li>
+  <li>Graph/Vector Databases</li>
+  <li>AWS Cloud Platform (including AWS services like S3, EC2, RDS, Lambda, EKS, etc.)</li>
+  <li>Programming Language: Python or Golang</li>
+</ul>
+
+<h4>Overview:</h4>
+<p>We are looking for a Mid–Senior Level AWS Data Engineer with strong experience in building and optimizing data pipelines and architectures on the AWS Cloud Platform. The ideal candidate will have solid experience in PostgreSQL, Redis, Apache Iceberg, and Graph/Vector Databases, along with proficiency in Python or Golang for data engineering tasks.</p>
+
+<h4>Responsibilities:</h4>
+<ul>
+  <li>Design, build, and maintain scalable data pipelines on AWS</li>
+  <li>Optimize data storage using Apache Iceberg and data lake best practices</li>
+  <li>Integrate and work with graph/vector databases for advanced analytics and retrieval use cases</li>
+  <li>Work with PostgreSQL and Redis to manage structured and in-memory datasets</li>
+  <li>Develop serverless data processing workflows using AWS services (Lambda, Glue, etc.)</li>
+  <li>Collaborate with cross-functional teams to gather requirements and implement data solutions</li>
+  <li>Ensure high performance, reliability, and security of all data processes and storage</li>
+</ul>
+
+<h4>Requirements:</h4>
+<ul>
+  <li>Bachelor’s degree in Computer Science, Data Engineering, or a related field</li>
+  <li>4+ years of experience in data engineering with strong exposure to AWS ecosystem</li>
+  <li>Strong problem-solving and communication skills</li>
+  <li>Experience in CI/CD, containerization (e.g., Docker, Kubernetes/EKS) is a plus</li>
+</ul>
+
+  </div>
+</div>
+<!-- Popup Modal -->
+<div id="jobPopupModal" class="job-popup-overlay">
+  <div class="job-popup-content">
+    <span class="job-close-btn" onclick="closeJobPopup()">&times;</span>
+   <h4>Job Description:</h4>
+<p><strong>SAP Solution Architect</strong></p>
+<p>Welcome to Awign Expert, a division of Awign - India's largest work-as-a-service platform. At Awign Expert, we connect skilled professionals with exciting contractual or project-based work opportunities offered by top companies. Our mission is to empower professionals by matching them with projects that align with their skills, interests, and experience.</p>
+<p>At Awign Expert, we understand the challenges faced by independent professionals in finding meaningful work and managing administrative tasks. That's why we act as a dedicated HR office for our Experts, handling the entire onboarding process, providing continuous feedback, resolving conflicts, and ensuring seamless payroll management.</p>
+<p>Our goal is to create a hassle-free environment for our Experts, allowing them to focus solely on their work without the burden of administrative complexities. By partnering with Awign Expert, professionals gain access to a vast network of renowned companies and projects across various industries.</p>
+
+<h4>About the Role:</h4>
+<ul>
+  <li><strong>Duration:</strong> 6 months</li>
+  <li><strong>Location:</strong> Pune – Shivaji Nagar</li>
+  <li><strong>Timings:</strong> Full Time (As per company timings)</li>
+  <li><strong>Notice Period:</strong> Immediate Joiner - Only</li>
+  <li><strong>Experience:</strong> 10-15 Years</li>
+</ul>
+
+<h4>Overview:</h4>
+<p>We are seeking a highly experienced SAP Platform Senior Architect to lead the technical and integration design during the upcoming S4/HANA Implementation program at TBEL. This role will focus on delivering scalable, cost-effective, and integrated SAP S/4HANA solutions that support business growth and drive user satisfaction.</p>
+
+<h4>What We’re Looking For:</h4>
+<ul>
+  <li>Bachelor’s or master’s degree in computer science, IT, or a related field.</li>
+  <li>10+ years of experience in SAP platform architecture, with proven experience of end-to-end ownership of at least 4 global SAP S/4HANA implementations.</li>
+  <li>Deep expertise in SAP architecture, landscape design, and deployment (on-prem, cloud, hybrid).</li>
+  <li>Proven contributions to Design/Architecture Review Boards (DAB/ARB) in S4/HANA programs.</li>
+  <li>Strong knowledge of SAP integration technologies (CPI, BTP) is a must.</li>
+  <li>Experience working on the SAC, Datasphere applications would be a plus.</li>
+  <li>Techno-functional skillset to translate business needs and collaborate effectively with system integrators.</li>
+  <li>Strong analytical and problem-solving skills, with the ability to work across cross-functional teams.</li>
+  <li>Experience with cloud-based SAP solutions (e.g., SAP S4/HANA Public cloud, SAC, Datasphere, BTP) is a plus.</li>
+  <li>SAP certifications (e.g., SAP Certified Application Architect) are highly preferred.</li>
+  <li>Must possess good Techno-Functional knowledge, able to work closely with Business teams and translate the needs back to the System Integrator.</li>
+  <li>Effective communication skills to articulate complex technical concepts to both technical and non-technical audiences.</li>
+</ul>
+
+<h4>Key Responsibilities:</h4>
+<ul>
+  <li>Lead the architecture, design, and implementation of SAP platform solutions aligned with business strategy.</li>
+  <li>Collaborate with stakeholders (business, IT, and senior leadership) to define and validate technical solutions.</li>
+  <li>Review and provide input on functional and technical specifications from the system integrator.</li>
+  <li>Design high-level and detailed architectures that consider performance, security, scalability, and user experience (UX).</li>
+  <li>Coordinate with SI partners and external vendors to ensure the successful delivery of the TBEL SAP S/4HANA implementation.</li>
+  <li>Define and maintain SAP architecture standards, roadmaps, and documentation during the entire duration of the TBEL SAP S4/HANA Implementation program.</li>
+  <li>Own the adoption of best-fit technical and functional solutions to address business needs during the entire duration of the TBEL SAP S4/HANA Implementation program.</li>
+</ul>
+
+<h4>Please Note:</h4>
+<ul>
+  <li>Please source local candidates who are based in Pune.</li>
+  <li>Although the JD is inclined towards Techno-functional SA, we are also open to considering an SA profile from a functional background.</li>
+  <li>Look for immediate joiners only who can start with us effective 1st July.</li>
+</ul>
+
+  </div>
+</div>
+
+<!-- Popup Modal -->
+<div id="popupModal" class="popup-overlay">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <h4>Job Description:</h4>
+    <p>Seeking a highly skilled Java expert. Hands-on resource who can lead & interact with the client directly and understand the requirements & contribute to technical discussions apart from development work. Should have excellent communication skills.</p>
+
+    <h4>Must-Have Skills:</h4>
+    <p>Java, Spring Boot, Microservices, Reactive programming, Vertex</p>
+
+    <h4>Qualification:</h4>
+    <ul>
+      <li>Bachelor's or Master’s degrees in Computer Science, Computer Engineering, or a related technical discipline.</li>
+      <li>Ability to work independently and to adapt to a fast-changing environment.</li>
+      <li>Creative, self-disciplined, and capable of identifying and completing critical tasks independently and with a sense of urgency.</li>
+    </ul>
+
+    <h4>Driving Results:</h4>
+    <ul>
+      <li>A good single contributor and a good team player.</li>
+      <li>Flexible attitude towards work, as per the needs.</li>
+      <li>Proactively identify & communicate issues and risks.</li>
+    </ul>
+
+    <h4>Other Personal Characteristics:</h4>
+    <ul>
+      <li>Dynamic, engaging, self-reliant developer</li>
+      <li>Ability to deal with ambiguity</li>
+      <li>Manage a collaborative and analytical approach</li>
+      <li>Self-confident and humble</li>
+      <li>Open to continuous learning</li>
+      <li>Intelligent, rigorous thinker who can operate successfully amongst bright people</li>
+    </ul>
+  </div>
+</div>
+<div id="applyPopup" class="popup-over">
+  <div class="popup-form">
+    <span class="close-btn" onclick="closeApplyPopup()">&times;</span>
+    <h3>Job Application Form</h3>
+    <form id="jobForm" onsubmit="return validateForm()">
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number *</label>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}">
+      </div>
+
+     
+
+      <div class="form-group">
+        <label for="resume">Upload Resume (PDF/DOC) *</label>
+        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit Application</button>
+    </form>
+  </div>
+</div>
+
+
+<script>
+    function openReadMorePopup() {
+  document.getElementById("readMoreModal").style.display = "block";
+}
+
+function closeReadMorePopup() {
+  document.getElementById("readMoreModal").style.display = "none";
+}
+
+// Close popup when clicking outside content
+window.addEventListener("click", function(event) {
+  const modal = document.getElementById("readMoreModal");
+  if (event.target === modal) {
+    closeReadMorePopup();
+  }
+});
+
+</script>
+
+<!-- JavaScript -->
+<script>
+  function openPopup() {
+    document.getElementById("popupModal").style.display = "block";
+  }
+
+  function closePopup() {
+    document.getElementById("popupModal").style.display = "none";
+  }
+
+  // Close popup when clicking outside the content
+  window.onclick = function(event) {
+    var modal = document.getElementById("popupModal");
+    if (event.target === modal) {
+      closePopup();
+    }
+  };
+</script>
+
+
+<!-- JavaScript -->
+
+
+
+<script>
+  function openJobPopup() {
+    document.getElementById("jobPopupModal").style.display = "block";
+  }
+
+  function closeJobPopup() {
+    document.getElementById("jobPopupModal").style.display = "none";
+  }
+
+  window.onclick = function (event) {
+    var modal = document.getElementById("jobPopupModal");
+    if (event.target === modal) {
+      closeJobPopup();
+    }
+  };
+</script>
+
+
+<script>
+    function openReadMorePopup2() {
+  document.getElementById("readMoreModal2").style.display = "block";
+}
+
+function closeReadMorePopup2() {
+  document.getElementById("readMoreModal2").style.display = "none";
+}
+
+window.addEventListener("click", function (event) {
+  const modal2 = document.getElementById("readMoreModal2");
+  if (event.target === modal2) {
+    closeReadMorePopup2();
+  }
+});
+
+</script>
+
+     <!--  Footer -->
+   <style>
+    .footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-section {
+  flex: 1 1 18%; /* Ensures roughly 5 items per row */
+  min-width: 200px;
+}
+
+   </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img">
+                </div>
+                <p class="footer-description">
+                    Transforming education through
+                    innovation, career-focused training, 
+                    and global opportunities that shape tomorrow's leaders.
+                </p>
+                <h4>Connect With Us</h4>
+   <div class="social-links">
+    <a href="https://www.facebook.com/techskillioUpskillingTraining" class="social-link" aria-label="Facebook" target="_blank">
+        <span class="social-icon" style="color: #1877f2;"><i class="fab fa-facebook-f"></i></span>
+    </a>
+    <a href="https://www.instagram.com/techskillio/" class="social-link" aria-label="Instagram" target="_blank">
+        <span class="social-icon" style="color: #e4405f;"><i class="fab fa-instagram"></i></span>
+    </a>
+    <a href="https://www.linkedin.com/company/techskillio/" class="social-link" aria-label="LinkedIn" target="_blank">
+        <span class="social-icon" style="color: #0077b5;"><i class="fab fa-linkedin-in"></i></span>
+    </a>
+    <a href="https://x.com/TechSkillio" class="social-link" aria-label="X (Twitter)" target="_blank">
+    <span class="social-icon" style="color: black; font-weight: bold; font-size: 20px;">X</span>
+</a>
+
+    <a href="https://t.me/TechSkillio" class="social-link" aria-label="Telegram" target="_blank">
+        <span class="social-icon" style="color: #0088cc;"><i class="fab fa-telegram-plane"></i></span>
+    </a>
+</div>
+
+            </div>
+
+            <div class="footer-section">
+                <h4>Our Services</h4>
+                <ul>
+                    <li><a href="career-hub.html">IT Staffing</a></li>
+                    <li><a href="upskill.html">Corporate Training</a></li>
+                    <li><a href="upskill.html">E-Learning Support</a></li>
+                    <li><a href="career-guidance.html">Career Pulse</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Learning Solutions</h4>
+                <ul>
+                    <li><a href="k12-learning.html">K12 Universe</a></li>
+                    <li><a href="upskill.html">Up Skill</a></li>
+                    <li><a href="teacher-training.html">Teacher Trainings</a></li>
+                    <li><a href="contact-us.html">Pre-Training Process</a></li>
+                    <li><a href="contact-us.html">Consultation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Global Services</h4>
+                <ul>
+                 
+                    <li><a href="https://iflyabroad.com/" target="_blank">IFly Abroad</a></li>
+                    <li><a href="https://settleineurope.eu/" target="_blank">Settle in Europe</a></li>
+                       <li><a href="contact-us.html">Immigration</a></li>
+                    <li><a href="contact-us.html">Visa Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <div class="footer-contact">
+                    <p><strong>📍 Address:</strong><br>Chandra Mouleswara Chambers, 3rd Floor,SR Nagar Circle, Hyderabad, TG, India-500038</p>
+                    <p><strong>📞 Phone:</strong><a href="tel:9100626283"> +91-9100626283</a> </p>
+                    <p><strong>✉️ Email:</strong><a href="mailto:Info@techskillio.com"> Info@techskillio.com</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 TechSkillio. All rights reserved. | Designed & Developed With 
+                    <span>&#x2764;</span> 
+                    <a href="https://webbingprotechnologies.com/" style="color:#FBAE18;" target="_blank">Webbing Pro Technologies -</a><a href="tel: +91 9059329297" style="color:#FBAE18;">9059329297</a>
+                 </p>
+        </div>
+    </div>
+</footer>
+      <!-- WhatsApp Float -->
+    <div class="whatsapp-float">
+       <a href="https://wa.me/+919100626283" target="_blank" aria-label="Contact us on WhatsApp">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-icon-img">
+        <div class="whatsapp-pulse"></div>
+    </a>
+    </div>
+
+    
+
+    <script src="script.js"></script>
+  <script src="js/api-config.js"></script>
+  <script src="load-header.js"></script>
+</body>
+
+</html>

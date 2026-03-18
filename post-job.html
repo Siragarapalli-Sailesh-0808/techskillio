@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .post-job-section {
+            padding: 40px 0 60px;
+            background: #f8fafc;
+            min-height: calc(100vh - 80px);
+        }
+        .post-job-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .post-job-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px 40px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+        }
+        .post-job-card h1 {
+            font-size: 24px;
+            color: #1f2937;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .post-job-card .subtitle {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+        .user-type-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .user-type-badge.teacher {
+            background: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+        .user-type-badge.it {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            color: #1f2937;
+            box-sizing: border-box;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.15);
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+        .btn-post {
+            background: #86c540;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-post:hover:not(:disabled) {
+            background: #75b035;
+            box-shadow: 0 4px 12px rgba(134, 197, 64, 0.35);
+        }
+        .btn-post:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .btn-cancel {
+            background: #6b7280;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-cancel:hover {
+            background: #4b5563;
+        }
+        .alert {
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+        .alert.show { display: block; }
+        .alert.error { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+        .alert.success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+    </style>
+</head>
+<body>
+    <script src="js/route-guard.js" data-required-role="user"></script>
+    <div id="header-placeholder"></div>
+    <div style="height: 100px;"></div>
+
+    <section class="post-job-section">
+        <div class="post-job-container">
+            <div class="post-job-card">
+                <span class="user-type-badge" id="userTypeBadge">Teacher Employer</span>
+                <h1>Post a Job</h1>
+                <p class="subtitle" id="pageSubtitle">Create a new teaching or non-teaching position for your institution.</p>
+
+                <div id="formAlert" class="alert"></div>
+
+                <form id="postJobForm">
+                    <div class="form-group" id="teachingGroup">
+                        <label>Position Type *</label>
+                        <select name="is_teaching_job" id="isTeachingJob">
+                            <option value="true">Teaching</option>
+                            <option value="false">Non-Teaching</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Job Title *</label>
+                        <input type="text" name="title" id="title" placeholder="e.g. Senior Mathematics Teacher" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea name="description" id="description" placeholder="Describe the role, responsibilities, and requirements..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Location *</label>
+                        <input type="text" name="location" id="location" placeholder="e.g. Hyderabad" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Employment Type *</label>
+                            <select name="employment_type" id="employmentType" required>
+                                <option value="full_time">Full Time</option>
+                                <option value="part_time">Part Time</option>
+                                <option value="contract">Contract</option>
+                                <option value="internship">Internship</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Work Mode *</label>
+                            <select name="work_mode" id="workMode" required>
+                                <option value="onsite">Onsite</option>
+                                <option value="remote">Remote</option>
+                                <option value="hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Min Experience (years) *</label>
+                            <input type="number" name="experience_min_years" id="experienceMin" min="0" placeholder="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Max Experience (years) *</label>
+                            <input type="number" name="experience_max_years" id="experienceMax" min="0" placeholder="10" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Salary Min (₹) *</label>
+                            <input type="number" name="salary_min" id="salaryMin" min="0" placeholder="e.g. 600000" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Salary Max (₹) *</label>
+                            <input type="number" name="salary_max" id="salaryMax" min="0" placeholder="e.g. 1200000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="subjectsGroup">
+                        <label>Subjects Required <small style="color:#6b7280">(comma separated)</small></label>
+                        <input type="text" name="subjects_required" id="subjectsRequired" placeholder="e.g. Mathematics, Physics">
+                    </div>
+
+                    <div class="form-group" id="skillsGroup" style="display: none;">
+                        <label>Skills Required <small style="color:#6b7280">(comma separated)</small></label>
+                        <input type="text" name="skills_required" id="skillsRequired" placeholder="e.g. Python, Django, AWS">
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="#" id="cancelLink" class="btn-cancel"><i class="fas fa-arrow-left"></i> Cancel</a>
+                        <button type="submit" class="btn-post" id="btnSubmit">
+                            <span class="btn-text"><i class="fas fa-save"></i> Post Job</span>
+                            <span class="btn-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i> Posting...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        (function () {
+            var userType = localStorage.getItem('userType') || '';
+            var isTeacher = userType === 'teacher_employer';
+            var isIT = userType === 'it_vendor';
+
+            if (!isTeacher && !isIT) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            var jobCategory = isTeacher ? 'teacher' : 'it';
+            var badge = document.getElementById('userTypeBadge');
+            var subtitle = document.getElementById('pageSubtitle');
+            var teachingGroup = document.getElementById('teachingGroup');
+            var subjectsGroup = document.getElementById('subjectsGroup');
+            var skillsGroup = document.getElementById('skillsGroup');
+            var cancelLink = document.getElementById('cancelLink');
+
+            if (isTeacher) {
+                badge.textContent = 'Teacher Employer';
+                badge.className = 'user-type-badge teacher';
+                subtitle.textContent = 'Create a new teaching or non-teaching position for your institution.';
+                teachingGroup.style.display = '';
+                subjectsGroup.style.display = '';
+                skillsGroup.style.display = 'none';
+                cancelLink.href = 'teacher-employer-dashboard.html';
+            } else {
+                badge.textContent = 'IT Vendor';
+                badge.className = 'user-type-badge it';
+                subtitle.textContent = 'Create a new IT job posting for your company.';
+                teachingGroup.style.display = 'none';
+                subjectsGroup.style.display = 'none';
+                skillsGroup.style.display = '';
+                cancelLink.href = 'it-vendor-dashboard.html';
+            }
+
+            function showAlert(msg, type) {
+                var el = document.getElementById('formAlert');
+                el.textContent = msg;
+                el.className = 'alert ' + (type || 'error') + ' show';
+            }
+
+            function hideAlert() {
+                document.getElementById('formAlert').classList.remove('show');
+            }
+
+            document.getElementById('postJobForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                hideAlert();
+
+                var form = e.target;
+                var btn = document.getElementById('btnSubmit');
+                var btnText = btn.querySelector('.btn-text');
+                var btnSpinner = btn.querySelector('.btn-spinner');
+
+                var payload = {
+                    job_category: jobCategory,
+                    is_teaching_job: jobCategory === 'teacher' ? (document.getElementById('isTeachingJob').value === 'true') : false,
+                    title: form.title.value.trim(),
+                    description: form.description.value.trim(),
+                    location: form.location.value.trim(),
+                    employment_type: form.employment_type.value,
+                    work_mode: form.work_mode.value,
+                    experience_min_years: Number(form.experience_min_years.value) || 0,
+                    experience_max_years: Number(form.experience_max_years.value) || 0,
+                    salary_min: Number(form.salary_min.value) || 0,
+                    salary_max: Number(form.salary_max.value) || 0,
+                    skills_required: jobCategory === 'it' && form.skills_required
+                        ? form.skills_required.value.split(',').map(function (s) { return s.trim(); }).filter(Boolean)
+                        : null,
+                    subjects_required: jobCategory === 'teacher' && form.subjects_required
+                        ? form.subjects_required.value.split(',').map(function (s) { return s.trim(); }).filter(Boolean)
+                        : null,
+                    status: 'pending'
+                };
+
+                btn.disabled = true;
+                if (btnText) btnText.style.display = 'none';
+                if (btnSpinner) btnSpinner.style.display = 'inline';
+
+                try {
+                    var res = await authManager.apiRequest('/api/v1/jobs/jobs/', {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
+
+                    var data = await res.json().catch(function () { return null; });
+
+                    if (res.ok) {
+                        showAlert('Job posted successfully! Redirecting...', 'success');
+                        setTimeout(function () {
+                            window.location.href = isTeacher ? 'teacher-employer-dashboard.html' : 'it-vendor-dashboard.html';
+                        }, 1500);
+                    } else {
+                        var errMsg = (data && (data.detail || data.message)) || 'Failed to post job.';
+                        if (data && typeof data === 'object' && !data.detail && !data.message) {
+                            errMsg = Object.entries(data).map(function (p) { return p[0] + ': ' + (Array.isArray(p[1]) ? p[1].join(', ') : p[1]); }).join(' | ');
+                        }
+                        showAlert(errMsg, 'error');
+                        btn.disabled = false;
+                        if (btnText) btnText.style.display = 'inline';
+                        if (btnSpinner) btnSpinner.style.display = 'none';
+                    }
+                } catch (err) {
+                    showAlert(err.message || 'Failed to post job. Please try again.', 'error');
+                    btn.disabled = false;
+                    if (btnText) btnText.style.display = 'inline';
+                    if (btnSpinner) btnSpinner.style.display = 'none';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

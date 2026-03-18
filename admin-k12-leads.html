@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K12 Leads - TechSkillio Admin</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-shared.css">
+    <link rel="stylesheet" href="css/admin-responsive.css">
+</head>
+
+<body>
+
+    <div class="admin-container">
+        <!-- Sidebar Container (loaded dynamically) -->
+        <div id="sidebarContainer"></div>
+
+        <main class="main-content">
+            <!-- Header Container (loaded dynamically) -->
+            <div id="headerContainer"></div>
+
+            <!-- K12 Leads Content -->
+            <div class="table-container">
+                <h2 style="margin-bottom: 1.5rem; color: #2c3e50;">
+                    <i class="fas fa-graduation-cap"></i> K12 Leads List
+                </h2>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>School Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align:center; padding:2rem; color:#888;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading leads...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Mobile Card View -->
+                <div class="mobile-card-view" id="leadsMobileCards">
+                    <div style="text-align:center; padding:2rem; color:#888;">
+                        <i class="fas fa-spinner fa-spin"></i> Loading leads...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+        <div
+            style="background:#fff; border-radius:12px; max-width:600px; width:90%; max-height:85vh; overflow-y:auto; padding:2rem; position:relative; box-shadow:0 8px 30px rgba(0,0,0,0.15);">
+            <button onclick="closeModal()"
+                style="position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.5rem;cursor:pointer;color:#888;">&times;</button>
+            <div id="detailModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Auth Manager (provides API_BASE_URL and token helpers) -->
+    <script src="js/api-config.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <!-- Admin Components Script -->
+    <script>
+        currentPage = 'k12-leads';
+
+        // Helper to get auth token
+        function getToken() {
+            if (typeof authManager !== 'undefined' && authManager.getAccessToken()) return authManager.getAccessToken();
+            return localStorage.getItem('access_token');
+        }
+
+        // Format date for display
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            try {
+                return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            } catch { return dateStr; }
+        }
+
+        // Status badge class
+        function statusClass(status) {
+            if (!status) return 'status-active';
+            const s = status.toLowerCase();
+            if (s === 'active' || s === 'new') return 'status-active';
+            if (s === 'closed' || s === 'inactive') return 'status-inactive';
+            return 'status-pending';
+        }
+
+        // Store loaded leads for detail view
+        let loadedLeads = [];
+
+        // Fetch and render K12 leads from API
+        async function loadLeads() {
+            const tbody = document.getElementById('leadsTableBody');
+            const mobileContainer = document.getElementById('leadsMobileCards');
+            try {
+                const token = getToken();
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = 'TSK ' + token;
+
+                const res = await fetch(`${API_BASE_URL}/api/v1/k12/k12-leads/`, { headers });
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.detail || errData.message || `Server returned ${res.status}`);
+                }
+
+                const data = await res.json();
+                const leads = Array.isArray(data) ? data : (data.results || []);
+                loadedLeads = leads;
+
+                if (leads.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#888;">
+                        <i class="fas fa-inbox"></i> No K12 leads found.</td></tr>`;
+                    mobileContainer.innerHTML = `<div style="text-align:center;padding:2rem;color:#888;">
+                        <i class="fas fa-inbox"></i> No K12 leads found.</div>`;
+                    return;
+                }
+
+                // Render table rows
+                tbody.innerHTML = leads.map(lead => `
+                    <tr>
+                        <td>#${lead.id || '—'}</td>
+                        <td>${lead.school_name || lead.institution || lead.name || '—'}</td>
+                        <td>${lead.email || '—'}</td>
+                        <td>${lead.phone || lead.phone_number || '—'}</td>
+                        <td><span class="${statusClass(lead.status)}">${lead.status ? lead.status.charAt(0).toUpperCase() + lead.status.slice(1) : 'New'}</span></td>
+                        <td>
+                            <button class="action-btn btn-view" onclick="viewLead(${lead.id})">View</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                // Render mobile cards
+                mobileContainer.innerHTML = leads.map(lead => `
+                    <div class="mobile-card">
+                        <div class="mobile-card-header">
+                            <span class="mobile-card-title">${lead.school_name || lead.institution || lead.name || '—'}</span>
+                            <span class="${statusClass(lead.status)}">${lead.status ? lead.status.charAt(0).toUpperCase() + lead.status.slice(1) : 'New'}</span>
+                        </div>
+                        <div class="mobile-card-body">
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">ID:</span>
+                                <span class="mobile-card-value">#${lead.id || '—'}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Email:</span>
+                                <span class="mobile-card-value">${lead.email || '—'}</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Phone:</span>
+                                <span class="mobile-card-value">${lead.phone || lead.phone_number || '—'}</span>
+                            </div>
+                        </div>
+                        <div class="mobile-card-actions">
+                            <button class="action-btn btn-view" onclick="viewLead(${lead.id})">View</button>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                console.error('Failed to load K12 leads:', err);
+                const errorMsg = `<i class="fas fa-exclamation-triangle"></i> Failed to load leads: ${err.message}`;
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#e74c3c;">${errorMsg}</td></tr>`;
+                mobileContainer.innerHTML = `<div style="text-align:center;padding:2rem;color:#e74c3c;">${errorMsg}</div>`;
+            }
+        }
+
+        // Modal helpers
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+        document.getElementById('detailModal').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        // View lead detail — shows all fields from the API response
+        function viewLead(id) {
+            const lead = loadedLeads.find(l => l.id == id);
+            if (!lead) { alert('Lead not found.'); return; }
+
+            // Build rows for every field dynamically
+            const skipFields = new Set(['id']);
+            const labelMap = {
+                school_name: 'School Name', institution: 'Institution', name: 'Name',
+                contact_person: 'Contact Person', contact_name: 'Contact Name',
+                email: 'Email', phone: 'Phone', phone_number: 'Phone Number',
+                board: 'Board', subject: 'Subject', status: 'Status',
+                city: 'City', state: 'State', location: 'Location',
+                address: 'Address', pincode: 'Pincode',
+                created_at: 'Created', updated_at: 'Updated',
+                message: 'Message', notes: 'Notes', source: 'Source'
+            };
+
+            let rows = `<div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #eee;"><strong>ID</strong><span>#${lead.id}</span></div>`;
+            for (const [key, value] of Object.entries(lead)) {
+                if (skipFields.has(key) || value === null || value === undefined || value === '') continue;
+                const label = labelMap[key] || key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                const displayVal = (key === 'created_at' || key === 'updated_at') ? formatDate(value) : value;
+                rows += `<div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #eee;"><strong>${label}</strong><span>${displayVal}</span></div>`;
+            }
+
+            const html = `
+                <h3 style="margin-bottom:1rem;color:#2c3e50;"><i class="fas fa-graduation-cap"></i> K12 Lead Details</h3>
+                <div style="display:grid;gap:0.75rem;">${rows}</div>
+            `;
+            document.getElementById('detailModalContent').innerHTML = html;
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        // Load leads on page ready
+        document.addEventListener('DOMContentLoaded', loadLeads);
+    </script>
+    <script src="js/admin-components.js"></script>
+</body>
+
+</html>

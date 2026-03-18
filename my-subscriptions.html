@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Subscriptions - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .dashboard-section {
+            padding: 40px 0 60px;
+            background: #f5f7fa;
+            min-height: calc(100vh - 80px);
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                margin-top: 30px;
+            }
+        }
+
+        /* Subscription Card */
+        .subscription-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            border-left: 5px solid #ccc;
+            transition: transform 0.2s;
+        }
+
+        .subscription-card.active {
+            border-left-color: #86c540;
+        }
+
+        .subscription-card.expired {
+            border-left-color: #ef4444;
+        }
+
+        .subscription-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .sub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .sub-title h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+
+        .sub-id {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-active-badge {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-expired-badge {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .sub-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .detail-item span {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .detail-item strong {
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        /* Sidebar stats */
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-card h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: #86c540;
+        }
+
+        .btn-assign-candidates:hover {
+            background: #75b035;
+            color: white;
+            box-shadow: 0 4px 12px rgba(134, 197, 64, 0.35);
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/route-guard.js" data-required-role="user"></script>
+    <div id="header-placeholder"></div>
+    <div style="height: 100px;"></div>
+
+    <section class="dashboard-section">
+        <div class="dashboard-container">
+
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h1 style="font-size: 24px; color: #2c3e50; margin: 0;">My Subscriptions</h1>
+                    <a href="it-vendor-plans.html" class="btn-primary"
+                        style="padding: 10px 20px; border-radius: 8px; text-decoration: none; color: white; background: #86c540; font-weight: 600;">Buy
+                        New Plan</a>
+                </div>
+
+                <div id="subscriptionsList">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p style="margin-top: 10px;">Loading your subscriptions...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIDEBAR -->
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>Quick Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="it-vendor-dashboard.html"
+                                style="text-decoration: none; color: #2c3e50;"><i class="fas fa-home"
+                                    style="margin-right: 8px; color: #86c540;"></i> Dashboard</a></li>
+                        <li style="margin-bottom: 10px;"><a href="it-jobs.html"
+                                style="text-decoration: none; color: #2c3e50;"><i class="fas fa-briefcase"
+                                    style="margin-right: 8px; color: #86c540;"></i> My Jobs</a></li>
+                        <li style="margin-bottom: 10px;"><a href="profile.html"
+                                style="text-decoration: none; color: #2c3e50;"><i class="fas fa-user"
+                                    style="margin-right: 8px; color: #86c540;"></i> Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="js/auth-manager.js"></script>
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const container = document.getElementById('subscriptionsList');
+
+            try {
+                if (typeof authManager === 'undefined') {
+                    throw new Error('AuthManager not initialized');
+                }
+
+                // Fetch subscriptions
+                // Ensure we handle the case where apiRequest might throw or return error
+                let response;
+                try {
+                    response = await authManager.apiRequest('/api/v1/plans/my-subscriptions/');
+                } catch (netErr) {
+                    throw new Error('Network error or Unauthorized. Please login.');
+                }
+
+                if (!response.ok) {
+                    throw new Error('Failed to load subscriptions');
+                }
+
+                const data = await response.json();
+                const subscriptions = Array.isArray(data) ? data : (data.results || []);
+
+                if (subscriptions.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 15px; color: #ddd;"></i>
+                            <h3>No Subscriptions Found</h3>
+                            <p>You haven't purchased any plans yet.</p>
+                            <a href="it-vendor-plans.html" style="color: #86c540; font-weight: 600; text-decoration: none; margin-top: 10px; display: inline-block;">Browse Plans</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = subscriptions.map(sub => {
+                    const isActive = sub.status === 'active';
+                    const expDate = sub.expiry_date ? new Date(sub.expiry_date).toLocaleDateString() : 'N/A';
+                    const startDate = sub.start_date ? new Date(sub.start_date).toLocaleDateString() : 'N/A';
+                    const amtPaid = sub.amount_paid != null ? sub.amount_paid : (sub.paid_amount != null ? sub.paid_amount : (sub.total_amount != null ? sub.total_amount : (sub.price != null ? sub.price : (sub.plan_price != null ? sub.plan_price : (sub.amount != null ? sub.amount : 0)))));
+
+                    return `
+                        <div class="subscription-card ${isActive ? 'active' : 'expired'}">
+                            <div class="sub-header">
+                                <div class="sub-title">
+                                    <h3>${sub.plan_name || 'Subscription Plan'}</h3>
+                                    <div class="sub-id">Order ID: #${sub.id || sub.order_id}</div>
+                                </div>
+                                <span class="status-badge ${isActive ? 'status-active-badge' : 'status-expired-badge'}">
+                                    ${sub.status || 'Unknown'}
+                                </span>
+                            </div>
+                            <div class="sub-details">
+                                <div class="detail-item">
+                                    <span>Purchase Date</span>
+                                    <strong>${startDate}</strong>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Expiry Date</span>
+                                    <strong>${expDate}</strong>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Amount Paid</span>
+                                    <strong>₹${Number(amtPaid).toLocaleString()}</strong>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Profiles Limit</span>
+                                    <strong>${sub.profiles_limit || sub.candidate_limit || '—'}</strong>
+                                </div>
+                            </div>
+                            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+                                <a href="assigned-candidates.html?subscription_id=${sub.id || sub.order_id || ''}" class="btn-assign-candidates" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: #86c540; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem;"><i class="fas fa-users"></i> Assign Candidates</a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error:', error);
+                container.innerHTML = `
+                    <div class="empty-state" style="color: #ef4444;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3>Error Loading Subscriptions</h3>
+                        <p>${error.message}</p>
+                        <button onclick="window.location.reload()" style="padding: 8px 16px; background: #ef4444; color: white; border: none; border-radius: 4px; margin-top: 10px; cursor: pointer;">Retry</button>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+
+</html>

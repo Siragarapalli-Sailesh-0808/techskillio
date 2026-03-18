@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .notifications-section {
+            padding: 40px 0 60px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            min-height: calc(100vh - 80px);
+        }
+
+        .notifications-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #86c540;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .mark-all-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid #86c540;
+            color: #86c540;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .mark-all-btn:hover {
+            background: #86c540;
+            color: white;
+        }
+
+        /* Notification Card */
+        .notification-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            gap: 15px;
+        }
+
+        .notification-card.unread {
+            background: #f0fdf4;
+            border-left-color: #86c540;
+        }
+
+        .notification-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(134, 197, 64, 0.1);
+        }
+
+        .notification-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .notification-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .notification-time {
+            color: #94a3b8;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .notification-message {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .action-link {
+            color: #86c540;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .action-link:hover {
+            color: #6e9443;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state i {
+            font-size: 80px;
+            color: #cbd5e1;
+            margin-bottom: 25px;
+        }
+
+        .empty-state h3 {
+            font-size: 22px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            color: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .notification-card {
+                flex-direction: column;
+            }
+
+            .notification-header {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- LOAD HEADER -->
+    <div id="header-placeholder"></div>
+
+    <div style="height: 100px;"></div> <!-- Spacer -->
+
+    <section class="notifications-section">
+        <div class="notifications-container">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1><i class="fas fa-bell"></i> Notifications</h1>
+                    <p><span id="unreadCount">0</span> unread notifications</p>
+                </div>
+                <button class="mark-all-btn" onclick="markAllAsRead()" id="markAllBtn">
+                    <i class="fas fa-check-double"></i> Mark All as Read
+                </button>
+            </div>
+
+            <!-- Notifications List -->
+            <div id="notificationsList">
+                <!-- Notifications will be loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-bell-slash"></i>
+                <h3>No Notifications</h3>
+                <p>You're all caught up! Check back later for updates.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- LOAD HEADER SCRIPT -->
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/static-notifications.js"></script>
+
+    <script>
+        let notifications = [];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadNotifications();
+        });
+
+        function loadNotifications() {
+            // Get static notifications
+            notifications = getStaticNotifications();
+
+            // Display notifications
+            displayNotifications();
+            updateUnreadCount();
+        }
+
+        function displayNotifications() {
+            const container = document.getElementById('notificationsList');
+            const emptyState = document.getElementById('emptyState');
+
+            if (notifications.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            container.innerHTML = notifications.map(notif => createNotificationCard(notif)).join('');
+        }
+
+        function createNotificationCard(notif) {
+            const iconStyle = `background: ${notif.color}15; color: ${notif.color};`;
+
+            return `
+                <div class="notification-card ${notif.isRead ? '' : 'unread'}" onclick="markAsRead('${notif.id}')">
+                    <div class="notification-icon" style="${iconStyle}">
+                        <i class="${notif.icon}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <div class="notification-title">${notif.title}</div>
+                            <div class="notification-time">${formatTime(notif.createdAt)}</div>
+                        </div>
+                        <div class="notification-message">${notif.message}</div>
+                        ${getNotificationActions(notif)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getNotificationActions(notif) {
+            let actions = '';
+
+            if (notif.type === 'application_status' && notif.data.applicationId) {
+                actions = `
+                    <div class="notification-actions">
+                        <a href="my-applications.html" class="action-link">View Application →</a>
+                    </div>
+                `;
+            } else if (notif.type === 'new_job_match' && notif.data.jobId) {
+                actions = `
+                    <div class="notification-actions">
+                        <a href="it-job-details.html?id=${notif.data.jobId}" class="action-link">View Job →</a>
+                    </div>
+                `;
+            } else if (notif.type === 'new_position_match' && notif.data.positionId) {
+                actions = `
+                    <div class="notification-actions">
+                        <a href="teacher-job-details.html?id=${notif.data.positionId}" class="action-link">View Position →</a>
+                    </div>
+                `;
+            } else if (notif.type === 'offer') {
+                actions = `
+                    <div class="notification-actions">
+                        <a href="my-applications.html" class="action-link">View Offer →</a>
+                    </div>
+                `;
+            } else if (notif.type === 'new_application' && notif.data.applicationId) {
+                actions = `
+                    <div class="notification-actions">
+                        <a href="dashboard.html" class="action-link">View Candidate →</a>
+                    </div>
+                `;
+            }
+
+            return actions;
+        }
+
+        function markAsRead(notifId) {
+            const notif = notifications.find(n => n.id === notifId);
+            if (notif && !notif.isRead) {
+                notif.isRead = true;
+                displayNotifications();
+                updateUnreadCount();
+            }
+        }
+
+        function markAllAsRead() {
+            notifications.forEach(notif => notif.isRead = true);
+            displayNotifications();
+            updateUnreadCount();
+        }
+
+        function updateUnreadCount() {
+            const unreadCount = notifications.filter(n => !n.isRead).length;
+            document.getElementById('unreadCount').textContent = unreadCount;
+
+            const markAllBtn = document.getElementById('markAllBtn');
+            if (unreadCount === 0) {
+                markAllBtn.style.display = 'none';
+            } else {
+                markAllBtn.style.display = 'block';
+            }
+        }
+
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffMinutes = Math.floor(diffTime / (1000 * 60));
+            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffMinutes < 1) return 'Just now';
+            if (diffMinutes < 60) return `${diffMinutes}m ago`;
+            if (diffHours < 24) return `${diffHours}h ago`;
+            if (diffDays < 7) return `${diffDays}d ago`;
+
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+    </script>
+</body>
+
+</html>

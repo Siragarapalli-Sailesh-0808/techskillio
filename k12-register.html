@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K12 Registration - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .registration-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .registration-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .registration-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #86c540;
+            box-shadow: 0 0 0 3px rgba(134, 197, 64, 0.1);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(134, 197, 64, 0.3);
+        }
+
+        .submit-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Success Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .success-modal {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #f0fdf4;
+            color: #86c540;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .success-modal h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .success-modal p {
+            color: #64748b;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .close-modal-btn {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .close-modal-btn:hover {
+            background: #1e293b;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .registration-container {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <!-- SPACER TO PUSH CONTENT BELOW FIXED HEADER -->
+    <div style="height: 120px;"></div>
+
+    <section class="registration-section">
+        <div class="container">
+            <div class="registration-container">
+                <div class="registration-header">
+                    <h1><span class="gradient-text">K12 Student</span> Registration</h1>
+                    <p style="color: #64748b;">Join our K12 learning program today</p>
+                </div>
+
+                <form id="k12RegistrationForm">
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="Enter student name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required placeholder="example@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone_number" name="phone_number" required
+                                placeholder="Enter 10-digit number" pattern="[0-9]{10}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="institution">Institution Name *</label>
+                            <input type="text" id="institution_name" name="institution_name" required
+                                placeholder="Enter school/college name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="board">Board *</label>
+                            <select id="board" name="board" required>
+                                <option value="" disabled selected>Select Board</option>
+                                <option value="cbse">CBSE</option>
+                                <option value="icse">ICSE</option>
+                                <option value="state">State Board</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <input type="text" id="subject" name="subject" required
+                                placeholder="e.g., Mathematics, Science">
+                        </div>
+                    </div>
+
+                    <div id="formError" class="error-message" style="margin-bottom: 1rem; text-align: center;"></div>
+
+                    <button type="submit" class="submit-button" id="submitBtn">
+                        <span id="btnText">Register Now</span>
+                        <span id="btnLoader" style="display: none;"><i class="fas fa-spinner fa-spin"></i>
+                            Processing...</span>
+                    </button>
+
+                    <p style="text-align: center; margin-top: 1.5rem; color: #64748b; font-size: 0.9rem;">
+                        <a href="index.html" style="color: #86c540; text-decoration: none; font-weight: 600;">Back to
+                            Home</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>Successfully Registered!</h2>
+            <p>Thank you for registering. Our team has received your details and will get back to you soon.</p>
+            <button class="close-modal-btn" onclick="closeSuccessModal()">Close</button>
+        </div>
+    </div>
+
+    <!--  Footer -->
+    <style>
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 18%;
+            /* Ensures roughly 5 items per row */
+            min-width: 200px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="tech.png" alt="TechSkillio Logo" class="footer-logo-img">
+                    </div>
+                    <p class="footer-description">
+                        Transforming education through
+                        innovation, career-focused training,
+                        and global opportunities that shape tomorrow's leaders.
+                    </p>
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/techskillioUpskillingTraining" class="social-link"
+                            aria-label="Facebook" target="_blank">
+                            <span class="social-icon" style="color: #1877f2;"><i class="fab fa-facebook-f"></i></span>
+                        </a>
+                        <a href="https://www.instagram.com/techskillio/" class="social-link" aria-label="Instagram"
+                            target="_blank">
+                            <span class="social-icon" style="color: #e4405f;"><i class="fab fa-instagram"></i></span>
+                        </a>
+                        <a href="https://www.linkedin.com/company/techskillio/" class="social-link"
+                            aria-label="LinkedIn" target="_blank">
+                            <span class="social-icon" style="color: #0077b5;"><i class="fab fa-linkedin-in"></i></span>
+                        </a>
+                        <a href="https://x.com/TechSkillio" class="social-link" aria-label="X (Twitter)"
+                            target="_blank">
+                            <span class="social-icon" style="color: black; font-weight: bold; font-size: 20px;">X</span>
+                        </a>
+
+                        <a href="https://t.me/TechSkillio" class="social-link" aria-label="Telegram" target="_blank">
+                            <span class="social-icon" style="color: #0088cc;"><i
+                                    class="fab fa-telegram-plane"></i></span>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="footer-section">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="career-hub.html">IT Staffing</a></li>
+                        <li><a href="upskill.html">Corporate Training</a></li>
+                        <li><a href="upskill.html">E-Learning Support</a></li>
+                        <li><a href="career-guidance.html">Career Pulse</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Learning Solutions</h4>
+                    <ul>
+                        <li><a href="k12-learning.html">K12 Universe</a></li>
+                        <li><a href="upskill.html">Up Skill</a></li>
+                        <li><a href="teacher-training.html">Teacher Trainings</a></li>
+                        <li><a href="contact-us.html">Pre-Training Process</a></li>
+                        <li><a href="contact-us.html">Consultation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Global Services</h4>
+                    <ul>
+
+                        <li><a href="https://iflyabroad.com/" target="_blank">IFly Abroad</a></li>
+                        <li><a href="https://settleineurope.eu/" target="_blank">Settle in Europe</a></li>
+                        <li><a href="contact-us.html">Immigration</a></li>
+                        <li><a href="contact-us.html">Visa Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <div class="footer-contact">
+                        <p><strong>📍 Address:</strong><br>Chandra Mouleswara Chambers, 3rd Floor,SR Nagar Circle,
+                            Hyderabad, TG,
+                            India-500038</p>
+                        <p><strong>📞 Phone:</strong><a href="tel:9100626283"> +91-9100626283</a> </p>
+                        <p><strong>✉️ Email:</strong><a href="mailto:Info@techskillio.com"> Info@techskillio.com</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechSkillio. All rights reserved. | Designed & Developed With
+                    <span>&#x2764;</span>
+                    <a href="https://webbingprotechnologies.com/" style="color:#FBAE18;" target="_blank">Webbing Pro
+                        Technologies
+                        -</a><a href="tel: +91 9059329297" style="color:#FBAE18;">9059329297</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- WhatsApp Float -->
+    <div class="whatsapp-float">
+        <a href="https://wa.me/+919100626283" target="_blank" aria-label="Contact us on WhatsApp">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"
+                class="whatsapp-icon-img">
+            <div class="whatsapp-pulse"></div>
+        </a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/api-config.js"></script>
+    <script src="js/registration-manager.js"></script>
+    <script>
+
+        document.getElementById('k12RegistrationForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+            const formError = document.getElementById('formError');
+
+            // Get form reference for reliable field access
+            const form = document.getElementById('k12RegistrationForm');
+
+            // Extract values using form.elements for reliability
+            const name = (form.elements['name']?.value || '').trim();
+            const email = (form.elements['email']?.value || '').trim();
+            const phone = (form.elements['phone_number']?.value || '').trim();
+            const institutionName = (form.elements['institution_name']?.value || '').trim();
+            const board = form.elements['board']?.value || '';
+            const subject = (form.elements['subject']?.value || '').trim();
+
+            // Validation
+            if (!name || !email || !phone || !institutionName || !board || !subject) {
+                formError.textContent = "Please fill in all required fields.";
+                formError.classList.add('show');
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                formError.textContent = "Please enter a valid email address.";
+                formError.classList.add('show');
+                return;
+            }
+
+            // Validate phone number
+            if (phone.length < 10) {
+                formError.textContent = "Please enter a valid 10-digit phone number.";
+                formError.classList.add('show');
+                return;
+            }
+
+            // Show Loading
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline';
+            formError.classList.remove('show');
+
+            // Gather Data
+            const formData = {
+                name: name,
+                email: email,
+                phone_number: phone,
+                institution_name: institutionName,
+                board: board,
+                subject: subject
+            };
+
+            try {
+                const result = await registrationManager.submitK12Lead(formData);
+
+                if (result.success) {
+                    // Success
+                    document.getElementById('successModal').classList.add('show');
+                    document.getElementById('k12RegistrationForm').reset();
+                } else {
+                    // Error from server
+                    throw new Error(result.error || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Registration Error:', error);
+
+                // Format error message nicely if it's a JSON object
+                let displayError = error.message;
+                try {
+                    const errorObj = JSON.parse(error.message);
+                    // If it's a Django/DRF validation error object like {"email": ["Invalid email"]}
+                    const messages = Object.values(errorObj).flat().join(', ');
+                    if (messages) displayError = messages;
+                } catch (e) {
+                    // Not valid JSON, stick to original message
+                }
+
+                formError.textContent = displayError || 'Unable to connect to server. Please try again later.';
+                formError.classList.add('show');
+            } finally {
+                // Reset Button
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+            }
+        });
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('show');
+            window.location.href = 'index.html'; // Optional: Redirect home
+        }
+    </script>
+</body>
+
+</html>

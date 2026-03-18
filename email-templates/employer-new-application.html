@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Application Received</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .content {
+            padding: 30px;
+            color: #333;
+        }
+
+        .candidate-card {
+            background: #f0fdf4;
+            border: 2px solid #10b981;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .candidate-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .candidate-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .candidate-info h3 {
+            margin: 0;
+            color: #065f46;
+        }
+
+        .candidate-info p {
+            margin: 5px 0 0 0;
+            color: #6b7280;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .detail-item {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .detail-item strong {
+            display: block;
+            color: #065f46;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        .detail-item span {
+            color: #1f2937;
+        }
+
+        .highlights {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .highlights h4 {
+            margin: 0 0 10px 0;
+            color: #065f46;
+        }
+
+        .highlights ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .highlights li {
+            margin: 5px 0;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .cta-button {
+            flex: 1;
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .cta-button.secondary {
+            background: white;
+            color: #10b981;
+            border: 2px solid #10b981;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>🎯 New Application Received!</h1>
+        </div>
+
+        <div class="content">
+            <h2>Hi {{employerName}},</h2>
+
+            <p>Great news! You have received a new application for your job posting.</p>
+
+            <div class="candidate-card">
+                <div class="candidate-header">
+                    <div class="candidate-avatar">{{candidateInitials}}</div>
+                    <div class="candidate-info">
+                        <h3>{{candidateName}}</h3>
+                        <p>Applied for: <strong>{{jobTitle}}</strong></p>
+                    </div>
+                </div>
+
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <strong>EXPERIENCE</strong>
+                        <span>{{experience}} years</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>QUALIFICATION</strong>
+                        <span>{{qualification}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>LOCATION</strong>
+                        <span>{{location}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>EXPECTED SALARY</strong>
+                        <span>₹{{expectedSalary}} LPA</span>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>Key Highlights</h4>
+                    <ul>
+                        {{#each highlights}}
+                        <li>{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+
+            <p><strong>📅 Applied On:</strong> {{applicationDate}}<br>
+                <strong>🔖 Application ID:</strong> {{applicationId}}
+            </p>
+
+            <div class="cta-buttons">
+                <a href="{{profileUrl}}" class="cta-button">View Full Profile →</a>
+                <a href="{{scheduleInterviewUrl}}" class="cta-button secondary">Schedule Interview</a>
+            </div>
+
+            <p style="margin-top: 30px;"><strong>💡 Quick Tip:</strong> Respond quickly to top candidates to secure the
+                best talent before your competitors!</p>
+
+            <p>Best regards,<br>
+                <strong>The TechSkillio Team</strong>
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+
+</html>

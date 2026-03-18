@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .profile-section {
+            padding: 40px 0 60px;
+            background: #f8fafc;
+            min-height: calc(100vh - 80px);
+        }
+
+        .profile-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Profile Header - screenshot theme */
+        .profile-header {
+            background: white;
+            border-radius: 12px;
+            padding: 32px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .profile-header h1 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .profile-header .role {
+            color: #6b7280;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .profile-header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Edit Profile button: blue outline, hover teal */
+        .btn-edit-profile {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: 2px solid #3b82f6;
+            background: transparent;
+            color: #3b82f6;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-edit-profile:hover {
+            background: #0f766e;
+            border-color: #0f766e;
+            color: white;
+            box-shadow: 0 4px 14px rgba(15, 118, 110, 0.35);
+            transform: scale(1.05);
+        }
+
+        .btn-edit-profile:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Profile Card - screenshot style */
+        .profile-card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px 36px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+        }
+
+        .profile-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #dcfce7;
+        }
+
+        .profile-card-header h2 {
+            font-size: 18px;
+            color: #374151;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-card-header h2 i {
+            color: #059669;
+            font-size: 20px;
+        }
+
+        /* Info grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .info-item {
+            padding: 14px 16px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        /* Edit mode form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #1f2937;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #059669;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+        }
+
+        .form-group input.input-valid,
+        .form-group input.input-valid:focus {
+            border-color: #059669;
+        }
+
+        .form-group input.input-invalid,
+        .form-group input.input-invalid:focus {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+        }
+
+        .field-msg {
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .field-msg.msg-valid { color: #059669; }
+        .field-msg.msg-invalid { color: #ef4444; }
+
+        .edit-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn-save-profile {
+            background: #059669;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-save-profile:hover:not(:disabled) {
+            background: #047857;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35);
+        }
+
+        .btn-save-profile:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-cancel-profile {
+            background: #6b7280;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-cancel-profile:hover {
+            background: #4b5563;
+        }
+
+        /* Change Password button - green gradient */
+        .btn-save {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+        }
+
+        .btn-save:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .alert {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .alert.show { display: block; }
+        .alert.success {
+            background: #f0fdf4;
+            border: 2px solid #86c540;
+            color: #15803d;
+        }
+        .alert.error {
+            background: #fef2f2;
+            border: 2px solid #ef4444;
+            color: #991b1b;
+        }
+
+        .skills-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background: #ecfdf5;
+            color: #047857;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid #a7f3d0;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid { grid-template-columns: 1fr; }
+            .profile-header { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+            .profile-header-right { width: 100%; }
+            .profile-card { padding: 20px; }
+            .profile-header h1 { font-size: 22px; }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+        .loading i {
+            font-size: 52px;
+            color: #059669;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .edit-mode .btn-edit-profile { display: none; }
+        .profile-edit-actions {
+            display: none;
+            align-items: center;
+            gap: 16px;
+        }
+        .edit-mode .profile-edit-actions { display: flex; }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- LOAD HEADER -->
+    <div id="header-placeholder"></div>
+
+    <div style="height: 100px;"></div> <!-- Spacer -->
+
+    <section class="profile-section">
+        <div class="profile-container">
+
+            <!-- Profile Header -->
+            <div class="profile-header" id="profileHeader">
+                <div>
+                    <h1 id="profileName">Loading...</h1>
+                    <div class="role" id="profileRole">User</div>
+                </div>
+                <div class="profile-header-right">
+                    <button type="button" class="btn-edit-profile" id="btnEditProfile" aria-label="Edit profile">
+                        <i class="fas fa-pencil-alt"></i> Edit Profile
+                    </button>
+                    <div class="profile-edit-actions" id="profileEditActions">
+                        <button type="button" class="btn-save-profile" id="btnSaveProfile">
+                            <span class="btn-save-text">Save</span>
+                            <span class="btn-save-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span>
+                        </button>
+                        <button type="button" class="btn-cancel-profile" id="btnCancelProfile">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div id="profileStatusLive" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+            <!-- Personal Information -->
+            <div class="profile-card" id="personalInfoCard">
+                <div class="profile-card-header">
+                    <h2><i class="fas fa-user"></i> Personal Information</h2>
+                </div>
+                <div id="personalInfoContent" class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Loading profile data...</p>
+                </div>
+            </div>
+
+            <!-- Professional Information -->
+            <div class="profile-card" id="professionalInfoCard" style="display: none;">
+                <div class="profile-card-header">
+                    <h2><i class="fas fa-briefcase"></i> <span id="professionalTitle">Professional Information</span>
+                    </h2>
+                </div>
+                <div id="professionalInfoContent"></div>
+            </div>
+
+            <!-- Change Password -->
+            <div class="profile-card">
+                <div class="profile-card-header">
+                    <h2><i class="fas fa-lock"></i> Change Password</h2>
+                </div>
+
+                <div class="alert" id="passwordAlert"></div>
+
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label>Current Password *</label>
+                        <input type="password" id="oldPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password *</label>
+                        <input type="password" id="newPassword" required minlength="8">
+                        <small style="color: #64748b;">Minimum 8 characters</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password *</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn-save" id="changePasswordBtn">
+                        <span id="btnText">Change Password</span>
+                        <span id="btnLoader" style="display: none;"><i class="fas fa-spinner fa-spin"></i>
+                            Changing...</span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- LOAD HEADER SCRIPT -->
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/api-config.js"></script>
+    <script src="js/auth-manager.js"></script>
+
+    <script>
+        let userProfile = null;
+        let userData = null;
+        let userType = '';
+        let isEditMode = false;
+        let editModeDraftTimer = null;
+        const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const DRAFT_KEY = 'profileEditDraft';
+        const DRAFT_INTERVAL_MS = 30000;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            await loadUserProfile();
+            initPasswordChange();
+            initEditProfile();
+        });
+
+        async function loadUserProfile() {
+            try {
+                let result = null;
+                try {
+                    const res = await authManager.apiRequest('/api/v1/auth/profile/');
+                    const data = await res.json().catch(function () { return null; });
+                    if (res.ok && data) {
+                        result = {
+                            success: true,
+                            data: {
+                                profile: data.profile || data,
+                                user: data.user || {},
+                                user_type: data.user_type || (data.user && data.user.user_type) || ''
+                            }
+                        };
+                    }
+                } catch (e) { /* ignore */ }
+                if (!result || !result.success)
+                    result = await authManager.getUserProfile();
+
+                if (result.success && result.data) {
+                    userProfile = result.data.profile || result.data;
+                    userData = result.data.user || {};
+                    userType = result.data.user_type || '';
+
+                    updateProfileHeader(userData, userProfile, userType);
+                    loadPersonalInfo(userData, userProfile, userType);
+                    loadProfessionalInfo(userProfile, userType);
+                } else {
+                    document.getElementById('personalInfoContent').innerHTML = '<p style="color: #c33;">Failed to load profile: ' + (result && result.error ? result.error : 'Unknown error') + '</p>';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                document.getElementById('personalInfoContent').innerHTML = '<p style="color: #c33;">Error loading profile. Please try again.</p>';
+            }
+        }
+
+        function updateProfileHeader(user, profile, type) {
+            const name = profile.full_name || profile.name || profile.company_name || profile.institution_name || user.email || 'User';
+            document.getElementById('profileName').textContent = name;
+
+            const roleLabels = {
+                'it_candidate': 'IT Candidate',
+                'it_vendor': 'IT Vendor',
+                'teacher_candidate': 'Teacher Candidate',
+                'teacher_employer': 'Teacher Employer',
+                'admin': 'Administrator'
+            };
+            document.getElementById('profileRole').textContent = roleLabels[type] || 'User';
+        }
+
+        function loadPersonalInfo(user, profile, type) {
+            let html = '<div class="info-grid">';
+
+            // Common fields
+            html += createInfoItem('Email', user.email);
+            html += createInfoItem('Phone Number', profile.contact_number || user.phoneNumber || 'Not specified');
+            var joinedDate = user.joinedDate || user.date_joined;
+            html += createInfoItem('Joined Date', joinedDate ? new Date(joinedDate).toLocaleDateString() : 'Not specified');
+
+            // Type-specific fields
+            if (type === 'teacher_candidate') {
+                html += createInfoItem('Full Name', profile.full_name);
+                html += createInfoItem('Current Profile', profile.current_profile);
+                html += createInfoItem('Experience', `${profile.total_experience_years || 0} years`);
+                html += createInfoItem('Qualification', profile.qualification);
+                html += createInfoItem('Location', profile.current_city);
+                html += createInfoItem('Expected Salary', profile.expected_salary ? `₹${profile.expected_salary}` : 'Not specified');
+
+                if (profile.subjects && profile.subjects.length > 0) {
+                    html += `<div class="info-item" style="grid-column: 1 / -1;">
+                        <div class="info-label">Subjects</div>
+                        <div class="skills-display">
+                            ${profile.subjects.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+                        </div>
+                    </div>`;
+                }
+            } else if (type === 'it_candidate') {
+                html += createInfoItem('Full Name', profile.full_name);
+                html += createInfoItem('Current Role', profile.current_role);
+                html += createInfoItem('Experience', `${profile.years_of_experience || 0} years`);
+                html += createInfoItem('Current CTC', profile.current_ctc ? `₹${profile.current_ctc}` : 'Not specified');
+                html += createInfoItem('Expected CTC', profile.expected_ctc ? `₹${profile.expected_ctc}` : 'Not specified');
+
+                if (profile.key_skills && profile.key_skills.length > 0) {
+                    html += `<div class="info-item" style="grid-column: 1 / -1;">
+                        <div class="info-label">Skills</div>
+                        <div class="skills-display">
+                            ${profile.key_skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+                        </div>
+                    </div>`;
+                }
+            } else if (type === 'teacher_employer') {
+                html += createInfoItem('Institution Name', profile.institution_name);
+                html += createInfoItem('Institution Type', profile.institution_type);
+                html += createInfoItem('Location', profile.location);
+                html += createInfoItem('Contact Person', profile.contact_person_name);
+                html += createInfoItem('Website', profile.website_url ? `<a href="${profile.website_url}" target="_blank" style="color: #86c540;">${profile.website_url}</a>` : 'Not provided');
+
+                if (profile.board_affiliation && profile.board_affiliation.length > 0) {
+                    html += `<div class="info-item" style="grid-column: 1 / -1;">
+                        <div class="info-label">Board Affiliation</div>
+                        <div class="skills-display">
+                            ${profile.board_affiliation.map(b => `<span class="skill-tag">${b}</span>`).join('')}
+                        </div>
+                    </div>`;
+                }
+            } else if (type === 'it_vendor') {
+                html += createInfoItem('Company Name', profile.company_name);
+                html += createInfoItem('Company Type', profile.company_type);
+                html += createInfoItem('Location', profile.company_location);
+                html += createInfoItem('Contact Person', profile.contact_person_name);
+            }
+
+            html += '</div>';
+            const container = document.getElementById('personalInfoContent');
+            container.innerHTML = html;
+            container.classList.remove('loading');
+        }
+
+        function loadProfessionalInfo(profile, type) {
+            // Show professional card only for candidates
+            if (type === 'teacher_candidate' || type === 'it_candidate') {
+                document.getElementById('professionalInfoCard').style.display = 'block';
+
+                let html = '<div class="info-grid">';
+
+                if (type === 'teacher_candidate') {
+                    html += createInfoItem('Can Teach English', profile.can_teach_english ? 'Yes' : 'No');
+                    html += createInfoItem('Preferred Work Mode', profile.preferred_work_mode || 'Not specified');
+
+                    if (profile.boards_handled && profile.boards_handled.length > 0) {
+                        html += `<div class="info-item" style="grid-column: 1 / -1;">
+                            <div class="info-label">Boards Handled</div>
+                            <div class="skills-display">
+                                ${profile.boards_handled.map(b => `<span class="skill-tag">${b}</span>`).join('')}
+                            </div>
+                        </div>`;
+                    }
+                } else if (type === 'it_candidate') {
+                    html += createInfoItem('Preferred Work Mode', profile.preferred_work_mode || 'Not specified');
+                    html += createInfoItem('Notice Period', profile.notice_period || 'Not specified');
+                }
+
+                html += '</div>';
+                document.getElementById('professionalInfoContent').innerHTML = html;
+            }
+        }
+
+        function createInfoItem(label, value) {
+            return `
+                <div class="info-item">
+                    <div class="info-label">${label}</div>
+                    <div class="info-value">${value || 'Not specified'}</div>
+                </div>
+            `;
+        }
+
+        function getPersonalFields(type) {
+            const base = [
+                { key: 'email', label: 'Email', type: 'email', required: true, fromUser: true },
+                { key: 'contact_number', label: 'Phone Number', type: 'tel', fromUser: false },
+                { key: 'full_name', label: 'Full Name', type: 'text', fromUser: false }
+            ];
+            if (type === 'teacher_candidate') {
+                return base.concat([
+                    { key: 'current_profile', label: 'Current Profile', type: 'text' },
+                    { key: 'total_experience_years', label: 'Experience (years)', type: 'number' },
+                    { key: 'qualification', label: 'Qualification', type: 'text' },
+                    { key: 'current_city', label: 'Location', type: 'text' },
+                    { key: 'expected_salary', label: 'Expected Salary', type: 'text' }
+                ]);
+            }
+            if (type === 'it_candidate') {
+                return base.concat([
+                    { key: 'current_role', label: 'Current Role', type: 'text' },
+                    { key: 'years_of_experience', label: 'Experience (years)', type: 'number' },
+                    { key: 'current_ctc', label: 'Current CTC', type: 'text' },
+                    { key: 'expected_ctc', label: 'Expected CTC', type: 'text' }
+                ]);
+            }
+            if (type === 'teacher_employer') {
+                return [
+                    { key: 'institution_name', label: 'Institution Name', type: 'text' },
+                    { key: 'institution_type', label: 'Institution Type', type: 'text' },
+                    { key: 'location', label: 'Location', type: 'text' },
+                    { key: 'contact_person_name', label: 'Contact Person', type: 'text' },
+                    { key: 'website_url', label: 'Website', type: 'url' },
+                    { key: 'email', label: 'Email', type: 'email', fromUser: true }
+                ];
+            }
+            if (type === 'it_vendor') {
+                return [
+                    { key: 'company_name', label: 'Company Name', type: 'text' },
+                    { key: 'company_type', label: 'Company Type', type: 'text' },
+                    { key: 'company_location', label: 'Location', type: 'text' },
+                    { key: 'contact_person_name', label: 'Contact Person', type: 'text' },
+                    { key: 'email', label: 'Email', type: 'email', fromUser: true }
+                ];
+            }
+            return base;
+        }
+
+        function getProfessionalFields(type) {
+            if (type === 'teacher_candidate')
+                return [
+                    { key: 'can_teach_english', label: 'Can Teach English', type: 'select', options: [{ value: '', label: 'Select' }, { value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }] },
+                    { key: 'preferred_work_mode', label: 'Preferred Work Mode', type: 'text' }
+                ];
+            if (type === 'it_candidate')
+                return [
+                    { key: 'preferred_work_mode', label: 'Preferred Work Mode', type: 'text' },
+                    { key: 'notice_period', label: 'Notice Period', type: 'text' }
+                ];
+            return [];
+        }
+
+        function getValue(profile, user, field) {
+            const fromUser = field.fromUser === true;
+            const v = fromUser ? (user[field.key]) : (profile[field.key]);
+            if (v === undefined || v === null) return '';
+            return String(v);
+        }
+
+        function announceLive(msg) {
+            var el = document.getElementById('profileStatusLive');
+            if (el) { el.textContent = msg; }
+        }
+
+        function initEditProfile() {
+            var header = document.getElementById('profileHeader');
+            var btnEdit = document.getElementById('btnEditProfile');
+            var btnSave = document.getElementById('btnSaveProfile');
+            var btnCancel = document.getElementById('btnCancelProfile');
+
+            if (!header || !btnEdit) return;
+
+            btnEdit.addEventListener('click', function () {
+                if (isEditMode) return;
+                isEditMode = true;
+                header.classList.add('edit-mode');
+                if (localStorage) localStorage.setItem('profileEditSnapshot', JSON.stringify({ profile: userProfile, user: userData, userType: userType }));
+                renderEditForms();
+                if (editModeDraftTimer) clearInterval(editModeDraftTimer);
+                editModeDraftTimer = setInterval(function () {
+                    if (!isEditMode) return;
+                    var fd = {};
+                    document.querySelectorAll('.editable').forEach(function (el) {
+                        var key = el.dataset && el.dataset.key;
+                        if (key) fd[key] = el.value ? el.value.trim() : '';
+                    });
+                    if (Object.keys(fd).length && localStorage) localStorage.setItem(DRAFT_KEY, JSON.stringify(fd));
+                }, DRAFT_INTERVAL_MS);
+                announceLive('Edit mode on. You can change your profile details.');
+            });
+
+            btnCancel.addEventListener('click', function () {
+                if (!isEditMode) return;
+                isEditMode = false;
+                header.classList.remove('edit-mode');
+                if (editModeDraftTimer) { clearInterval(editModeDraftTimer); editModeDraftTimer = null; }
+                var snap = null;
+                try { snap = JSON.parse(localStorage.getItem('profileEditSnapshot') || 'null'); } catch (e) {}
+                if (snap && snap.profile) {
+                    userProfile = snap.profile;
+                    userData = snap.user || userData;
+                    userType = snap.userType || userType;
+                }
+                loadPersonalInfo(userData, userProfile, userType);
+                loadProfessionalInfo(userProfile, userType);
+                announceLive('Edit cancelled.');
+            });
+
+            btnSave.addEventListener('click', function () {
+                if (!isEditMode) return;
+                var formData = collectFormData();
+                if (!formData) return;
+                var saveText = btnSave.querySelector('.btn-save-text');
+                var saveSpinner = btnSave.querySelector('.btn-save-spinner');
+                btnSave.disabled = true;
+                if (saveText) saveText.style.display = 'none';
+                if (saveSpinner) saveSpinner.style.display = 'inline';
+
+                authManager.apiRequest('/api/v1/auth/profile/', {
+                    method: 'PATCH',
+                    body: JSON.stringify(formData)
+                }).then(function (res) {
+                    var contentType = res.headers.get('Content-Type') || '';
+                    if (contentType.indexOf('json') !== -1)
+                        return res.json().catch(function () { return null; }).then(function (data) { return { ok: res.ok, data: data }; });
+                    return { ok: res.ok, data: null };
+                }).then(function (result) {
+                    if (result.ok) {
+                        if (result.data && result.data.profile) userProfile = result.data.profile;
+                        if (result.data && result.data.user) userData = result.data.user;
+                        if (editModeDraftTimer) { clearInterval(editModeDraftTimer); editModeDraftTimer = null; }
+                        loadUserProfile().then(function () {
+                            isEditMode = false;
+                            header.classList.remove('edit-mode');
+                            announceLive('Profile saved successfully.');
+                        });
+                    } else {
+                        announceLive('Save failed. Please try again.');
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                    announceLive('Failed to save profile. Please try again.');
+                }).finally(function () {
+                    btnSave.disabled = false;
+                    if (saveText) saveText.style.display = 'inline';
+                    if (saveSpinner) saveSpinner.style.display = 'none';
+                });
+            });
+        }
+
+        function renderEditForms() {
+            var personal = getPersonalFields(userType);
+            var personalHtml = '<div class="info-grid edit-form-grid">';
+            personal.forEach(function (f) {
+                var val = getValue(userProfile, userData, f);
+                var id = 'edit_' + f.key;
+                var inputHtml = '';
+                if (f.type === 'select' && f.options) {
+                    inputHtml = '<select id="' + id + '" class="editable" data-key="' + f.key + '" data-from-user="' + (f.fromUser ? '1' : '0') + '">' +
+                        f.options.map(function (o) { return '<option value="' + (o.value || '') + '"' + (o.value === val ? ' selected' : '') + '>' + (o.label || o.value) + '</option>'; }).join('') + '</select>';
+                } else {
+                    var type = f.type === 'number' ? 'number' : f.type === 'tel' ? 'tel' : f.type === 'email' ? 'email' : 'text';
+                    inputHtml = '<input type="' + type + '" id="' + id + '" class="editable" data-key="' + f.key + '" data-from-user="' + (f.fromUser ? '1' : '0') + '" value="' + escapeAttr(val) + '"' + (f.required ? ' required' : '') + '>';
+                }
+                personalHtml += '<div class="form-group"><label for="' + id + '">' + escapeHtml(f.label) + (f.required ? ' *' : '') + '</label>' + inputHtml + '<span class="field-msg" id="' + id + '_msg"></span></div>';
+            });
+            personalHtml += '</div>';
+            document.getElementById('personalInfoContent').innerHTML = personalHtml;
+
+            var proCard = document.getElementById('professionalInfoCard');
+            var proContent = document.getElementById('professionalInfoContent');
+            if (proCard && proContent && (userType === 'teacher_candidate' || userType === 'it_candidate')) {
+                var proFields = getProfessionalFields(userType);
+                var proHtml = '<div class="info-grid edit-form-grid">';
+                proFields.forEach(function (f) {
+                    var val = getValue(userProfile, userData, f);
+                    var id = 'edit_pro_' + f.key;
+                    if (f.type === 'select' && f.options) {
+                        proHtml += '<div class="form-group"><label for="' + id + '">' + escapeHtml(f.label) + '</label><select id="' + id + '" class="editable" data-key="' + f.key + '">' +
+                            f.options.map(function (o) { return '<option value="' + (o.value || '') + '"' + (o.value === val ? ' selected' : '') + '>' + (o.label || o.value) + '</option>'; }).join('') + '</select><span class="field-msg" id="' + id + '_msg"></span></div>';
+                    } else {
+                        proHtml += '<div class="form-group"><label for="' + id + '">' + escapeHtml(f.label) + '</label><input type="text" id="' + id + '" class="editable" data-key="' + f.key + '" value="' + escapeAttr(val) + '"><span class="field-msg" id="' + id + '_msg"></span></div>';
+                    }
+                });
+                proHtml += '</div>';
+                proContent.innerHTML = proHtml;
+            }
+
+            document.querySelectorAll('.editable').forEach(function (el) {
+                el.addEventListener('input', function () { validateField(el); });
+                el.addEventListener('blur', function () { validateField(el); });
+            });
+        }
+
+        function escapeAttr(s) {
+            if (s == null) return '';
+            return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+        function escapeHtml(s) {
+            if (s == null) return '';
+            var d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
+        }
+
+        function validateField(input) {
+            var msgEl = document.getElementById(input.id + '_msg');
+            var required = input.hasAttribute('required');
+            var val = (input.value || '').trim();
+            var isEmail = (input.getAttribute('type') === 'email' || (input.dataset && input.dataset.key === 'email'));
+            input.classList.remove('input-valid', 'input-invalid');
+            if (msgEl) { msgEl.textContent = ''; msgEl.className = 'field-msg'; }
+
+            if (required && !val) {
+                input.classList.add('input-invalid');
+                if (msgEl) { msgEl.textContent = 'Required'; msgEl.classList.add('msg-invalid'); }
+                return false;
+            }
+            if (isEmail && val && !EMAIL_REGEX.test(val)) {
+                input.classList.add('input-invalid');
+                if (msgEl) { msgEl.textContent = 'Enter a valid email'; msgEl.classList.add('msg-invalid'); }
+                return false;
+            }
+            if (required || (isEmail && val)) {
+                input.classList.add('input-valid');
+                if (msgEl && val) msgEl.classList.add('msg-valid');
+            }
+            return true;
+        }
+
+        function collectFormData() {
+            var allValid = true;
+            document.querySelectorAll('.editable').forEach(function (el) {
+                if (!validateField(el)) allValid = false;
+            });
+            if (!allValid) return null;
+
+            var formData = {};
+            document.querySelectorAll('.editable').forEach(function (el) {
+                var key = el.dataset && el.dataset.key;
+                if (!key) return;
+                var val = el.value ? el.value.trim() : '';
+                if (el.type === 'number') val = val !== '' ? Number(val) : '';
+                formData[key] = val;
+            });
+            return formData;
+        }
+
+        function initPasswordChange() {
+            const form = document.getElementById('changePasswordForm');
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const oldPassword = document.getElementById('oldPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                // Validate
+                if (newPassword !== confirmPassword) {
+                    showAlert('New passwords do not match', 'error');
+                    return;
+                }
+
+                if (newPassword.length < 8) {
+                    showAlert('New password must be at least 8 characters', 'error');
+                    return;
+                }
+
+                // Show loading
+                const btn = document.getElementById('changePasswordBtn');
+                const btnText = document.getElementById('btnText');
+                const btnLoader = document.getElementById('btnLoader');
+
+                btn.disabled = true;
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'inline';
+
+                try {
+                    const result = await authManager.changePassword(oldPassword, newPassword);
+
+                    if (result.success) {
+                        showAlert('Password changed successfully!', 'success');
+                        form.reset();
+                    } else {
+                        showAlert(result.error || 'Failed to change password', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showAlert('An error occurred. Please try again.', 'error');
+                } finally {
+                    btn.disabled = false;
+                    btnText.style.display = 'inline';
+                    btnLoader.style.display = 'none';
+                }
+            });
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('passwordAlert');
+            alert.textContent = message;
+            alert.className = `alert ${type} show`;
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>

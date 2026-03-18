@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Candidates - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .page-section {
+            padding: 40px 0 60px;
+            background: #f5f7fa;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #86c540;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            color: #75b035;
+        }
+
+        .page-header {
+            background: white;
+            border-radius: 14px;
+            padding: 28px 32px;
+            margin-bottom: 28px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid #86c540;
+        }
+
+        .page-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0 0 8px 0;
+        }
+
+        .page-header .job-title-ref {
+            font-size: 14px;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .candidates-section h2 {
+            font-size: 18px;
+            color: #2c3e50;
+            margin: 0 0 16px 0;
+        }
+
+        .candidate-row,
+        .candidate-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #86c540;
+            transition: transform 0.2s;
+        }
+
+        .candidate-row:hover,
+        .candidate-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .candidate-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .candidate-card-name-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            min-width: 0;
+        }
+
+        .candidate-name-btn {
+            background: none;
+            border: none;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #2c3e50;
+            cursor: pointer;
+            text-align: left;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .candidate-name-btn:hover {
+            color: #86c540;
+        }
+
+        .candidate-meta {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .candidate-row-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .btn-view-details {
+            background: #86c540;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .btn-view-details:hover {
+            background: #75b035;
+            box-shadow: 0 4px 12px rgba(134, 197, 64, 0.35);
+        }
+
+        .btn-view-details.header-btn {
+            flex-shrink: 0;
+        }
+
+        .candidate-preview-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 18px;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .candidate-preview-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: #475569;
+            background: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .candidate-preview-item .preview-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .candidate-preview-item .preview-value {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .candidate-name-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #2c3e50;
+            cursor: pointer;
+        }
+
+        .candidate-name-text:hover {
+            color: #86c540;
+        }
+
+        /* Candidate detail modal */
+        .candidate-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .candidate-modal-overlay.is-open {
+            display: flex;
+        }
+
+        .candidate-modal {
+            background: white;
+            border-radius: 14px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            border-top: 4px solid #86c540;
+        }
+
+        .candidate-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .candidate-modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #1f2937;
+        }
+
+        .candidate-modal-close {
+            background: #f3f4f6;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #4b5563;
+        }
+
+        .candidate-modal-close:hover {
+            background: #e5e7eb;
+        }
+
+        .candidate-modal-body {
+            padding: 24px 28px 28px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .candidate-modal-body .detail-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .candidate-modal-body .detail-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .candidate-modal-body .detail-label {
+            font-weight: 600;
+            color: #374151;
+            width: 140px;
+            flex-shrink: 0;
+            font-size: 13px;
+        }
+
+        .candidate-modal-body .detail-row span:last-child {
+            flex: 1;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .candidate-modal-body .detail-row a {
+            color: #86c540;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .candidate-modal-body .detail-row a:hover {
+            text-decoration: underline;
+        }
+
+        .empty-state, .error-state {
+            text-align: center;
+            padding: 48px 24px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            color: #6b7280;
+        }
+
+        .empty-state i, .error-state i {
+            font-size: 48px;
+            color: #d1d5db;
+            margin-bottom: 16px;
+        }
+
+        .error-state i { color: #ef4444; }
+
+        .loading-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: #6b7280;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/route-guard.js" data-required-role="user"></script>
+    <div id="header-placeholder"></div>
+    <div style="height: 100px;"></div>
+
+    <section class="page-section">
+        <div class="page-container">
+            <a href="#" id="backToDashboard" class="back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+
+            <div class="page-header">
+                <h1>Applied Candidates</h1>
+                <p class="job-title-ref" id="jobTitleRef">Loading...</p>
+                <span id="creditsDisplay" style="display:inline-block;margin-top:6px;font-size:0.9rem;color:#64748b;font-weight:600;">Credits: —</span>
+            </div>
+
+            <div class="candidates-section">
+                <h2>Candidate list</h2>
+                <div id="candidatesListContainer">
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p style="margin-top: 12px;">Loading candidates...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Candidate detail modal -->
+    <div class="candidate-modal-overlay" id="candidateModal" aria-hidden="true">
+        <div class="candidate-modal">
+            <div class="candidate-modal-header">
+                <h3 id="candidateModalTitle">Candidate details</h3>
+                <button type="button" class="candidate-modal-close" id="candidateModalClose" aria-label="Close">&times;</button>
+            </div>
+            <div class="candidate-modal-body" id="candidateModalBody"></div>
+        </div>
+    </div>
+
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            var jobId = params.get('job_id');
+            var jobTitle = params.get('title') || 'this job';
+
+            function escapeHtml(text) {
+                if (text == null || text === '') return '—';
+                var div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            var userType = localStorage.getItem('userType') || sessionStorage.getItem('userType') || '';
+            var backLink = document.getElementById('backToDashboard');
+            if (backLink) {
+                if (userType === 'teacher_employer') backLink.href = 'teacher-employer-dashboard.html';
+                else if (userType === 'teacher_employer_nonteaching') backLink.href = 'teacher-employer-nonteaching-dashboard.html';
+                else if (userType === 'it_vendor') backLink.href = 'it-vendor-dashboard.html';
+                else backLink.href = 'teacher-employer-dashboard.html';
+            }
+
+            document.getElementById('jobTitleRef').textContent = 'For: ' + decodeURIComponent(jobTitle);
+
+            if (!jobId) {
+                document.getElementById('candidatesListContainer').innerHTML =
+                    '<div class="error-state"><i class="fas fa-exclamation-circle"></i><p style="font-size: 18px; margin-bottom: 8px;">Invalid job</p><p>Please go back and open Applied Candidates from a job card.</p></div>';
+                return;
+            }
+
+            var candidatesData = [];
+            var noCreditsMsg = 'No credits. Please buy credits.';
+
+            function getAvailableCreditsFromResponse(data) {
+                if (data == null) return null;
+                if (typeof data.available_credits === 'number') return data.available_credits;
+                if (typeof data.balance === 'number') return data.balance;
+                if (typeof data.total_credits === 'number') return data.total_credits;
+                if (typeof data.credits === 'number') return data.credits;
+                var list = Array.isArray(data) ? data : (data.results || data.data || data.credit_packs || []);
+                if (list && list.length) {
+                    var sum = 0;
+                    for (var i = 0; i < list.length; i++) {
+                        var item = list[i];
+                        var c = item.remaining_credits != null ? item.remaining_credits : (item.credits != null ? item.credits : (item.balance != null ? item.balance : 0));
+                        sum += (Number(c) || 0);
+                    }
+                    return sum;
+                }
+                return null;
+            }
+            async function refreshCreditsDisplay() {
+                var creditsEl = document.getElementById('creditsDisplay');
+                if (!creditsEl) return;
+                try {
+                    var res = await authManager.apiRequest('/api/v1/finance/credits/me/');
+                    if (res.ok) {
+                        var data = await res.json().catch(function () { return null; });
+                        var credits = getAvailableCreditsFromResponse(data);
+                        window._appliedCreditsCache = credits;
+                        creditsEl.textContent = 'Credits: ' + (credits != null ? Number(credits).toLocaleString() : '—');
+                    }
+                } catch (e) { creditsEl.textContent = 'Credits: —'; }
+            }
+
+            async function loadCandidates() {
+                var container = document.getElementById('candidatesListContainer');
+                try {
+                    var res = await authManager.apiRequest('/api/v1/jobs/jobs/' + jobId + '/candidates/');
+                    var data = await res.json().catch(function () { return {}; });
+                    candidatesData = Array.isArray(data) ? data : (data.results || data.candidates || []);
+
+                    if (candidatesData.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-user-friends"></i><p style="font-size: 18px; margin-bottom: 8px;">No applicants yet</p><p>No candidates have applied for this job.</p></div>';
+                        return;
+                    }
+
+                    function getPreviewVal(c, keys) {
+                        var p = c.profile || c;
+                        for (var i = 0; i < keys.length; i++) {
+                            var v = (p[keys[i]] != null ? p[keys[i]] : c[keys[i]]);
+                            if (v != null && v !== '') return Array.isArray(v) ? v.slice(0, 5).join(', ') : String(v);
+                        }
+                        return '—';
+                    }
+
+                    container.innerHTML = candidatesData.map(function (c, idx) {
+                        var name = c.name || c.full_name || c.candidate_name || c.email || 'Candidate';
+                        var appliedAt = c.applied_at || c.created_at || c.application_date;
+                        var dateStr = appliedAt ? new Date(appliedAt).toLocaleDateString() : '';
+                        var cId = c.user_id || c.candidate_user_id || c.id || '';
+                        var qualification = getPreviewVal(c, ['qualification', 'education', 'degree', 'college']);
+                        var expectedCtc = getPreviewVal(c, ['expected_salary', 'expected_ctc']);
+                        var previewItems = [
+                            '<span class="preview-label">Name</span><span class="preview-value">' + escapeHtml(name) + '</span>',
+                            '<span class="preview-label">Qualification</span><span class="preview-value">' + escapeHtml(qualification) + '</span>',
+                            '<span class="preview-label">Expected CTC</span><span class="preview-value">' + escapeHtml(expectedCtc) + '</span>'
+                        ].map(function (html) { return '<div class="candidate-preview-item">' + html + '</div>'; }).join('');
+                        return '<div class="candidate-card" data-candidate-index="' + idx + '">' +
+                            '<div class="candidate-card-header">' +
+                            '<div class="candidate-card-name-wrap">' +
+                            '<span class="candidate-name-text">' + escapeHtml(name) + '</span>' +
+                            (cId ? '<span class="candidate-id" style="font-size:0.8rem;color:#64748b;">#' + escapeHtml(String(cId)) + '</span>' : '') +
+                            (dateStr ? '<span class="candidate-meta">Applied: ' + escapeHtml(dateStr) + '</span>' : '') +
+                            '</div>' +
+                            '<button type="button" class="btn-view-details header-btn" data-candidate-index="' + idx + '"><i class="fas fa-eye"></i> View Details</button>' +
+                            '</div>' +
+                            '<div class="candidate-preview-tabs">' + previewItems + '</div>' +
+                            '</div>';
+                    }).join('');
+
+                    function bindRowClicks() {
+                        container.querySelectorAll('.candidate-card').forEach(function (card) {
+                            var idx = parseInt(card.getAttribute('data-candidate-index'), 10);
+                            if (isNaN(idx) || !candidatesData[idx]) return;
+                            card.querySelector('.candidate-name-text') && card.querySelector('.candidate-name-text').addEventListener('click', function () { openCandidateModal(candidatesData[idx]); });
+                            card.querySelector('.btn-view-details') && card.querySelector('.btn-view-details').addEventListener('click', function () { openCandidateModal(candidatesData[idx]); });
+                        });
+                    }
+                    bindRowClicks();
+                    await refreshCreditsDisplay();
+                } catch (err) {
+                    console.error('Failed to load candidates:', err);
+                    container.innerHTML = '<div class="error-state"><i class="fas fa-exclamation-circle"></i><p style="font-size: 18px; margin-bottom: 8px;">Could not load candidates</p><p>Please try again later.</p></div>';
+                }
+            }
+
+            function getVal(obj, keys) {
+                for (var i = 0; i < keys.length; i++) {
+                    var v = obj[keys[i]];
+                    if (v != null && v !== '') return v;
+                }
+                return null;
+            }
+
+            function renderCandidateModalBodyFromApi(data) {
+                var rows = [];
+                function toStr(v) {
+                    if (v == null || v === '') return null;
+                    if (Array.isArray(v)) return v.map(function (x) { return x && (x.name || x.title || x); }).filter(Boolean).join(', ');
+                    if (typeof v === 'object') return null;
+                    return String(v);
+                }
+                function addRowAlways(label, value) {
+                    var s = toStr(value);
+                    rows.push('<div class="detail-row"><span class="detail-label">' + escapeHtml(String(label).replace(/_/g, ' ')) + '</span><span>' + escapeHtml(s != null ? s : '—') + '</span></div>');
+                }
+                function addRowLink(label, url, text) {
+                    rows.push('<div class="detail-row"><span class="detail-label">' + escapeHtml(String(label).replace(/_/g, ' ')) + '</span><span>' + (url ? '<a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(text || 'View') + '</a>' : '—') + '</span></div>');
+                }
+                var user = data.user || data;
+                var profile = data.profile || user.profile || {};
+                var flat = function (k) { return toStr(user[k] || profile[k] || data[k]); };
+                addRowAlways('Name', user.full_name || user.name || profile.full_name || profile.name || user.email);
+                addRowAlways('Email', user.email || profile.email);
+                addRowAlways('User ID', user.id);
+                addRowAlways('Phone', user.phone || profile.phone || profile.mobile);
+                addRowAlways('User type', user.user_type || data.user_type || profile.user_type);
+                addRowLink('Resume', user.resume_url || profile.resume_url || data.resume_url, 'View resume');
+                addRowAlways('Key skills', flat('skills') || flat('key_skills'));
+                addRowAlways('Desired role', flat('current_designation') || flat('desired_role') || flat('current_role'));
+                addRowAlways('Notice period', flat('notice_period'));
+                addRowAlways('Expected CTC', flat('expected_salary') || flat('expected_ctc'));
+                addRowAlways('Experience', flat('experience'));
+                addRowAlways('Education', flat('education') || flat('degree') || flat('college'));
+                addRowAlways('Current company', flat('current_company'));
+                addRowAlways('Location', flat('location') || flat('city') || flat('state') || flat('country'));
+                addRowAlways('Date of birth', flat('date_of_birth'));
+                addRowAlways('Gender', flat('gender'));
+                addRowAlways('Summary', flat('summary') || flat('bio'));
+                addRowAlways('Certifications', flat('certifications'));
+                addRowAlways('Languages', flat('languages'));
+                addRowAlways('Cover letter', flat('cover_letter'));
+                addRowLink('LinkedIn', user.linkedin_url || profile.linkedin_url || data.linkedin_url, 'Open');
+                addRowLink('Portfolio / Website', user.portfolio_url || profile.portfolio_url || data.portfolio_url || user.website || profile.website, 'Open');
+                return rows.join('');
+            }
+
+            function getCandidateUserId(c) {
+                if (!c) return null;
+                var raw = c.user_id != null ? c.user_id : (c.candidate_user_id != null ? c.candidate_user_id : (c.user && c.user.id != null ? c.user.id : (c.candidate && c.candidate.id != null ? c.candidate.id : (c.applicant_id != null ? c.applicant_id : (c.id != null ? c.id : null)))));
+                if (raw == null || raw === '') return null;
+                var num = parseInt(raw, 10);
+                return isNaN(num) ? raw : num;
+            }
+
+            function renderModalFromListData(c) {
+                var rowAlways = function (label, value) {
+                    var s = (value != null && value !== '') ? String(value) : '—';
+                    return '<div class="detail-row"><span class="detail-label">' + escapeHtml(label) + '</span><span>' + escapeHtml(s) + '</span></div>';
+                };
+                var rowLink = function (label, url, text) {
+                    return '<div class="detail-row"><span class="detail-label">' + escapeHtml(label) + '</span><span>' + (url ? '<a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(text || 'View') + '</a>' : '—') + '</span></div>';
+                };
+                var profile = c.profile || c.candidate_profile || c;
+                var appliedDate = c.applied_at || c.created_at || c.application_date;
+                var parts = [];
+                parts.push(rowAlways('Name', getVal(c, ['name', 'full_name', 'candidate_name']) || c.email || 'Candidate'));
+                parts.push(rowAlways('Email', getVal(c, ['email', 'candidate_email'])));
+                parts.push(rowAlways('Phone', getVal(c, ['phone', 'mobile', 'contact_number', 'phone_number']) || getVal(profile, ['phone', 'mobile', 'contact_number'])));
+                parts.push(rowAlways('Applied date', appliedDate ? new Date(appliedDate).toLocaleDateString() : null));
+                parts.push(rowAlways('Status', getVal(c, ['status', 'application_status'])));
+                parts.push(rowLink('Resume', c.resume_url || c.resume || profile.resume_url, 'View resume'));
+                parts.push(rowAlways('Experience', c.experience != null ? c.experience + ' yrs' : getVal(profile, ['experience', 'total_experience'])));
+                parts.push(rowAlways('Education', getVal(c, ['education', 'qualification']) || getVal(profile, ['education', 'highest_qualification', 'qualification'])));
+                parts.push(rowAlways('Key skills', getVal(c, ['key_skills', 'skills']) || getVal(profile, ['key_skills', 'skills'])));
+                parts.push(rowAlways('Desired role', getVal(c, ['desired_role', 'current_role', 'current_designation']) || getVal(profile, ['desired_role', 'current_role'])));
+                parts.push(rowAlways('Notice period', getVal(c, ['notice_period']) || getVal(profile, ['notice_period'])));
+                parts.push(rowAlways('Expected CTC', getVal(c, ['expected_salary', 'expected_ctc']) || getVal(profile, ['expected_salary', 'expected_ctc'])));
+                parts.push(rowAlways('Location', getVal(c, ['location', 'city', 'current_location']) || getVal(profile, ['location', 'city', 'current_city', 'address'])));
+                return parts.join('');
+            }
+
+            async function openCandidateModal(c) {
+                var name = getVal(c, ['name', 'full_name', 'candidate_name', 'first_name']) || c.email || 'Candidate';
+                var titleEl = document.getElementById('candidateModalTitle');
+                var bodyEl = document.getElementById('candidateModalBody');
+                var modal = document.getElementById('candidateModal');
+                if (!titleEl || !bodyEl || !modal) return;
+                titleEl.textContent = name;
+
+                var candidateId = getCandidateUserId(c);
+                if (candidateId != null) {
+                    var idForApi = (typeof candidateId === 'number' && !isNaN(candidateId)) ? candidateId : (parseInt(candidateId, 10) || candidateId);
+                    var credits = window._appliedCreditsCache;
+                    if (credits == null) {
+                        try {
+                            var crRes = await authManager.apiRequest('/api/v1/finance/credits/me/');
+                            if (crRes.ok) {
+                                var crData = await crRes.json().catch(function () { return null; });
+                                credits = getAvailableCreditsFromResponse(crData);
+                                window._appliedCreditsCache = credits;
+                            }
+                        } catch (e) {}
+                    }
+                    if (credits == null || Number(credits) < 1) {
+                        alert(noCreditsMsg);
+                        return;
+                    }
+                    try {
+                        var deductRes = await authManager.apiRequest('/api/v1/finance/credits/deduct/', {
+                            method: 'POST',
+                            body: JSON.stringify({ candidate_user_id: idForApi })
+                        });
+                        var deductData = await deductRes.json().catch(function () { return {}; });
+                        if (!deductRes.ok) {
+                            var msg = deductData.detail || deductData.message || deductData.error;
+                            if (Array.isArray(msg)) msg = msg[0];
+                            if (msg && typeof msg !== 'string') msg = JSON.stringify(msg);
+                            if (!msg || msg === '') {
+                                var fieldParts = [];
+                                for (var key in deductData) { if (deductData.hasOwnProperty(key)) fieldParts.push(key + ': ' + (Array.isArray(deductData[key]) ? deductData[key].join(' ') : deductData[key])); }
+                                msg = fieldParts.length ? fieldParts.join('; ') : noCreditsMsg + ' (HTTP ' + deductRes.status + ')';
+                            }
+                            console.error('Deduct API error:', deductRes.status, deductData);
+                            alert(msg);
+                            if (deductRes.status === 402 || (String(deductData.detail || '').toLowerCase().indexOf('credit') !== -1)) refreshCreditsDisplay();
+                            return;
+                        }
+                        var newBalance = deductData.balance != null ? deductData.balance : (deductData.remaining_credits != null ? deductData.remaining_credits : null);
+                        window._appliedCreditsCache = newBalance != null ? newBalance : (Number(credits) - 1);
+                        var creditsEl = document.getElementById('creditsDisplay');
+                        if (creditsEl) creditsEl.textContent = 'Credits: ' + (window._appliedCreditsCache != null ? Number(window._appliedCreditsCache).toLocaleString() : '—');
+                    } catch (e) {
+                        alert(noCreditsMsg);
+                        return;
+                    }
+                    bodyEl.innerHTML = '<div style="text-align:center;padding:24px;color:#86c540;"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:10px;">Loading details...</p></div>';
+                    modal.classList.add('is-open');
+                    modal.setAttribute('aria-hidden', 'false');
+                    try {
+                        var res = await authManager.apiRequest('/api/v1/auth/candidates/' + idForApi + '/');
+                        var data = await res.json().catch(function () { return {}; });
+                        if (res.ok) {
+                            bodyEl.innerHTML = renderCandidateModalBodyFromApi(data) || '<p style="color:#64748b;">No details available.</p>';
+                        } else {
+                            if (res.status === 404) {
+                                bodyEl.innerHTML = renderModalFromListData(c) || '<p style="color:#64748b;">No further details available.</p>';
+                            } else {
+                                bodyEl.innerHTML = '<p style="color:#ef4444;">' + escapeHtml(data.detail || data.message || 'Failed to load details.') + '</p>';
+                            }
+                        }
+                        refreshCreditsDisplay();
+                    } catch (err) {
+                        bodyEl.innerHTML = renderModalFromListData(c) || '<p style="color:#ef4444;">' + escapeHtml(err.message || 'Failed to load details.') + '</p>';
+                    }
+                    return;
+                }
+
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                bodyEl.innerHTML = renderModalFromListData(c) || '<p style="color:#64748b;">No further details available.</p>';
+            }
+
+            function closeCandidateModal() {
+                var modal = document.getElementById('candidateModal');
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+            }
+
+            document.getElementById('candidateModalClose').addEventListener('click', closeCandidateModal);
+            document.getElementById('candidateModal').addEventListener('click', function (e) {
+                if (e.target === this) closeCandidateModal();
+            });
+
+            loadCandidates();
+        })();
+    </script>
+</body>
+
+</html>

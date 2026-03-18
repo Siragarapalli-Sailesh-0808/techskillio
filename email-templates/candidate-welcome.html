@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to TechSkillio</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .content {
+            padding: 30px;
+            color: #333;
+        }
+
+        .content h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        .profile-stats {
+            background: #f8fafc;
+            border-left: 4px solid #86c540;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .profile-stats p {
+            margin: 5px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .next-steps {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .next-steps h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        .next-steps ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .next-steps li {
+            margin: 8px 0;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #86c540;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>🎉 Welcome to TechSkillio!</h1>
+        </div>
+
+        <div class="content">
+            <h2>Hi {{candidateName}},</h2>
+
+            <p>Congratulations! Your registration as a <strong>{{candidateType}}</strong> candidate has been
+                successfully completed.</p>
+
+            <div class="profile-stats">
+                <p><strong>📧 Email:</strong> {{email}}</p>
+                <p><strong>📅 Registration Date:</strong> {{registrationDate}}</p>
+                <p><strong>✅ Profile Completeness:</strong> {{profileCompleteness}}%</p>
+            </div>
+
+            <p>You're now part of India's fastest-growing education recruitment platform, connecting talented educators
+                with top institutions across the country.</p>
+
+            <div class="next-steps">
+                <h3>📋 Next Steps:</h3>
+                <ul>
+                    <li><strong>Complete Your Profile:</strong> Add more details to increase your visibility to
+                        employers</li>
+                    <li><strong>Browse Jobs:</strong> Explore teaching opportunities that match your skills</li>
+                    <li><strong>Set Job Alerts:</strong> Get notified when relevant positions are posted</li>
+                    <li><strong>Upload Certificates:</strong> Add your credentials to stand out</li>
+                </ul>
+            </div>
+
+            <center>
+                <a href="{{dashboardUrl}}" class="cta-button">Go to Dashboard →</a>
+            </center>
+
+            <p style="margin-top: 30px;">Our team will review your profile within 24-48 hours. Once approved, you'll
+                start receiving job recommendations tailored to your expertise.</p>
+
+            <p>If you have any questions, feel free to reach out to our support team.</p>
+
+            <p>Best regards,<br>
+                <strong>The TechSkillio Team</strong>
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 TechSkillio. All rights reserved.</p>
+            <p>
+                <a href="{{websiteUrl}}">Visit Website</a> |
+                <a href="{{supportUrl}}">Support</a> |
+                <a href="{{unsubscribeUrl}}">Unsubscribe</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

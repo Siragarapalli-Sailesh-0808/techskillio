@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications - TechSkillio</title>
+    <link rel="icon" href="favicon.jpg" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .applications-section {
+            padding: 40px 0 60px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            min-height: calc(100vh - 80px);
+        }
+
+        .applications-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #86c540;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover {
+            border-color: #86c540;
+            color: #86c540;
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, #86c540, #6e9443);
+            border-color: #86c540;
+            color: white;
+        }
+
+        .filter-tab .count {
+            margin-left: 8px;
+            padding: 2px 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        /* Application Card */
+        .application-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(134, 197, 64, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .application-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #86c540, #6e9443);
+        }
+
+        .application-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(134, 197, 64, 0.15);
+        }
+
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .application-info {
+            flex: 1;
+        }
+
+        .job-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .company-name {
+            color: #64748b;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .application-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .meta-item i {
+            color: #86c540;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-submitted {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .status-under_review {
+            background: rgba(251, 191, 36, 0.1);
+            color: #f59e0b;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .status-shortlisted {
+            background: rgba(134, 197, 64, 0.1);
+            color: #86c540;
+            border: 1px solid rgba(134, 197, 64, 0.2);
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .status-accepted {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* Timeline */
+        .application-timeline {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 30px;
+            width: 2px;
+            height: calc(100% - 10px);
+            background: #e2e8f0;
+        }
+
+        .timeline-icon {
+            width: 24px;
+            height: 24px;
+            background: #86c540;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .timeline-icon.inactive {
+            background: #e2e8f0;
+            color: #94a3b8;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .timeline-date {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* Action Buttons */
+        .application-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #86c540;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #6e9443;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-secondary:hover {
+            border-color: #86c540;
+            color: #86c540;
+        }
+
+        .btn-danger {
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid #fecaca;
+        }
+
+        .btn-danger:hover {
+            background: #fef2f2;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .empty-state .btn-primary {
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .application-header {
+                flex-direction: column;
+            }
+
+            .filter-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+
+            .application-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- LOAD HEADER -->
+    <div id="header-placeholder"></div>
+
+    <div style="height: 100px;"></div> <!-- Spacer -->
+
+    <section class="applications-section">
+        <div class="applications-container">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1><i class="fas fa-briefcase"></i> My Applications</h1>
+                <p>Track all your job applications in one place</p>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterApplications('all')">
+                    All <span class="count" id="count-all">0</span>
+                </button>
+                <button class="filter-tab" onclick="filterApplications('submitted')">
+                    Submitted <span class="count" id="count-submitted">0</span>
+                </button>
+                <button class="filter-tab" onclick="filterApplications('under_review')">
+                    Under Review <span class="count" id="count-under_review">0</span>
+                </button>
+                <button class="filter-tab" onclick="filterApplications('shortlisted')">
+                    Shortlisted <span class="count" id="count-shortlisted">0</span>
+                </button>
+                <button class="filter-tab" onclick="filterApplications('rejected')">
+                    Rejected <span class="count" id="count-rejected">0</span>
+                </button>
+                <button class="filter-tab" onclick="filterApplications('accepted')">
+                    Accepted <span class="count" id="count-accepted">0</span>
+                </button>
+            </div>
+
+            <!-- Applications List -->
+            <div id="applicationsList">
+                <!-- Applications will be loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-inbox"></i>
+                <h3>No Applications Found</h3>
+                <p>You haven't applied to any jobs yet. Start exploring opportunities!</p>
+                <a href="it-jobs.html" class="action-btn btn-primary">
+                    <i class="fas fa-search"></i> Browse Jobs
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- LOAD HEADER SCRIPT -->
+    <script src="js/api-config.js"></script>
+    <script src="load-header.js"></script>
+    <script src="js/static-applications.js"></script>
+
+    <script>
+        let currentFilter = 'all';
+        let allApplications = [];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadApplications();
+        });
+
+        function loadApplications() {
+            // Get static applications data
+            allApplications = getStaticApplications();
+
+            // Update counts
+            updateCounts();
+
+            // Display applications
+            displayApplications();
+        }
+
+        function updateCounts() {
+            const counts = {
+                all: allApplications.length,
+                submitted: allApplications.filter(a => a.status === 'submitted').length,
+                under_review: allApplications.filter(a => a.status === 'under_review').length,
+                shortlisted: allApplications.filter(a => a.status === 'shortlisted').length,
+                rejected: allApplications.filter(a => a.status === 'rejected').length,
+                accepted: allApplications.filter(a => a.status === 'accepted').length
+            };
+
+            Object.keys(counts).forEach(key => {
+                const countEl = document.getElementById(`count-${key}`);
+                if (countEl) countEl.textContent = counts[key];
+            });
+        }
+
+        function filterApplications(status) {
+            currentFilter = status;
+
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.closest('.filter-tab').classList.add('active');
+
+            // Display filtered applications
+            displayApplications();
+        }
+
+        function displayApplications() {
+            const container = document.getElementById('applicationsList');
+            const emptyState = document.getElementById('emptyState');
+
+            let filtered = currentFilter === 'all'
+                ? allApplications
+                : allApplications.filter(a => a.status === currentFilter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            container.innerHTML = filtered.map(app => createApplicationCard(app)).join('');
+        }
+
+        function createApplicationCard(app) {
+            const statusLabel = app.status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+            return `
+                <div class="application-card" data-status="${app.status}">
+                    <div class="application-header">
+                        <div class="application-info">
+                            <h3 class="job-title">${app.jobTitle}</h3>
+                            <div class="company-name">
+                                <i class="fas fa-building"></i> ${app.company}
+                            </div>
+                            <div class="application-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    Applied: ${formatDate(app.appliedDate)}
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    ${app.location}
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    ${app.salary}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="status-badge status-${app.status}">
+                            ${statusLabel}
+                        </div>
+                    </div>
+                    
+                    <div class="application-timeline">
+                        ${app.timeline.map((item, index) => `
+                            <div class="timeline-item">
+                                <div class="timeline-icon ${item.completed ? '' : 'inactive'}">
+                                    <i class="fas fa-${item.completed ? 'check' : 'circle'}"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">${item.title}</div>
+                                    <div class="timeline-date">${item.date ? formatDate(item.date) : 'Pending'}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="application-actions">
+                        <button class="action-btn btn-primary" onclick="viewJobDetails('${app.jobId}')">
+                            <i class="fas fa-eye"></i> View Job
+                        </button>
+                        <button class="action-btn btn-secondary" onclick="viewApplicationDetails('${app.id}')">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                        ${app.status === 'submitted' || app.status === 'under_review' ? `
+                            <button class="action-btn btn-danger" onclick="withdrawApplication('${app.id}')">
+                                <i class="fas fa-times"></i> Withdraw
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+
+        function viewJobDetails(jobId) {
+            window.location.href = `it-job-details.html?id=${jobId}`;
+        }
+
+        function viewApplicationDetails(appId) {
+            alert('Application details view - to be implemented');
+        }
+
+        function withdrawApplication(appId) {
+            if (confirm('Are you sure you want to withdraw this application?')) {
+                // In production, make API call
+                alert('Application withdrawn successfully');
+                // Reload applications
+                loadApplications();
+            }
+        }
+    </script>
+</body>
+
+</html>
