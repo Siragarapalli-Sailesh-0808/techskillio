@@ -404,7 +404,7 @@ class PlanSelectionModal {
         try {
             // Step 1: Create order on backend
             const vendorType = jobCategory === 'teacher' ? 'teacher' : 'it';
-            
+
             if (typeof authManager === 'undefined') {
                 throw new Error('AuthManager not initialized. Please refresh the page.');
             }

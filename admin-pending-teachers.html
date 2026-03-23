@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teachers - TechSkillio Admin</title>
+    <title>Pending Teachers - TechSkillio Admin</title>
     <link rel="icon" href="favicon.jpg" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -252,7 +252,7 @@
             <!-- Action Bar -->
             <div class="action-bar">
                 <div class="page-title">
-                    <i class="fas fa-chalkboard-teacher"></i> Teachers
+                    <i class="fas fa-user-clock"></i> Pending Teachers
                     <span class="count-badge" id="teacherCount">0</span>
                 </div>
             </div>
@@ -269,12 +269,7 @@
                     <option value="teaching">Teaching</option>
                     <option value="non-teaching">Non-Teaching</option>
                 </select>
-                <select id="filterStatus" onchange="applyFilters()">
-                    <option value="">All Status</option>
-                    <option value="approved">Approved</option>
-                    <option value="pending">Pending</option>
-                    <option value="rejected">Rejected</option>
-                </select>
+                <!-- Removed filterStatus since this page only shows pending -->
                 <select id="filterDate" onchange="applyFilters()">
                     <option value="">All Time</option>
                     <option value="this_week">This Week</option>
@@ -303,7 +298,7 @@
                     <tbody id="teachersTableBody">
                         <tr>
                             <td colspan="9" style="text-align:center; padding:2rem; color:#888;">
-                                <i class="fas fa-spinner fa-spin"></i> Loading teachers...
+                                <i class="fas fa-spinner fa-spin"></i> Loading pending teachers...
                             </td>
                         </tr>
                     </tbody>
@@ -312,7 +307,7 @@
                 <!-- Mobile Card View -->
                 <div class="mobile-card-view" id="teachersMobileCards">
                     <div style="text-align:center; padding:2rem; color:#888;">
-                        <i class="fas fa-spinner fa-spin"></i> Loading teachers...
+                        <i class="fas fa-spinner fa-spin"></i> Loading pending teachers...
                     </div>
                 </div>
             </div>
@@ -332,7 +327,7 @@
     <script src="js/api-config.js"></script>
     <script src="js/auth-manager.js"></script>
     <script>
-        currentPage = 'teachers';
+        currentPage = 'pending-teachers';
 
         // ── STATE ──────────────────────────────────────────
         let allTeachers = [];
@@ -402,18 +397,17 @@
         function applyFilters() {
             const search = document.getElementById('searchInput').value.toLowerCase().trim();
             const typeFilter = document.getElementById('filterType').value;
-            const statusFilter = document.getElementById('filterStatus').value;
             const dateFilter = document.getElementById('filterDate').value;
 
             filteredTeachers = allTeachers.filter(t => {
                 const p = t.profile || {};
 
+                // Always filter only Pending
+                if ((p.status || '').toLowerCase() !== 'pending') return false;
+
                 // Type filter
                 if (typeFilter === 'teaching' && p.is_teaching_candidate !== true) return false;
                 if (typeFilter === 'non-teaching' && p.is_teaching_candidate !== false) return false;
-
-                // Status filter
-                if (statusFilter && (p.status || '').toLowerCase() !== statusFilter) return false;
 
                 // Date filter
                 if (!isInDateRange(p.created_at, dateFilter)) return false;
@@ -434,6 +428,61 @@
             renderTeachers();
         }
 
+        // ── ACTION MOCK HELPERS ────────────────────────────
+        async function approveTeacher(userId) {
+            if (!confirm('Are you sure you want to approve candidate ID: ' + userId + '?')) return;
+            try {
+                const token = getToken();
+                const headers = { 
+                    'Content-Type': 'application/json'
+                };
+                if (token) headers['Authorization'] = 'TSK ' + token;
+                
+                const res = await fetch(`${API_BASE_URL}/api/v1/auth/teacher-candidates/${userId}/status/`, {
+                    method: 'PATCH',
+                    headers,
+                    body: JSON.stringify({ status: 'approved' })
+                });
+                
+                if (!res.ok) throw new Error('API request failed with status ' + res.status);
+                
+                // Remove the approved user from the UI array without a page reload
+                allTeachers = allTeachers.filter(t => t.user_id != userId);
+                applyFilters();
+                alert('Candidate approved successfully.');
+            } catch (err) {
+                console.error(err);
+                alert('Failed to approve candidate. Please check the console or try again.');
+            }
+        }
+
+        async function rejectTeacher(userId) {
+            if (!confirm('Are you sure you want to reject candidate ID: ' + userId + '?')) return;
+            try {
+                const token = getToken();
+                const headers = { 
+                    'Content-Type': 'application/json'
+                };
+                if (token) headers['Authorization'] = 'TSK ' + token;
+                
+                const res = await fetch(`${API_BASE_URL}/api/v1/auth/teacher-candidates/${userId}/status/`, {
+                    method: 'PATCH',
+                    headers,
+                    body: JSON.stringify({ status: 'rejected' })
+                });
+                
+                if (!res.ok) throw new Error('API request failed with status ' + res.status);
+                
+                // Remove the rejected user from the UI array without a page reload
+                allTeachers = allTeachers.filter(t => t.user_id != userId);
+                applyFilters();
+                alert('Candidate rejected successfully.');
+            } catch (err) {
+                console.error(err);
+                alert('Failed to reject candidate. Please check the console or try again.');
+            }
+        }
+
         // ── FETCH & RENDER ─────────────────────────────────
         async function loadTeachers() {
             const tbody = document.getElementById('teachersTableBody');
@@ -443,15 +492,14 @@
                 const headers = { 'Content-Type': 'application/json' };
                 if (token) headers['Authorization'] = 'TSK ' + token;
 
-                const res = await fetch(`${API_BASE_URL}/api/v1/auth/candidates/?type=teacher`, { headers });
+                const res = await fetch(`${API_BASE_URL}/api/v1/auth/teacher-candidates/pending/`, { headers });
                 if (!res.ok) throw new Error(`Server returned ${res.status}`);
 
                 const data = await res.json();
                 allTeachers = Array.isArray(data) ? data : (data.results || []);
-                filteredTeachers = [...allTeachers];
-                renderTeachers();
+                applyFilters(); // applyFilters will populate filteredTeachers and call renderTeachers
             } catch (err) {
-                console.error('Failed to load teachers:', err);
+                console.error('Failed to load pending teachers:', err);
                 const errorMsg = `<i class="fas fa-exclamation-triangle"></i> Failed to load: ${err.message}`;
                 tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#e74c3c;">${errorMsg}</td></tr>`;
                 mobileContainer.innerHTML = `<div style="text-align:center;padding:2rem;color:#e74c3c;">${errorMsg}</div>`;
@@ -464,7 +512,7 @@
             document.getElementById('teacherCount').textContent = filteredTeachers.length;
 
             if (filteredTeachers.length === 0) {
-                const emptyMsg = `<i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:0.5rem;"></i>No teachers found matching your filters.`;
+                const emptyMsg = `<i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:0.5rem;"></i>No pending teachers found.`;
                 tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2.5rem;color:#94a3b8;">${emptyMsg}</td></tr>`;
                 mobileContainer.innerHTML = `<div style="text-align:center;padding:2.5rem;color:#94a3b8;">${emptyMsg}</div>`;
                 return;
@@ -490,7 +538,11 @@
                         <td>${getStatusBadge(p.status)}</td>
                         <td>${formatDate(p.created_at)}</td>
                         <td>
-                            <button class="action-btn btn-view" onclick="viewTeacher(${t.user_id})">View</button>
+                            <div style="display:flex;gap:5px;">
+                                <button class="action-btn btn-view" onclick="viewTeacher(${t.user_id})" title="View Details"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn" style="background:#10b981;border-color:#10b981;color:#fff;padding:0.4rem;" onclick="approveTeacher(${t.user_id})" title="Approve"><i class="fas fa-check"></i></button>
+                                <button class="action-btn" style="background:#ef4444;border-color:#ef4444;color:#fff;padding:0.4rem;" onclick="rejectTeacher(${t.user_id})" title="Reject"><i class="fas fa-times"></i></button>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -530,8 +582,10 @@
                                 <span class="mobile-card-value">${getStatusBadge(p.status)}</span>
                             </div>
                         </div>
-                        <div class="mobile-card-actions">
-                            <button class="action-btn btn-view" onclick="viewTeacher(${t.user_id})">View</button>
+                        <div class="mobile-card-actions" style="display:flex; gap:0.5rem;">
+                            <button class="action-btn btn-view" style="flex:1;" onclick="viewTeacher(${t.user_id})">View</button>
+                            <button class="action-btn" style="flex:1;background:#10b981;border-color:#10b981;color:#fff;" onclick="approveTeacher(${t.user_id})">Approve</button>
+                            <button class="action-btn" style="flex:1;background:#ef4444;border-color:#ef4444;color:#fff;" onclick="rejectTeacher(${t.user_id})">Reject</button>
                         </div>
                     </div>
                 `;
@@ -546,7 +600,7 @@
 
             let html = `
                 <h3 style="margin-bottom:1rem;color:#2c3e50;display:flex;align-items:center;gap:0.5rem;">
-                    <i class="fas fa-user" style="color:#86c540;"></i> ${p.full_name || 'Teacher Details'}
+                    <i class="fas fa-user-clock" style="color:#86c540;"></i> ${p.full_name || 'Pending Teacher'}
                     ${getTypeBadge(p.is_teaching_candidate)}
                 </h3>
 
@@ -597,6 +651,11 @@
                 <div class="detail-row"><strong>Registered</strong><span>${formatDate(p.created_at)}</span></div>
                 ${p.youtube_link ? `<div class="detail-row"><strong>YouTube</strong><span><a href="${p.youtube_link}" target="_blank" style="color:#86c540;">${p.youtube_link}</a></span></div>` : ''}
                 ${p.resume_url ? `<div class="detail-row"><strong>Resume</strong><span><a href="${p.resume_url}" target="_blank" style="color:#86c540;">Download Resume</a></span></div>` : ''}
+                
+                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top: 20px; border-top: 2px solid #f1f5f9; padding-top: 15px;">
+                    <button class="action-btn" style="background:#10b981;border-color:#10b981;color:#fff;padding:0.6rem 1.2rem;font-size:1rem;" onclick="approveTeacher(${t.user_id}); closeDetailModal();">Approve Candidate</button>
+                    <button class="action-btn" style="background:#ef4444;border-color:#ef4444;color:#fff;padding:0.6rem 1.2rem;font-size:1rem;" onclick="rejectTeacher(${t.user_id}); closeDetailModal();">Reject</button>
+                </div>
             `;
 
             document.getElementById('detailModalContent').innerHTML = html;

@@ -9,6 +9,7 @@ const PAGE_CONFIG = {
     'dashboard': { title: 'Dashboard Overview', icon: 'fa-home' },
     'it-candidates': { title: 'IT Candidates Management', icon: 'fa-laptop-code' },
     'teachers': { title: 'Teachers Management', icon: 'fa-chalkboard-teacher' },
+    'pending-teachers': { title: 'Pending Teachers', icon: 'fa-user-clock' },
     'employers': { title: 'Employers Management', icon: 'fa-building' },
     'k12-leads': { title: 'K12 Leads Management', icon: 'fa-graduation-cap' },
     'job-postings': { title: 'Job Postings Management', icon: 'fa-briefcase' },

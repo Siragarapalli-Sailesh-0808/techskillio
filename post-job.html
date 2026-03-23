@@ -228,13 +228,18 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Salary Min (₹) *</label>
+                            <label>Present Gross Salary (₹) *</label>
                             <input type="number" name="salary_min" id="salaryMin" min="0" placeholder="e.g. 600000" required>
                         </div>
                         <div class="form-group">
-                            <label>Salary Max (₹) *</label>
+                            <label>Expected Gross Salary (₹) *</label>
                             <input type="number" name="salary_max" id="salaryMax" min="0" placeholder="e.g. 1200000" required>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Qualification Required *</label>
+                        <input type="text" name="qualification" id="qualification" placeholder="e.g. B.Ed, M.Sc, Ph.D" required>
                     </div>
 
                     <div class="form-group" id="subjectsGroup">
@@ -330,6 +335,7 @@
                     experience_max_years: Number(form.experience_max_years.value) || 0,
                     salary_min: Number(form.salary_min.value) || 0,
                     salary_max: Number(form.salary_max.value) || 0,
+                    qualification: form.qualification ? form.qualification.value.trim() : '',
                     skills_required: jobCategory === 'it' && form.skills_required
                         ? form.skills_required.value.split(',').map(function (s) { return s.trim(); }).filter(Boolean)
                         : null,

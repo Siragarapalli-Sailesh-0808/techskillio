@@ -6,71 +6,341 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Candidates - TechSkillio</title>
     <link rel="icon" href="favicon.jpg" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        .dashboard-section { padding: 40px 0 60px; background: #f5f7fa; min-height: calc(100vh - 80px); }
-        .dashboard-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 300px; gap: 30px; }
-        @media (max-width: 992px) { .dashboard-container { grid-template-columns: 1fr; } .sidebar { margin-top: 30px; } }
-        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
-        .page-header h1 { font-size: 24px; color: #2c3e50; margin: 0; }
-        .page-header .credits-badge { font-size: 14px; color: #6b7280; font-weight: 600; }
-        .back-link { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; color: #86c540; text-decoration: none; font-weight: 600; border: 2px solid #86c540; border-radius: 8px; }
-        .back-link:hover { background: #86c540; color: white; }
+        .dashboard-section {
+            padding: 40px 0 60px;
+            background: #f5f7fa;
+            min-height: calc(100vh - 80px);
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                margin-top: 30px;
+            }
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .page-header .credits-badge {
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            color: #86c540;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid #86c540;
+            border-radius: 8px;
+        }
+
+        .back-link:hover {
+            background: #86c540;
+            color: white;
+        }
+
         .candidates-feed {
-            border: 1px solid #e8e8e8; border-radius: 12px; overflow: hidden;
-            background: #fff; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
         }
+
         .candidate-row {
-            display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
-            gap: 16px 20px; padding: 18px 22px; border-bottom: 1px solid #ebebeb;
-            background: #fff; transition: background 0.15s ease;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px 20px;
+            padding: 18px 22px;
+            border-bottom: 1px solid #ebebeb;
+            background: #fff;
+            transition: background 0.15s ease;
         }
-        .candidate-row:last-child { border-bottom: none; }
-        .candidate-row:hover { background: #f9fafb; }
-        .candidate-row-main { flex: 1; min-width: 200px; }
+
+        .candidate-row:last-child {
+            border-bottom: none;
+        }
+
+        .candidate-row:hover {
+            background: #f9fafb;
+        }
+
+        .candidate-row-main {
+            flex: 1;
+            min-width: 200px;
+        }
+
         .candidate-li-name {
-            font-size: 1.125rem; font-weight: 700; color: #5a8f2a; line-height: 1.35;
-            margin: 0 0 12px 0; letter-spacing: -0.02em;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #5a8f2a;
+            line-height: 1.35;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.02em;
         }
-        .candidate-li-meta { display: flex; flex-direction: column; gap: 8px; font-size: 0.875rem; line-height: 1.5; }
-        .candidate-li-row { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+
+        .candidate-li-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .candidate-li-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .candidate-li-row .li-label {
-            flex-shrink: 0; color: rgba(0,0,0,0.6); font-weight: 600; min-width: 118px; font-size: 0.8125rem;
+            flex-shrink: 0;
+            color: rgba(0, 0, 0, 0.6);
+            font-weight: 600;
+            min-width: 118px;
+            font-size: 0.8125rem;
         }
-        .candidate-li-row .li-value { color: #38434f; flex: 1; min-width: 0; }
-        .candidate-card-actions { flex-shrink: 0; align-self: center; }
+
+        .candidate-li-row .li-value {
+            color: #38434f;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .candidate-card-actions {
+            flex-shrink: 0;
+            align-self: center;
+        }
+
         .btn-view-details {
-            display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; background: #86c540; color: white;
-            border: none; border-radius: 8px; font-weight: 600; font-size: 0.875rem; cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            background: #86c540;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
         }
-        .btn-view-details:hover { background: #75b035; box-shadow: 0 4px 12px rgba(134, 197, 64, 0.35); }
-        .sidebar-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); margin-bottom: 30px; }
-        .sidebar-card h3 { font-size: 18px; margin-bottom: 20px; color: #2c3e50; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .sidebar-card ul { list-style: none; padding: 0; margin: 0; }
-        .sidebar-card li { margin-bottom: 10px; }
-        .sidebar-card a { text-decoration: none; color: #2c3e50; }
-        .sidebar-card a:hover { color: #86c540; }
-        .sidebar-card a i { margin-right: 8px; color: #86c540; }
-        .empty-state { text-align: center; padding: 40px 20px; color: #64748b; background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); }
-        .empty-state i { font-size: 3rem; color: #ddd; margin-bottom: 15px; }
-        .loading-spinner { text-align: center; padding: 40px; color: #86c540; }
-        .error-state { text-align: center; padding: 40px 20px; color: #ef4444; background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); }
-        .error-state .retry-btn { margin-top: 16px; padding: 10px 20px; background: #86c540; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
-        .error-state .retry-btn:hover { background: #75b035; }
-        .detail-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; }
-        .detail-modal-overlay.show { opacity: 1; visibility: visible; }
-        .detail-modal { background: white; border-radius: 12px; max-width: 480px; width: 92%; max-height: 85vh; overflow: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border-left: 5px solid #86c540; }
-        .detail-modal-header { padding: 20px 24px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .detail-modal-header h3 { margin: 0; font-size: 1.2rem; color: #2c3e50; }
-        .detail-modal-close { background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer; padding: 0 4px; line-height: 1; }
-        .detail-modal-close:hover { color: #86c540; }
-        .detail-modal-body { padding: 24px; }
-        .detail-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
-        .detail-row:last-child { border-bottom: none; }
-        .detail-row strong { color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; min-width: 120px; }
-        .detail-row span { color: #2c3e50; text-align: right; }
+
+        .btn-view-details:hover {
+            background: #75b035;
+            box-shadow: 0 4px 12px rgba(134, 197, 64, 0.35);
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-card h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .sidebar-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-card li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-card a {
+            text-decoration: none;
+            color: #2c3e50;
+        }
+
+        .sidebar-card a:hover {
+            color: #86c540;
+        }
+
+        .sidebar-card a i {
+            margin-right: 8px;
+            color: #86c540;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: #86c540;
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #ef4444;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .error-state .retry-btn {
+            margin-top: 16px;
+            padding: 10px 20px;
+            background: #86c540;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .error-state .retry-btn:hover {
+            background: #75b035;
+        }
+
+        .detail-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+
+        .detail-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .detail-modal {
+            background: white;
+            border-radius: 12px;
+            max-width: 480px;
+            width: 92%;
+            max-height: 85vh;
+            overflow: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border-left: 5px solid #86c540;
+        }
+
+        .detail-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-modal-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+        .detail-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .detail-modal-close:hover {
+            color: #86c540;
+        }
+
+        .detail-modal-body {
+            padding: 24px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row strong {
+            color: #64748b;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            min-width: 120px;
+        }
+
+        .detail-row span {
+            color: #2c3e50;
+            text-align: right;
+        }
     </style>
 </head>
 
@@ -92,22 +362,83 @@
                 </div>
 
                 <!-- Filters -->
-                <div id="candidatesFilters" class="filters-container" style="display: none; background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid #e8e8e8; gap: 15px; flex-wrap: wrap; align-items: flex-end;">
-                    <div class="filter-group" style="flex: 1; min-width: 180px;">
-                        <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #333;">Skills</label>
-                        <input type="text" id="filterSkills" placeholder="e.g. Java, Python" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; box-sizing: border-box;">
+                <div id="candidatesFilters" class="filters-container"
+                    style="display: none; flex-direction: column; background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid #e8e8e8; gap: 16px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <span style="font-weight: 600; font-size: 16px; color: #333;"><i class="fas fa-filter"
+                                style="color: #86c540; margin-right: 8px;"></i>Filter Candidates</span>
+                        <button id="clearFiltersBtn"
+                            style="padding: 8px 16px; background: #86c540; color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 14px; cursor: pointer; transition: all 0.2s;">Reset
+                            Filters</button>
                     </div>
-                    <div class="filter-group" style="flex: 1; min-width: 180px;">
-                        <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #333;">Qualification</label>
-                        <input type="text" id="filterQualification" placeholder="e.g. B.Tech, MCA" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; box-sizing: border-box;">
+
+                    <div style="width: 100%;">
+                        <input type="text" id="filterSearch"
+                            placeholder="Search Candidates by Name, City or Institute Name"
+                            style="width: 100%; padding: 12px 16px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; outline: none;">
                     </div>
-                    <div class="filter-group" style="flex: 1; min-width: 180px;">
-                        <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #333;">Min Expected Salary</label>
-                        <input type="number" id="filterSalary" placeholder="Min LPA. e.g. 5" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; box-sizing: border-box;">
-                    </div>
-                    <div class="filter-actions" style="display: flex; gap: 8px;">
-                        <button id="applyFiltersBtn" style="padding: 10px 20px; background: #86c540; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Apply</button>
-                        <button id="clearFiltersBtn" style="padding: 10px 20px; background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Clear</button>
+
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 140px;">
+                            <label
+                                style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: 500; color: #64748b;">Designation</label>
+                            <select id="filterDesignation"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; background-color: white; cursor: pointer; outline: none;">
+                                <option value="">All</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1; min-width: 140px;">
+                            <label
+                                style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: 500; color: #64748b;">Subject</label>
+                            <select id="filterSubject"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; background-color: white; cursor: pointer; outline: none;">
+                                <option value="">All</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1; min-width: 140px;">
+                            <label
+                                style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: 500; color: #64748b;">Education</label>
+                            <select id="filterEducation"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; background-color: white; cursor: pointer; outline: none;">
+                                <option value="">All</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1; min-width: 140px;">
+                            <label
+                                style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: 500; color: #64748b;">Experience</label>
+                            <select id="filterExperience"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; background-color: white; cursor: pointer; outline: none;">
+                                <option value="">All</option>
+                                <option value="0-1">0-1 Years</option>
+                                <option value="1-3">1-3 Years</option>
+                                <option value="3-5">3-5 Years</option>
+                                <option value="5-10">5-10 Years</option>
+                                <option value="10+">10+ Years</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1; min-width: 140px;">
+                            <label
+                                style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: 500; color: #64748b;">Location</label>
+                            <select id="filterLocation"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; background-color: white; cursor: pointer; outline: none;">
+                                <option value="">All</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1; min-width: 120px;">
+                            <label
+                                style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: 500; color: #64748b;">Minimum
+                                Salary Required</label>
+                            <input type="number" id="filterMinSalary" placeholder="₹ Min"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; outline: none;">
+                        </div>
+                        <div style="flex: 1; min-width: 120px;">
+                            <label
+                                style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: 500; color: #64748b;">Maximum
+                                Salary Required</label>
+                            <input type="number" id="filterMaxSalary" placeholder="₹ Max"
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; outline: none;">
+                        </div>
                     </div>
                 </div>
 
@@ -124,8 +455,10 @@
                     <h3>Quick Links</h3>
                     <ul id="sidebarLinks">
                         <li><a href="teacher-employer-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                        <li><a href="teacher-my-subscriptions.html"><i class="fas fa-credit-card"></i> View Subscriptions</a></li>
-                        <li><a href="teacher-subscription-plans.html"><i class="fas fa-box-open"></i> Subscription Plans</a></li>
+                        <li><a href="teacher-my-subscriptions.html"><i class="fas fa-credit-card"></i> View
+                                Subscriptions</a></li>
+                        <li><a href="teacher-subscription-plans.html"><i class="fas fa-box-open"></i> Subscription
+                                Plans</a></li>
                         <li><a href="my-posted-jobs.html"><i class="fas fa-briefcase"></i> My Posted Jobs</a></li>
                         <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
                     </ul>
@@ -138,8 +471,9 @@
     <div class="detail-modal-overlay" id="detailModal" aria-hidden="true">
         <div class="detail-modal">
             <div class="detail-modal-header">
-                <h3><i class="fas fa-user" style="color:#86c540;margin-right:8px;"></i> Candidate details</h3>
-                <button type="button" class="detail-modal-close" id="detailModalClose" aria-label="Close">&times;</button>
+                <h3><i class="fas fa-file-alt" style="color:#86c540;margin-right:8px;"></i> Candidate Resume</h3>
+                <button type="button" class="detail-modal-close" id="detailModalClose"
+                    aria-label="Close">&times;</button>
             </div>
             <div class="detail-modal-body" id="detailModalBody"></div>
         </div>
@@ -464,7 +798,7 @@
                 function dashOr(s) { return (s == null || s === '' || s === '—') ? '—' : s; }
 
                 window._allCandidatesRaw = enriched;
-                
+
                 function renderCandidates(listToRender) {
                     window._browseCandidatesList = listToRender;
                     if (listToRender.length === 0) {
@@ -472,20 +806,24 @@
                         return;
                     }
                     container.innerHTML = '<div class="candidates-feed">' + listToRender.map(function (c, idx) {
-                        var name = getPreviewVal(c, ['full_name', 'candidate_name', 'name']) || 'Candidate';
                         var qualification = dashOr(getPreviewVal(c, ['qualification', 'education', 'degree', 'college']));
                         var keySkills = dashOr(getPreviewVal(c, ['key_skills', 'skills', 'subjects']));
+
                         var expectedCtc = getPreviewVal(c, ['expected_salary', 'expected_ctc', 'expected_ctc_lakhs', 'ctc', 'salary_expectation']);
-                        var salDisplay = (expectedCtc === '—' || !expectedCtc) ? '—' : formatSalaryDisplay(expectedCtc);
+                        var expectedSalDisplay = (expectedCtc === '—' || !expectedCtc) ? '—' : formatSalaryDisplay(expectedCtc);
+
+                        var currentSal = getPreviewVal(c, ['current_salary', 'present_salary', 'salary']);
+                        var currentSalDisplay = (currentSal === '—' || !currentSal) ? '—' : formatSalaryDisplay(currentSal);
+
                         return '<div class="candidate-row" role="article">' +
                             '<div class="candidate-row-main">' +
-                            '<div class="candidate-li-name">' + escapeHtml(name) + '</div>' +
                             '<div class="candidate-li-meta">' +
                             '<div class="candidate-li-row"><span class="li-label">Qualification</span><span class="li-value">' + escapeHtml(qualification) + '</span></div>' +
                             '<div class="candidate-li-row"><span class="li-label">Skills</span><span class="li-value">' + escapeHtml(keySkills) + '</span></div>' +
-                            '<div class="candidate-li-row"><span class="li-label">Expected salary</span><span class="li-value">' + escapeHtml(salDisplay) + '</span></div>' +
+                            '<div class="candidate-li-row"><span class="li-label">Present Gross Salary</span><span class="li-value">' + escapeHtml(currentSalDisplay) + '</span></div>' +
+                            '<div class="candidate-li-row"><span class="li-label">Expected Gross Salary</span><span class="li-value">' + escapeHtml(expectedSalDisplay) + '</span></div>' +
                             '</div></div>' +
-                            '<div class="candidate-card-actions"><button type="button" class="btn-view-details" data-idx="' + idx + '"><i class="fas fa-eye"></i> View Details</button></div>' +
+                            '<div class="candidate-card-actions"><button type="button" class="btn-view-details" data-idx="' + idx + '"><i class="fas fa-file-alt"></i> View Resume</button></div>' +
                             '</div>';
                     }).join('') + '</div>';
 
@@ -499,104 +837,167 @@
 
                 // Initial render
                 renderCandidates(window._allCandidatesRaw);
-                
+
+                function populateDropdown(id, values) {
+                    var el = document.getElementById(id);
+                    if (!el) return;
+                    var currentVal = el.value;
+                    var opts = '<option value="">All</option>';
+                    values.sort().forEach(function (v) {
+                        opts += '<option value="' + escapeHtml(v) + '">' + escapeHtml(v) + '</option>';
+                    });
+                    el.innerHTML = opts;
+                    el.value = currentVal || '';
+                }
+
+                function populateFilterDropdowns(candidates) {
+                    var designations = new Set();
+                    var subjects = new Set();
+                    var educations = new Set();
+                    var locations = new Set();
+
+                    (candidates || []).forEach(function (c) {
+                        var desig = getFromDetailDeep(c, ['current_designation', 'designation']);
+                        if (desig && desig !== '—') designations.add(desig);
+
+                        var sub = getPreviewVal(c, ['subjects', 'key_skills', 'skills']);
+                        if (sub && sub !== '—') {
+                            String(sub).split(',').forEach(function (s) {
+                                var trimmed = s.trim();
+                                if (trimmed && trimmed !== 'undefined') subjects.add(trimmed);
+                            });
+                        }
+
+                        var edu = getPreviewVal(c, ['qualification', 'education', 'degree', 'college']);
+                        if (edu && edu !== '—') {
+                            String(edu).split(',').forEach(function (s) {
+                                var trimmed = s.trim();
+                                if (trimmed && trimmed !== 'undefined') educations.add(trimmed);
+                            });
+                        }
+
+                        var loc = getFromDetailDeep(c, ['location', 'city', 'state']);
+                        if (loc && loc !== '—') {
+                            String(loc).split(',').forEach(function (s) {
+                                var trimmed = s.trim();
+                                if (trimmed && trimmed !== 'undefined') locations.add(trimmed);
+                            });
+                        }
+                    });
+
+                    populateDropdown('filterDesignation', Array.from(designations));
+                    populateDropdown('filterSubject', Array.from(subjects));
+                    populateDropdown('filterEducation', Array.from(educations));
+                    populateDropdown('filterLocation', Array.from(locations));
+                }
+
                 // Show filters now that candidates have loaded
                 var filtersContainer = document.getElementById('candidatesFilters');
-                if (filtersContainer) filtersContainer.style.display = 'flex';
+                if (filtersContainer) {
+                    filtersContainer.style.display = 'flex';
+                    populateFilterDropdowns(window._allCandidatesRaw);
+                }
 
                 function applyCandidateFilters() {
                     if (!window._allCandidatesRaw) return;
-                    
-                    var skillQ = document.getElementById('filterSkills').value.toLowerCase().trim();
-                    var qualQ = document.getElementById('filterQualification').value.toLowerCase().trim();
-                    var salVal = document.getElementById('filterSalary').value;
-                    var salQ = salVal !== '' ? parseFloat(salVal) : NaN;
 
-                    var filtered = window._allCandidatesRaw.filter(function(c) {
-                        var qualification = dashOr(getPreviewVal(c, ['qualification', 'education', 'degree', 'college'])).toLowerCase();
-                        var keySkills = dashOr(getPreviewVal(c, ['key_skills', 'skills', 'subjects'])).toLowerCase();
+                    var searchQ = document.getElementById('filterSearch').value.toLowerCase().trim();
+                    var desigQ = document.getElementById('filterDesignation').value.toLowerCase();
+                    var subQ = document.getElementById('filterSubject').value.toLowerCase();
+                    var eduQ = document.getElementById('filterEducation').value.toLowerCase();
+                    var expQ = document.getElementById('filterExperience').value;
+                    var locQ = document.getElementById('filterLocation').value.toLowerCase();
+
+                    var minSalVal = document.getElementById('filterMinSalary').value;
+                    var maxSalVal = document.getElementById('filterMaxSalary').value;
+                    var minSalQ = minSalVal !== '' ? parseFloat(minSalVal) : NaN;
+                    var maxSalQ = maxSalVal !== '' ? parseFloat(maxSalVal) : NaN;
+
+                    var filtered = window._allCandidatesRaw.filter(function (c) {
+                        var name = (getPreviewVal(c, ['full_name', 'candidate_name', 'name']) || '').toLowerCase();
+                        var desig = (getFromDetailDeep(c, ['current_designation', 'designation']) || '').toLowerCase();
+                        var sub = (getPreviewVal(c, ['subjects', 'key_skills', 'skills']) || '').toLowerCase();
+                        var edu = (getPreviewVal(c, ['qualification', 'education', 'degree', 'college']) || '').toLowerCase();
+                        var expStr = getFromDetailDeep(c, ['experience']);
+                        var exp = parseFloat(expStr) || 0;
+                        var loc = (getFromDetailDeep(c, ['location', 'city', 'state']) || '').toLowerCase();
                         var expectedCtc = getPreviewVal(c, ['expected_salary', 'expected_ctc', 'expected_ctc_lakhs', 'ctc', 'salary_expectation']);
-                        
-                        var matchesSkill = !skillQ || keySkills.indexOf(skillQ) !== -1;
-                        var matchesQual = !qualQ || qualification.indexOf(qualQ) !== -1;
+
+                        var matchesSearch = !searchQ || name.indexOf(searchQ) !== -1 || loc.indexOf(searchQ) !== -1 || edu.indexOf(searchQ) !== -1;
+                        var matchesDesig = !desigQ || desig.indexOf(desigQ) !== -1 || desig === desigQ;
+                        var matchesSub = !subQ || sub.indexOf(subQ) !== -1;
+                        var matchesEdu = !eduQ || edu.indexOf(eduQ) !== -1 || edu === eduQ;
+                        var matchesLoc = !locQ || loc.indexOf(locQ) !== -1 || loc === locQ;
+
+                        var matchesExp = true;
+                        if (expQ) {
+                            if (expQ === '0-1') matchesExp = exp <= 1;
+                            else if (expQ === '1-3') matchesExp = exp >= 1 && exp <= 3;
+                            else if (expQ === '3-5') matchesExp = exp >= 3 && exp <= 5;
+                            else if (expQ === '5-10') matchesExp = exp >= 5 && exp <= 10;
+                            else if (expQ === '10+') matchesExp = exp >= 10;
+                        }
+
                         var matchesSal = true;
-                        
-                        if (!isNaN(salQ)) {
+                        if (!isNaN(minSalQ) || !isNaN(maxSalQ)) {
                             if (!expectedCtc || expectedCtc === '—') {
-                                matchesSal = false; // No salary specified by candidate
+                                matchesSal = false;
                             } else {
                                 var n = parseFloat(String(expectedCtc).replace(/[^0-9.\-–]/g, '').split(/[–-]/)[0]);
                                 if (!isNaN(n)) {
-                                    var lpa = n >= 100000 ? n / 100000 : n;
-                                    if (lpa < salQ) matchesSal = false;
+                                    if (!isNaN(minSalQ) && n < minSalQ) matchesSal = false;
+                                    if (!isNaN(maxSalQ) && n > maxSalQ) matchesSal = false;
                                 } else {
                                     matchesSal = false;
                                 }
                             }
                         }
 
-                        return matchesSkill && matchesQual && matchesSal;
+                        return matchesSearch && matchesDesig && matchesSub && matchesEdu && matchesLoc && matchesExp && matchesSal;
                     });
-                    
+
                     renderCandidates(filtered);
                 }
 
-                document.getElementById('applyFiltersBtn').addEventListener('click', applyCandidateFilters);
-                document.getElementById('clearFiltersBtn').addEventListener('click', function() {
-                    document.getElementById('filterSkills').value = '';
-                    document.getElementById('filterQualification').value = '';
-                    document.getElementById('filterSalary').value = '';
-                    applyCandidateFilters();
+                var filterIds = ['filterSearch', 'filterDesignation', 'filterSubject', 'filterEducation', 'filterExperience', 'filterLocation', 'filterMinSalary', 'filterMaxSalary'];
+                filterIds.forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) {
+                        if (el.tagName === 'SELECT') {
+                            el.addEventListener('change', applyCandidateFilters);
+                        } else {
+                            el.addEventListener('keyup', function (e) {
+                                if (e.key === 'Enter') applyCandidateFilters();
+                            });
+                        }
+                    }
                 });
 
-                // Trigger on 'Enter' key
-                ['filterSkills', 'filterQualification', 'filterSalary'].forEach(function(id) {
-                    var el = document.getElementById(id);
-                    if (el) el.addEventListener('keyup', function(e) {
-                        if (e.key === 'Enter') applyCandidateFilters();
+                var clearBtn = document.getElementById('clearFiltersBtn');
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', function () {
+                        filterIds.forEach(function (id) {
+                            var el = document.getElementById(id);
+                            if (el) el.value = '';
+                        });
+                        applyCandidateFilters();
                     });
-                });
+                }
 
                 function getCandidateId(c) {
                     return getIdFromCandidate(c);
                 }
                 function renderDetailFromData(data, body) {
-                    var rows = [];
-                    function addRow(label, value) {
-                        if (value == null || value === '') return;
-                        if (Array.isArray(value)) value = value.join(', ');
-                        if (typeof value === 'object') return;
-                        rows.push('<div class="detail-row"><strong>' + escapeHtml(String(label).replace(/_/g, ' ')) + '</strong><span>' + escapeHtml(String(value)) + '</span></div>');
-                    }
-                    function addRowLink(label, url, text) {
-                        if (!url) return;
-                        rows.push('<div class="detail-row"><strong>' + escapeHtml(String(label).replace(/_/g, ' ')) + '</strong><span><a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(text || 'View') + '</a></span></div>');
-                    }
                     var user = data.user || data;
                     var profile = data.profile || user.profile || {};
-                    addRow('Name', user.full_name || user.name || profile.full_name || profile.name || user.email);
-                    addRow('Email', user.email || profile.email);
-                    if (user.id != null) addRow('User ID', user.id);
-                    addRow('Phone', user.phone || profile.phone || profile.mobile);
-                    addRow('User type', user.user_type || data.user_type || profile.user_type);
-                    addRowLink('Resume', user.resume_url || profile.resume_url || data.resume_url, 'View resume');
-                    ['experience', 'current_company', 'current_designation', 'expected_salary', 'notice_period', 'education', 'degree', 'college', 'location', 'city', 'state', 'country', 'date_of_birth', 'gender', 'summary', 'bio', 'skills', 'subjects', 'certifications', 'languages'].forEach(function (k) {
-                        var v = user[k] || profile[k] || data[k];
-                        if (v != null && v !== '') addRow(k, v);
-                    });
-                    if (profile && typeof profile === 'object') {
-                        Object.keys(profile).forEach(function (k) {
-                            if (['name', 'full_name', 'email', 'phone', 'mobile', 'user_type', 'resume_url'].indexOf(k) !== -1) return;
-                            var v = profile[k];
-                            if (v != null && v !== '') addRow(k, v);
-                        });
+                    var resumeUrl = user.resume_url || profile.resume_url || data.resume_url;
+
+                    if (!resumeUrl) {
+                        body.innerHTML = '<div style="text-align:center; padding: 40px;"><i class="fas fa-file-excel fa-3x" style="color: #ef4444; margin-bottom: 16px;"></i><h3 style="color: #333; margin: 0 0 8px 0;">No Resume Found</h3><p style="color: #64748b;">This candidate has not uploaded a resume yet.</p></div>';
+                        return;
                     }
-                    Object.keys(data).forEach(function (k) {
-                        if (['user', 'profile'].indexOf(k) !== -1) return;
-                        var v = data[k];
-                        if (v != null && v !== '' && typeof v !== 'object') addRow(k, v);
-                    });
-                    body.innerHTML = rows.length ? rows.join('') : '<p style="color:#64748b;">No details available.</p>';
+
+                    body.innerHTML = '<div style="text-align:center; padding: 40px;"><a href="' + escapeHtml(resumeUrl) + '" target="_blank" rel="noopener" class="btn-view-details" style="display: inline-flex; font-size: 16px; padding: 12px 24px; text-decoration: none;"><i class="fas fa-external-link-alt"></i> Open Resume</a></div>';
                 }
 
                 function hasEnoughToShowDetail(c) {

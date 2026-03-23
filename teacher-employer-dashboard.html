@@ -1236,7 +1236,6 @@
                     var expectedCtc = getBrowsePreviewVal(c, ['expected_salary', 'expected_ctc', 'expected_ctc_lakhs', 'ctc', 'salary_expectation']);
                     var salDisplay = (expectedCtc === '—' || !expectedCtc) ? '—' : formatSalaryDisplay(expectedCtc);
                     return '<div class="browse-candidate-li-card" role="article">' +
-                        '<div class="browse-candidate-li-name">' + esc(name) + '</div>' +
                         '<div class="browse-candidate-li-meta">' +
                         '<div class="browse-candidate-li-row"><span class="li-label">Qualification</span><span class="li-value">' + esc(qualification) + '</span></div>' +
                         '<div class="browse-candidate-li-row"><span class="li-label">Skills</span><span class="li-value">' + esc(keySkills) + '</span></div>' +

@@ -482,6 +482,9 @@
             }
         }
 
+        let availableJobs = [];
+        let availableApplications = [];
+
         async function loadDashboardData() {
             try {
                 // 1. Fetch Jobs (Teacher Category + Non-Teaching)
@@ -496,6 +499,8 @@
                 const appsResponse = await authManager.apiRequest('/api/v1/jobs/applications/');
                 const appsData = await appsResponse.json();
                 const applications = Array.isArray(appsData) ? appsData : (appsData.results || []);
+                
+                availableApplications = applications;
 
                 // Render
                 renderJobs(jobs, applications);
@@ -506,13 +511,15 @@
             }
         }
 
-        let availableJobs = [];
-
         function renderJobs(jobs, applications) {
             const container = document.getElementById('jobsListContainer');
 
             // Client-side filtering to be absolutely sure
-            const nonTeachingJobs = jobs.filter(job => job.is_teaching_job === false);
+            const userProfile = JSON.parse(localStorage.getItem('userProfile') || sessionStorage.getItem('userProfile') || '{}');
+            const userId = userProfile.id || userProfile.email || 'guest';
+            const rejectedJobs = JSON.parse(localStorage.getItem(`rejectedJobs_${userId}`) || '[]');
+
+            const nonTeachingJobs = jobs.filter(job => job.is_teaching_job === false && !rejectedJobs.includes(job.id));
 
             if (nonTeachingJobs.length === 0) {
                 container.innerHTML = '<p>No matching non-teaching jobs found at the moment.</p>';
@@ -536,7 +543,10 @@
                     </div>
                      ${isApplied
                         ? '<button class="apply-btn" disabled style="background: #e2e8f0; color: #64748b; cursor: not-allowed;" onclick="event.stopPropagation()">Applied</button>'
-                        : `<button class="apply-btn" onclick="applyForJob(${job.id}); event.stopPropagation()">Apply Now</button>`
+                        : `<div style="display:flex; gap:10px;">
+                                <button class="apply-btn" style="background: #86c540;" onclick="applyForJob(${job.id}); event.stopPropagation()">Interested</button>
+                                <button class="apply-btn" style="background: #ff4d4f; color: white;" onclick="rejectJob(${job.id}); event.stopPropagation()">Not Interested</button>
+                           </div>`
                     }
                 </div>
                 `;
@@ -575,6 +585,36 @@
             if (job) {
                 jobApplicationModal.showModal(getJobForModal(job));
             }
+        }
+
+        function rejectJob(jobId) {
+            if(!confirm("Are you sure you are not interested in this job? It will be removed from your dashboard.")) return;
+            const userProfile = JSON.parse(localStorage.getItem('userProfile') || sessionStorage.getItem('userProfile') || '{}');
+            const userId = userProfile.id || userProfile.email || 'guest';
+            const rejectedKey = `rejectedJobs_${userId}`;
+            let rejectedJobs = JSON.parse(localStorage.getItem(rejectedKey) || '[]');
+            
+            if (!rejectedJobs.includes(jobId)) {
+                rejectedJobs.push(jobId);
+                localStorage.setItem(rejectedKey, JSON.stringify(rejectedJobs));
+            }
+            
+            renderJobs(availableJobs, availableApplications);
+        }
+
+        function rejectJob(jobId) {
+            if(!confirm("Are you sure you are not interested in this job? It will be removed from your dashboard.")) return;
+            const userProfile = JSON.parse(localStorage.getItem('userProfile') || sessionStorage.getItem('userProfile') || '{}');
+            const userId = userProfile.id || userProfile.email || 'guest';
+            const rejectedKey = `rejectedJobs_${userId}`;
+            let rejectedJobs = JSON.parse(localStorage.getItem(rejectedKey) || '[]');
+            
+            if (!rejectedJobs.includes(jobId)) {
+                rejectedJobs.push(jobId);
+                localStorage.setItem(rejectedKey, JSON.stringify(rejectedJobs));
+            }
+            
+            renderJobs(availableJobs, availableApplications);
         }
 
         function renderApplications(applications) {

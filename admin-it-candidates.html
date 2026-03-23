@@ -464,6 +464,7 @@
                         <td>${formatDate(p.created_at)}</td>
                         <td>
                             <button class="action-btn btn-view" onclick="viewCandidate(${c.user_id})">View</button>
+                            ${(p.status || '').toLowerCase() === 'pending' ? `<button class="action-btn" style="background:#ecfdf5;color:#059669;margin-left:4px;" onclick="approveCandidate(${c.user_id})">Approve</button>` : ''}
                         </td>
                     </tr>
                 `;
@@ -503,6 +504,7 @@
                         </div>
                         <div class="mobile-card-actions">
                             <button class="action-btn btn-view" onclick="viewCandidate(${c.user_id})">View</button>
+                            ${(p.status || '').toLowerCase() === 'pending' ? `<button class="action-btn" style="background:#ecfdf5;color:#059669;margin-left:8px;" onclick="approveCandidate(${c.user_id})">Approve</button>` : ''}
                         </div>
                     </div>
                 `;
@@ -529,6 +531,7 @@
                 <div class="detail-row"><strong>User ID</strong><span>#${c.user_id}</span></div>
                 <div class="detail-row"><strong>Email</strong><span>${c.email || '—'}</span></div>
                 <div class="detail-row"><strong>Contact</strong><span>${p.contact_number || '—'}</span></div>
+                <div class="detail-row"><strong>Alt Contact</strong><span>${p.alt_contact_number || '—'}</span></div>
                 <div class="detail-row"><strong>Current Location</strong><span>${p.current_location || '—'}</span></div>
                 <div class="detail-row"><strong>Preferred Locations</strong><span>${p.preferred_work_locations && p.preferred_work_locations.length ? p.preferred_work_locations.join(', ') : '—'}</span></div>
 
@@ -562,6 +565,36 @@
         document.getElementById('detailModal').addEventListener('click', function (e) {
             if (e.target === this) closeDetailModal();
         });
+
+        async function approveCandidate(userId) {
+            if (!confirm('Are you sure you want to approve this candidate?')) return;
+            try {
+                const token = getToken();
+                const res = await fetch(`${API_BASE_URL}/api/v1/auth/users/${userId}/status/`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'TSK ' + token
+                    },
+                    body: JSON.stringify({ status: 'approved' })
+                });
+
+                if (res.ok) {
+                    const c = allCandidates.find(x => x.user_id == userId);
+                    if (c && c.profile) c.profile.status = 'approved';
+                    applyFilters();
+                    if (typeof showToast === 'function') showToast('Candidate approved', 'success');
+                    else alert('Candidate approved successfully');
+                } else {
+                    const data = await res.json().catch(() => null);
+                    const errMsg = (data && (data.detail || data.message)) || 'Failed to approve candidate.';
+                    alert(errMsg);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('An error occurred while approving the candidate.');
+            }
+        }
 
         // ── INIT ───────────────────────────────────────────
         document.addEventListener('DOMContentLoaded', function () {

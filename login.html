@@ -496,6 +496,21 @@
                             const userType = profileResult.data.user_type;
                             const profile = profileResult.data.profile;
 
+                            // Check candidate approval status
+                            const isCandidate = userType === 'teacher_candidate' || userType === 'teacher-candidate' || userType === 'it_candidate' || userType === 'it-candidate';
+                            if (isCandidate) {
+                                const status = (profile.status || 'pending').toLowerCase();
+                                if (status !== 'approved' && status !== 'active') {
+                                    showError('Please contact the Administrator for approval.');
+                                    authManager.clearAuth();
+                                    
+                                    loginBtn.disabled = false;
+                                    btnText.style.display = 'inline';
+                                    btnLoader.style.display = 'none';
+                                    return;
+                                }
+                            }
+
                             // Determine dashboard type based on profile flag for teachers
                             let dashboardType = userType;
                             if (userType === 'teacher_candidate' || userType === 'teacher-candidate') {

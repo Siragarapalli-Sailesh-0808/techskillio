@@ -270,6 +270,11 @@
                                     oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
                                     placeholder="10-digit number">
                             </div>
+                            <div class="form-group"><label>Alternative Phone Number <span style="font-size: 0.8em; color: #888;">(Optional)</span></label><input
+                                    type="tel" name="alt_phone" pattern="[0-9]{10}" maxlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
+                                    placeholder="10-digit number">
+                            </div>
                         </div>
                     </div>
 
@@ -362,6 +367,7 @@
                 const contactPerson = (form.elements['contactPerson']?.value || '').trim();
                 const email = (form.elements['email']?.value || '').trim();
                 const phone = (form.elements['phone']?.value || '').trim();
+                const altPhone = (form.elements['alt_phone']?.value || '').trim();
                 const website = (form.elements['website']?.value || '').trim();
 
                 console.log('Form field values:', {
@@ -414,6 +420,7 @@
                     contact_person_name: contactPerson,
                     email: email,
                     contact_number: '+91-' + phone,
+                    alt_contact_number: altPhone ? '+91-' + altPhone : null,
                     password: password,
                     confirm_password: confirmPassword
                 };

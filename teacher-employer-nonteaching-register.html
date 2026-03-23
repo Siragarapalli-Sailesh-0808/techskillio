@@ -230,6 +230,11 @@
                             <div class="form-group"><label>Contact Number <span class="required">*</span></label><input
                                     type="tel" name="phone" required pattern="[0-9]{10}" placeholder="10-digit number">
                             </div>
+                            <div class="form-group"><label>Alternative Phone Number <span style="font-size: 0.8em; color: #888;">(Optional)</span></label><input
+                                    type="tel" name="alt_phone" pattern="[0-9]{10}" maxlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
+                                    placeholder="10-digit number">
+                            </div>
                         </div>
                     </div>
 
@@ -418,7 +423,7 @@
                 const contactPerson = (form.elements['contactPerson']?.value || '').trim();
                 const email = (form.elements['email']?.value || '').trim();
                 const phone = (form.elements['phone']?.value || '').trim();
-                const website = (form.elements['website']?.value || '').trim();
+                const altPhone = (form.elements['alt_phone']?.value || '').trim();
 
                 if (!institutionName || !institutionType || !board || !location || !contactPerson || !email || !phone) {
                     alert('Please fill in all required fields');
@@ -449,7 +454,7 @@
 
                 // Transform data to match exact API schema
                 const apiData = {
-                    is_teaching_employer: true,  // Same endpoint for both teaching and non-teaching
+                    is_teaching_employer: false,  // Same endpoint for both teaching and non-teaching
                     institution_name: institutionName,
                     institution_type: institutionType.toLowerCase(),
                     board_affiliation: boardAffiliation,
@@ -459,6 +464,7 @@
                     contact_person_name: contactPerson,
                     email: email,
                     contact_number: '+91-' + phone,
+                    alt_contact_number: altPhone ? '+91-' + altPhone : null,
                     password: password,
                     confirm_password: confirmPassword
                 };
