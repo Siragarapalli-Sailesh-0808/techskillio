@@ -15,7 +15,7 @@ function getConnectionErrorMessage(err) {
         return 'API URL is not configured. Please ensure js/api-config.js is loaded and sets window.API_BASE_URL.';
     }
     if (err && (err.message === 'Failed to fetch' || err.name === 'TypeError')) {
-        return 'Cannot reach the API server at ' + base + '. If you\'re testing locally, ensure the backend is running and CORS allows your origin (e.g. http://127.0.0.1:5500).';
+        return 'Cannot reach the API server at ' + base + '. If you\'re testing locally, ensure the backend is running and CORS allows your origin.';
     }
     return 'Unable to connect to server at ' + base + '. Please check your connection and that the backend is running.';
 }
@@ -25,138 +25,40 @@ class RegistrationManager {
      * Register IT Candidate
      */
     async registerITCandidate(formData) {
-        const baseUrl = getApiBaseUrl();
-        if (!baseUrl) {
-            return { success: false, error: getConnectionErrorMessage(), networkError: true };
-        }
-        try {
-            const response = await fetch(`${baseUrl}/api/v1/auth/register/itcandidate/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                return {
-                    success: true,
-                    data: data
-                };
-            } else {
-                return {
-                    success: false,
-                    error: data.message || data.detail || 'Registration failed',
-                    errors: data.errors || data,
-                    status: response.status
-                };
-            }
-        } catch (error) {
-            console.error('IT Candidate registration error:', error);
-            return {
-                success: false,
-                error: getConnectionErrorMessage(error),
-                networkError: true
-            };
-        }
+        return await this._postRequest('/api/v1/auth/register/itcandidate/', formData, 'IT Candidate');
     }
 
     /**
      * Register IT Vendor
      */
     async registerITVendor(formData) {
-        const baseUrl = getApiBaseUrl();
-        if (!baseUrl) {
-            return { success: false, error: getConnectionErrorMessage(), networkError: true };
-        }
-        try {
-            const response = await fetch(`${baseUrl}/api/v1/auth/register/itvendor/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                return {
-                    success: true,
-                    data: data
-                };
-            } else {
-                return {
-                    success: false,
-                    error: data.message || data.detail || 'Registration failed',
-                    errors: data.errors || data,
-                    status: response.status
-                };
-            }
-        } catch (error) {
-            console.error('IT Vendor registration error:', error);
-            return {
-                success: false,
-                error: getConnectionErrorMessage(error),
-                networkError: true
-            };
-        }
+        return await this._postRequest('/api/v1/auth/register/itvendor/', formData, 'IT Vendor');
     }
 
     /**
-     * Register Teacher Candidate
+     * Register Teacher Candidate (Used for Non-Teaching as well)
      */
     async registerTeacherCandidate(formData) {
-        const baseUrl = getApiBaseUrl();
-        if (!baseUrl) {
-            return { success: false, error: getConnectionErrorMessage(), networkError: true };
-        }
-        try {
-            const response = await fetch(`${baseUrl}/api/v1/auth/register/teachercandidate/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                return {
-                    success: true,
-                    data: data
-                };
-            } else {
-                return {
-                    success: false,
-                    error: data.message || data.detail || 'Registration failed',
-                    errors: data.errors || data,
-                    status: response.status
-                };
-            }
-        } catch (error) {
-            console.error('Teacher Candidate registration error:', error);
-            return {
-                success: false,
-                error: getConnectionErrorMessage(error),
-                networkError: true
-            };
-        }
+        return await this._postRequest('/api/v1/auth/register/teachercandidate/', formData, 'Teacher/Non-Teaching Candidate');
     }
 
     /**
      * Register Teacher Employer
      */
     async registerTeacherEmployer(formData) {
+        return await this._postRequest('/api/v1/auth/register/teacheremployer/', formData, 'Teacher Employer');
+    }
+
+    /**
+     * Helper method for standardized POST requests
+     */
+    async _postRequest(endpoint, formData, context) {
         const baseUrl = getApiBaseUrl();
         if (!baseUrl) {
             return { success: false, error: getConnectionErrorMessage(), networkError: true };
         }
         try {
-            const response = await fetch(`${baseUrl}/api/v1/auth/register/teacheremployer/`, {
+            const response = await fetch(`${baseUrl}${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -167,20 +69,17 @@ class RegistrationManager {
             const data = await response.json();
 
             if (response.ok) {
-                return {
-                    success: true,
-                    data: data
-                };
+                return { success: true, data: data };
             } else {
                 return {
                     success: false,
-                    error: data.message || data.detail || 'Registration failed',
+                    error: data.message || data.detail || `${context} registration failed`,
                     errors: data.errors || data,
                     status: response.status
                 };
             }
         } catch (error) {
-            console.error('Teacher Employer registration error:', error);
+            console.error(`${context} registration error:`, error);
             return {
                 success: false,
                 error: getConnectionErrorMessage(error),
@@ -198,57 +97,34 @@ class RegistrationManager {
             return { success: false, error: getConnectionErrorMessage(), networkError: true };
         }
         try {
-            // WORKAROUND: The server redirects to a malformed URL (e.g., .../k12-leads/:1) after successful creation.
-            // We use redirect: 'manual' to prevent the browser from following this bad redirect.
-            // An opaque redirect response (type: 'opaqueredirect' or status 0) is treated as success.
             const response = await fetch(`${baseUrl}/api/v1/k12/k12-leads/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
-                redirect: 'manual' 
+                redirect: 'manual'
             });
 
-            // Check for opaque redirect (request succeeded but redirected cross-origin/opaquely)
             if (response.type === 'opaqueredirect' || response.status === 0) {
-                 return {
-                    success: true,
-                    data: {} // We cannot access the body of an opaque response
-                };
+                return { success: true, data: {} };
             }
 
-            // Handle normal responses (if server behavior changes or for other status codes)
             let data = {};
-            try {
-                data = await response.json();
-            } catch (e) {
-                console.error('Failed to parse response JSON', e);
-            }
+            try { data = await response.json(); } catch (e) { }
 
             if (response.ok) {
-                return {
-                    success: true,
-                    data: data
-                };
+                return { success: true, data: data };
             } else {
-                // Construct a better error message from DRF field errors
                 let errorMessage = data.message || data.detail;
                 if (!errorMessage && typeof data === 'object') {
-                    // Start collecting error messages from fields
                     const messages = [];
                     for (const [key, value] of Object.entries(data)) {
-                        if (Array.isArray(value)) {
-                            messages.push(`${key}: ${value.join(', ')}`);
-                        } else if (typeof value === 'string') {
-                            messages.push(`${key}: ${value}`);
-                        }
+                        messages.push(`${key}: ${Array.isArray(value) ? value.join(', ') : value}`);
                     }
-                    if (messages.length > 0) {
-                        errorMessage = messages.join(' | ');
-                    }
+                    if (messages.length > 0) errorMessage = messages.join(' | ');
                 }
-                
+
                 return {
                     success: false,
                     error: errorMessage || 'Submission failed (400 Bad Request)',
@@ -258,23 +134,17 @@ class RegistrationManager {
             }
         } catch (error) {
             console.error('K12 Lead submission error:', error);
-            return {
-                success: false,
-                error: getConnectionErrorMessage(error),
-                networkError: true
-            };
+            return { success: false, error: getConnectionErrorMessage(error), networkError: true };
         }
     }
 
     /**
-     * Upload file (for resume, certificates, photos, etc.)
-     * Returns the URL of the uploaded file
+     * Upload file (resume, certificates, etc.)
      */
     async uploadFile(file, fileType = 'document') {
         const baseUrl = getApiBaseUrl();
-        if (!baseUrl) {
-            return { success: false, error: getConnectionErrorMessage() };
-        }
+        if (!baseUrl) return { success: false, error: getConnectionErrorMessage() };
+
         try {
             const formData = new FormData();
             formData.append('file', file);
@@ -288,22 +158,13 @@ class RegistrationManager {
             const data = await response.json();
 
             if (response.ok && data.url) {
-                return {
-                    success: true,
-                    url: data.url
-                };
+                return { success: true, url: data.url };
             } else {
-                return {
-                    success: false,
-                    error: data.message || 'File upload failed'
-                };
+                return { success: false, error: data.message || 'File upload failed' };
             }
         } catch (error) {
             console.error('File upload error:', error);
-            return {
-                success: false,
-                error: getConnectionErrorMessage(error)
-            };
+            return { success: false, error: getConnectionErrorMessage(error) };
         }
     }
 }
