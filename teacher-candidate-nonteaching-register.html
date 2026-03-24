@@ -201,17 +201,29 @@
 
                     <div class="form-section">
                         <h3 class="form-section-title"><i class="fas fa-briefcase"></i> Professional Details</h3>
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label>Position Type <span class="required">*</span></label>
+                            <select name="positionType" required id="positionType">
+                                <option value="">Select Position</option>
+                                <option value="Administrative Officer (AO)">Administrative Officer (AO)</option>
+                                <option value="Librarian">Librarian</option>
+                                <option value="Front Office Executive">Front Office Executive</option>
+                                <option value="DTP Operator">DTP Operator</option>
+                                <option value="Lab Assistant">Lab Assistant</option>
+                                <option value="Hostel Warden">Hostel Warden</option>
+                            </select>
+                        </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Position Type <span class="required">*</span></label>
-                                <select name="positionType" required id="positionType">
-                                    <option value="">Select Position</option>
-                                    <option value="Administrative Officer (AO)">Administrative Officer (AO)</option>
-                                    <option value="Librarian">Librarian</option>
-                                    <option value="Front Office Executive">Front Office Executive</option>
-                                    <option value="DTP Operator">DTP Operator</option>
-                                    <option value="Lab Assistant">Lab Assistant</option>
-                                    <option value="Hostel Warden">Hostel Warden</option>
+                                <label>Qualification <span class="required">*</span></label>
+                                <select name="qualification" required>
+                                    <option value="">Select Qualification</option>
+                                    <option value="High School">High School</option>
+                                    <option value="Diploma">Diploma</option>
+                                    <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                    <option value="Master's Degree">Master's Degree</option>
+                                    <option value="Ph.D.">Ph.D.</option>
+                                    <option value="Other">Other</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -325,6 +337,7 @@
                     gender: form.elements['gender'].value.toLowerCase(),
                     dob: form.elements['dateOfBirth'].value,
                     position_type: form.elements['positionType'].value,
+                    qualification: form.elements['qualification'].value,
                     non_teaching_experience_years: parseInt(form.elements['experience'].value),
 
                     // NEW FIELDS MAPPED HERE
