@@ -311,6 +311,58 @@
     <script src="js/api-config.js"></script>
     <script src="js/registration-manager.js"></script>
     <script>
+        const FILE_SIZE_LIMIT_BYTES = 2 * 1024 * 1024;
+
+        function validateResumeFileSize(fileInput) {
+            if (!fileInput || !fileInput.files || !fileInput.files.length) return true;
+            const file = fileInput.files[0];
+            if (file.size > FILE_SIZE_LIMIT_BYTES) {
+                alert('Resume exceeds 2 MB. Please compress the file and upload a version smaller than 2 MB.');
+                try { fileInput.focus(); } catch (e) { }
+                return false;
+            }
+            return true;
+        }
+
+        function validateSalaryInputs(presentSalaryRaw, expectedSalaryRaw, presentSalaryField, expectedSalaryField) {
+            const presentProvided = (presentSalaryRaw || '').toString().trim() !== '';
+            const expectedProvided = (expectedSalaryRaw || '').toString().trim() !== '';
+            const presentSalary = Number(presentSalaryRaw);
+            const expectedSalary = Number(expectedSalaryRaw);
+
+            if (!expectedProvided) {
+                alert('Expected salary is required. Please enter a valid amount.');
+                try { expectedSalaryField.focus(); } catch (e) { }
+                return { valid: false };
+            }
+
+            if ((presentProvided && !Number.isFinite(presentSalary)) || !Number.isFinite(expectedSalary)) {
+                alert('Salary must be a valid number. Please enter numeric values only.');
+                try { expectedSalaryField.focus(); } catch (e) { }
+                return { valid: false };
+            }
+
+            if (presentProvided && presentSalary < 0) {
+                alert('Present salary cannot be negative. Please enter 0 or a positive value.');
+                try { presentSalaryField.focus(); } catch (e) { }
+                return { valid: false };
+            }
+
+            if (expectedSalary <= 0) {
+                alert('Expected salary must be greater than 0. Please enter a valid amount.');
+                try { expectedSalaryField.focus(); } catch (e) { }
+                return { valid: false };
+            }
+
+            if (presentProvided && expectedSalary < presentSalary) {
+                alert('Expected salary should be greater than or equal to present salary. Please review your salary details.');
+                try { expectedSalaryField.focus(); } catch (e) { }
+                return { valid: false };
+            }
+
+            return { valid: true, presentSalary: presentSalary || 0, expectedSalary: expectedSalary };
+        }
+
         document.getElementById('nonTeachingRegistrationForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             const form = e.target;
@@ -321,6 +373,21 @@
             const confirmPassword = document.getElementById('confirmPassword').value;
             if (password !== confirmPassword) {
                 alert("Passwords don't match!");
+                return;
+            }
+
+            const resumeFileInput = form.elements['resume'];
+            if (!validateResumeFileSize(resumeFileInput)) {
+                return;
+            }
+
+            const salaryValidation = validateSalaryInputs(
+                form.elements['presentSalary'].value,
+                form.elements['expectedSalary'].value,
+                form.elements['presentSalary'],
+                form.elements['expectedSalary']
+            );
+            if (!salaryValidation.valid) {
                 return;
             }
 
@@ -341,8 +408,8 @@
                     non_teaching_experience_years: parseInt(form.elements['experience'].value),
 
                     // NEW FIELDS MAPPED HERE
-                    current_salary: parseInt(form.elements['presentSalary'].value) || 0,
-                    expected_salary: parseInt(form.elements['expectedSalary'].value) || 0,
+                    current_salary: salaryValidation.presentSalary,
+                    expected_salary: salaryValidation.expectedSalary,
                     preferred_cities: [form.elements['preferredArea'].value],
                     current_city: form.elements['preferredArea'].value,
 
@@ -359,12 +426,13 @@
                     document.getElementById('successMessage').classList.add('show');
                     setTimeout(() => { window.location.href = 'login.html'; }, 2000);
                 } else {
-                    alert(result.error || "Registration failed");
+                    alert(result.error || 'Registration could not be completed. Please review your details and try again.');
                     submitBtn.disabled = false;
                     submitBtn.innerText = 'Submit Registration';
                 }
             } catch (err) {
                 console.error(err);
+                alert(err && err.message ? err.message : 'An unexpected error occurred. Please try again.');
                 submitBtn.disabled = false;
                 submitBtn.innerText = 'Submit Registration';
             }

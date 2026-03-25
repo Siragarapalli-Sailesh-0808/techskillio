@@ -20,6 +20,80 @@ function getConnectionErrorMessage(err) {
     return 'Unable to connect to server at ' + base + '. Please check your connection and that the backend is running.';
 }
 
+function getUploadErrorMessage(response, data) {
+    if (response && (response.status === 413 || response.status === 422)) {
+        return 'File size limit exceeded. Please compress the file and upload a version smaller than 2 MB.';
+    }
+
+    const serverMsg = (data && (data.message || data.detail || data.error)) || '';
+    if (typeof serverMsg === 'string') {
+        const lower = serverMsg.toLowerCase();
+        if (lower.includes('too large') || lower.includes('file size') || lower.includes('size limit') || lower.includes('payload')) {
+            return 'File size limit exceeded. Please compress the file and upload a version smaller than 2 MB.';
+        }
+    }
+
+    return serverMsg || 'File upload failed. Please verify file type and size, then try again.';
+}
+
+function toDisplayFieldName(key) {
+    if (!key) return 'Field';
+    const normalized = String(key).replace(/[_\-]+/g, ' ').trim();
+    if (!normalized) return 'Field';
+    return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+}
+
+function extractApiErrorMessages(payload, parentKey) {
+    const out = [];
+    const prefix = parentKey ? toDisplayFieldName(parentKey) + ': ' : '';
+
+    if (payload == null) return out;
+
+    if (typeof payload === 'string' || typeof payload === 'number' || typeof payload === 'boolean') {
+        out.push(prefix + String(payload));
+        return out;
+    }
+
+    if (Array.isArray(payload)) {
+        payload.forEach(function (item) {
+            out.push.apply(out, extractApiErrorMessages(item, parentKey));
+        });
+        return out;
+    }
+
+    if (typeof payload === 'object') {
+        const topPriority = ['message', 'detail', 'error', 'non_field_errors'];
+        topPriority.forEach(function (k) {
+            if (payload[k] != null) {
+                out.push.apply(out, extractApiErrorMessages(payload[k], k === 'non_field_errors' ? null : parentKey));
+            }
+        });
+
+        Object.keys(payload).forEach(function (k) {
+            if (topPriority.indexOf(k) !== -1) return;
+            out.push.apply(out, extractApiErrorMessages(payload[k], k));
+        });
+    }
+
+    return out;
+}
+
+function getDetailedApiErrorMessage(data, fallbackMessage) {
+    const messages = extractApiErrorMessages(data)
+        .map(function (m) { return String(m).trim(); })
+        .filter(Boolean);
+
+    const uniqueMessages = messages.filter(function (msg, idx) {
+        return messages.indexOf(msg) === idx;
+    });
+
+    if (uniqueMessages.length) {
+        return 'Registration could not be completed. Please fix the following:\n- ' + uniqueMessages.join('\n- ');
+    }
+
+    return fallbackMessage;
+}
+
 class RegistrationManager {
     /**
      * Register IT Candidate
@@ -66,14 +140,20 @@ class RegistrationManager {
                 body: JSON.stringify(formData)
             });
 
-            const data = await response.json();
+            let data = {};
+            try {
+                data = await response.json();
+            } catch (e) {
+                data = {};
+            }
 
             if (response.ok) {
                 return { success: true, data: data };
             } else {
+                const fallback = `${context} registration failed`;
                 return {
                     success: false,
-                    error: data.message || data.detail || `${context} registration failed`,
+                    error: getDetailedApiErrorMessage(data, fallback),
                     errors: data.errors || data,
                     status: response.status
                 };
@@ -145,6 +225,13 @@ class RegistrationManager {
         const baseUrl = getApiBaseUrl();
         if (!baseUrl) return { success: false, error: getConnectionErrorMessage() };
 
+        if (file && typeof file.size === 'number' && file.size > 2 * 1024 * 1024) {
+            return {
+                success: false,
+                error: 'File size limit exceeded. Please compress the file and upload a version smaller than 2 MB.'
+            };
+        }
+
         try {
             const formData = new FormData();
             formData.append('file', file);
@@ -160,7 +247,7 @@ class RegistrationManager {
             if (response.ok && data.url) {
                 return { success: true, url: data.url };
             } else {
-                return { success: false, error: data.message || 'File upload failed' };
+                return { success: false, error: getUploadErrorMessage(response, data) };
             }
         } catch (error) {
             console.error('File upload error:', error);
