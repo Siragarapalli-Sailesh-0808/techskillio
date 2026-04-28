@@ -244,8 +244,10 @@ class RegistrationManager {
 
             const data = await response.json();
 
-            if (response.ok && data.url) {
-                return { success: true, url: data.url };
+            const uploadedUrl = data.url || data.file_url || data.fileUrl || data.resume_url || data.resumeUrl || data.location || data.path;
+
+            if (response.ok && uploadedUrl) {
+                return { success: true, url: uploadedUrl, data: data };
             } else {
                 return { success: false, error: getUploadErrorMessage(response, data) };
             }
