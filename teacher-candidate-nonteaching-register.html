@@ -419,6 +419,21 @@
                     available_for_interview: true,
                     joining_date: new Date().toISOString().split('T')[0],
 
+                    // Teaching payload fields included with safe defaults to match backend expectations
+                    interview_slot: null,
+                    current_profile: null,
+                    current_profile_experience_years: 0,
+                    applied_profile: form.elements['positionType'].value || null,
+                    total_experience_years: parseInt(form.elements['experience'].value) || 0,
+                    experience_in_boards: 0,
+                    teaching_method: null,
+                    objective_type: null,
+                    subjects: [],
+                    teaching_levels: [],
+                    boards_handled: [],
+                    can_teach_english: false,
+                    other_languages: [],
+
                     // Professional
                     position_type: form.elements['positionType'].value || null,
                     qualification: form.elements['qualification'].value,
@@ -430,11 +445,13 @@
                     expected_salary: salaryValidation.expectedSalary || 0,
                     preferred_cities: [form.elements['preferredArea'].value || null],
                     current_city: form.elements['preferredArea'].value || null,
+                    relocation_preference: null,
+                    native_place: form.elements['preferredArea'].value || null,
 
                     // Optional media fields — using placeholder resume URL as temporary workaround
-                    photo_url: null,
+                    photo_url: "https://example.com/uploads/photo.jpg",
                     resume_url: resumeUrl,
-                    certificates_urls: [],
+                    certificates_urls: ["https://example.com/uploads/certificate1.pdf"],
 
                     // Credentials
                     password: password,
