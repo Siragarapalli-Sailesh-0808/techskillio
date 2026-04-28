@@ -1110,6 +1110,8 @@
                 const expectedSalaryLPA = salaryValidation.expectedSalaryLPA;
 
                 // Transform data to match exact API schema
+                const youtubeLinkValue = (form.elements['youtubeLink']?.value || '').trim();
+
                 const apiData = {
                     is_teaching_candidate: true,
 
@@ -1145,7 +1147,7 @@
                     other_languages: otherLanguages,
                     experience_text: presentExperience,
 
-                    youtube_link: document.querySelector('[name="youtubeLink"]').value,
+                    youtube_link: youtubeLinkValue || null,
 
                     current_city: document.querySelector('[name="currentCity"]').value,
                     relocation_preference: relocationPreference,

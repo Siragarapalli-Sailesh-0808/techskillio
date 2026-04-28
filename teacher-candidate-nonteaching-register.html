@@ -380,6 +380,12 @@
             if (!validateResumeFileSize(resumeFileInput)) {
                 return;
             }
+            const resumeFile = resumeFileInput && resumeFileInput.files && resumeFileInput.files.length ? resumeFileInput.files[0] : null;
+            if (!resumeFile) {
+                alert('Please upload your resume.');
+                try { resumeFileInput.focus(); } catch (e) { }
+                return;
+            }
 
             const salaryValidation = validateSalaryInputs(
                 form.elements['presentSalary'].value,
@@ -395,6 +401,14 @@
             submitBtn.innerText = 'Processing...';
 
             try {
+                const resumeUpload = await registrationManager.uploadFile(resumeFile, 'resume');
+                if (!resumeUpload.success || !resumeUpload.url) {
+                    alert(resumeUpload.error || 'Resume upload failed. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = 'Submit Registration';
+                    return;
+                }
+
                 // Map values to API schema
                 const apiData = {
                     is_teaching_candidate: false,
@@ -414,6 +428,7 @@
                     current_city: form.elements['preferredArea'].value,
 
                     experience_text: form.elements['presentExperience'].value,
+                    resume_url: resumeUpload.url,
                     password: password,
                     confirm_password: confirmPassword,
                     available_for_interview: true,
