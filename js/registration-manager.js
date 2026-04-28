@@ -242,14 +242,24 @@ class RegistrationManager {
                 body: formData
             });
 
-            const data = await response.json();
+            let data = null;
+            let text = null;
+            try {
+                data = await response.json();
+            } catch (err) {
+                // Response was not JSON — capture raw text for debugging
+                try { text = await response.text(); } catch (e) { text = null; }
+            }
 
-            const uploadedUrl = data.url || data.file_url || data.fileUrl || data.resume_url || data.resumeUrl || data.location || data.path;
+            const uploadedUrl = (data && (data.url || data.file_url || data.fileUrl || data.resume_url || data.resumeUrl || data.location || data.path)) || null;
 
             if (response.ok && uploadedUrl) {
                 return { success: true, url: uploadedUrl, data: data };
             } else {
-                return { success: false, error: getUploadErrorMessage(response, data) };
+                const serverMsg = getUploadErrorMessage(response, data);
+                const bodyMsg = text ? ('Server response: ' + (text.length > 200 ? text.slice(0, 200) + '...' : text)) : null;
+                const combined = [serverMsg, bodyMsg].filter(Boolean).join('\n');
+                return { success: false, error: combined || 'File upload failed', status: response.status, data: data, text: text };
             }
         } catch (error) {
             console.error('File upload error:', error);
