@@ -259,6 +259,8 @@ class RegistrationManager {
                 const serverMsg = getUploadErrorMessage(response, data);
                 const bodyMsg = text ? ('Server response: ' + (text.length > 200 ? text.slice(0, 200) + '...' : text)) : null;
                 const combined = [serverMsg, bodyMsg].filter(Boolean).join('\n');
+                // Log detailed info for debugging
+                console.error('File upload failed', { status: response.status, error: combined, data: data, text: text });
                 return { success: false, error: combined || 'File upload failed', status: response.status, data: data, text: text };
             }
         } catch (error) {
