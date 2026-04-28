@@ -401,11 +401,6 @@
             submitBtn.innerText = 'Processing...';
 
             try {
-                // Temporary workaround: do not call the backend upload endpoint (which is currently unavailable).
-                // Keep resume file required for UX, but submit a placeholder resume_url so registration proceeds.
-                const resumeUrl = "https://example.com/uploads/resume.pdf";
-
-                // Map values to API schema (match teaching payload shape)
                 const apiData = {
                     is_teaching_candidate: false,
 
@@ -419,41 +414,42 @@
                     available_for_interview: true,
                     joining_date: new Date().toISOString().split('T')[0],
 
-                    // Teaching payload fields included with safe defaults to match backend expectations
                     interview_slot: null,
                     current_profile: null,
                     current_profile_experience_years: 0,
                     applied_profile: form.elements['positionType'].value || null,
                     total_experience_years: parseInt(form.elements['experience'].value) || 0,
+
                     experience_in_boards: [],
+
                     teaching_method: null,
                     objective_type: null,
+                    qualification: form.elements['qualification'].value,
                     subjects: [],
+
                     teaching_levels: [],
                     boards_handled: [],
+
                     can_teach_english: false,
                     other_languages: [],
-
-                    // Professional
-                    position_type: form.elements['positionType'].value || null,
-                    qualification: form.elements['qualification'].value,
-                    non_teaching_experience_years: parseInt(form.elements['experience'].value) || 0,
                     experience_text: form.elements['presentExperience'].value,
 
-                    // Salary & location
-                    current_salary: salaryValidation.presentSalary || 0,
-                    expected_salary: salaryValidation.expectedSalary || 0,
-                    preferred_cities: [form.elements['preferredArea'].value || null],
                     current_city: form.elements['preferredArea'].value || null,
                     relocation_preference: null,
                     native_place: form.elements['preferredArea'].value || null,
 
-                    // Optional media fields — using placeholder resume URL as temporary workaround
+                    preferred_cities: [form.elements['preferredArea'].value || null],
+
+                    current_salary: salaryValidation.presentSalary || 0,
+                    expected_salary: salaryValidation.expectedSalary || 0,
+
                     photo_url: "https://example.com/uploads/photo.jpg",
-                    resume_url: resumeUrl,
+                    resume_url: "https://example.com/uploads/resume.pdf",
                     certificates_urls: ["https://example.com/uploads/certificate1.pdf"],
 
-                    // Credentials
+                    position_type: form.elements['positionType'].value || null,
+                    non_teaching_experience_years: parseInt(form.elements['experience'].value) || 0,
+
                     password: password,
                     confirm_password: confirmPassword
                 };
