@@ -435,10 +435,10 @@
                     preferred_cities: [form.elements['preferredArea'].value || null],
                     current_city: form.elements['preferredArea'].value || null,
 
-                    // Optional media fields (match teaching keys)
-                    photo_url: null,
-                    resume_url: resumeUpload.url || null,
-                    certificates_urls: [],
+                    // Optional media fields (match teaching placeholders)
+                    photo_url: "https://example.com/uploads/photo.jpg",
+                    resume_url: "https://example.com/uploads/resume.pdf",
+                    certificates_urls: ["https://example.com/uploads/certificate1.pdf"],
 
                     // Credentials
                     password: password,
