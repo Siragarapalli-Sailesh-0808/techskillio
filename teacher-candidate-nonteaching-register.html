@@ -409,31 +409,40 @@
                     return;
                 }
 
-                // Map values to API schema
+                // Map values to API schema (match teaching payload shape)
                 const apiData = {
                     is_teaching_candidate: false,
+
                     full_name: form.elements['fullName'].value,
                     email: form.elements['email'].value,
                     contact_number: '+91-' + form.elements['phone'].value,
+                    alt_contact_number: null,
                     gender: form.elements['gender'].value.toLowerCase(),
                     dob: form.elements['dateOfBirth'].value,
-                    position_type: form.elements['positionType'].value,
-                    qualification: form.elements['qualification'].value,
-                    non_teaching_experience_years: parseInt(form.elements['experience'].value),
 
-                    // NEW FIELDS MAPPED HERE
-                    current_salary: salaryValidation.presentSalary,
-                    expected_salary: salaryValidation.expectedSalary,
-                    preferred_cities: [form.elements['preferredArea'].value],
-                    current_city: form.elements['preferredArea'].value,
-
-                    experience_text: form.elements['presentExperience'].value,
-                    resume: resumeUpload.url,
-                    resume_url: resumeUpload.url,
-                    password: password,
-                    confirm_password: confirmPassword,
                     available_for_interview: true,
-                    joining_date: new Date().toISOString().split('T')[0] // Default to today
+                    joining_date: new Date().toISOString().split('T')[0],
+
+                    // Professional
+                    position_type: form.elements['positionType'].value || null,
+                    qualification: form.elements['qualification'].value,
+                    non_teaching_experience_years: parseInt(form.elements['experience'].value) || 0,
+                    experience_text: form.elements['presentExperience'].value,
+
+                    // Salary & location
+                    current_salary: salaryValidation.presentSalary || 0,
+                    expected_salary: salaryValidation.expectedSalary || 0,
+                    preferred_cities: [form.elements['preferredArea'].value || null],
+                    current_city: form.elements['preferredArea'].value || null,
+
+                    // Optional media fields (match teaching keys)
+                    photo_url: null,
+                    resume_url: resumeUpload.url || null,
+                    certificates_urls: [],
+
+                    // Credentials
+                    password: password,
+                    confirm_password: confirmPassword
                 };
 
                 const result = await registrationManager.registerTeacherCandidate(apiData);
